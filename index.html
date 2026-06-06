@@ -9,19 +9,22 @@
   <meta name="description" content="PAE Bird is a fast, offline Mac app for polynomial algebra. Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of expressions instantly." />
   <meta name="keywords" content="polynomial algebra, factoring calculator, math worksheet generator, symbolic math, calculus tool, mac app, algebra engine, expand polynomials, solve equations" />
   <link rel="canonical" href="https://salmon-benedict.github.io/pae-bird-landing/" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet" />
 
   <!-- Open Graph (LinkedIn, Facebook) -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://salmon-benedict.github.io/pae-bird-landing/" />
   <meta property="og:title" content="PAE Bird — Polynomial Algebra Engine for Mac" />
   <meta property="og:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly. Free offline Mac app." />
-  <meta property="og:image" content="https://salmon-benedict.github.io/pae-bird-landing/parrot.jpg" />
+  <meta property="og:image" content="https://salmon-benedict.github.io/pae-bird-landing/parrot_web.jpg" />
 
   <!-- Twitter / X Card -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="PAE Bird — Polynomial Algebra Engine for Mac" />
   <meta name="twitter:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly." />
-  <meta name="twitter:image" content="https://salmon-benedict.github.io/pae-bird-landing/parrot.jpg" />
+  <meta name="twitter:image" content="https://salmon-benedict.github.io/pae-bird-landing/parrot_web.jpg" />
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9HBF205E1V"></script>
@@ -127,7 +130,7 @@
     .hero {
       background:
         linear-gradient(140deg, rgba(192,57,15,0.75) 0%, rgba(232,83,26,0.75) 35%, rgba(245,166,35,0.65) 70%, rgba(247,208,96,0.6) 100%),
-        url('parrot.jpg') top/cover no-repeat;
+        url('parrot_web.jpg') top/cover no-repeat;
       min-height: 100vh;
       padding: 5rem 2rem 4rem;
       text-align: center;
@@ -152,16 +155,17 @@
     }
 
     .hero h1 {
+      font-family: 'DM Serif Display', serif;
       font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 700;
+      font-weight: 400;
       line-height: 1.1;
-      letter-spacing: -0.02em;
+      letter-spacing: 0;
       margin-bottom: 1.2rem;
       text-shadow: 0 2px 12px rgba(0,0,0,0.15);
     }
 
     .hero p {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      font-size: clamp(1.17rem, 2.5vw, 1.42rem);
       max-width: 600px;
       margin: 0 auto 2.5rem;
       opacity: 0.92;
@@ -331,7 +335,20 @@
     /* ── BUILT FOR ── */
     .built-for {
       padding: 4rem 2rem;
+    }
+
+    .built-for-inner {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      max-width: 860px;
+      margin: 0 auto;
+      gap: 2rem;
+    }
+
+    .built-for-content {
       text-align: center;
+      flex: 1;
     }
 
     .audience-grid {
@@ -424,6 +441,14 @@
 
     .screenshot-card {
       cursor: zoom-in;
+    }
+
+    .parrot-standalone {
+      width: 180px;
+      height: auto;
+      display: block;
+      flex-shrink: 0;
+      transform: translateX(180px);
     }
 
     /* ── FOOTER ── */
@@ -554,14 +579,19 @@
 
   <!-- BUILT FOR -->
   <section class="built-for">
-    <p class="section-label">Audience</p>
-    <h2 class="section-title">Built for</h2>
-    <div class="audience-grid">
-      <span class="audience-tag">Students</span>
-      <span class="audience-tag">Educators</span>
-      <span class="audience-tag">Engineers</span>
-      <span class="audience-tag">Developers</span>
-      <span class="audience-tag">Anyone doing symbolic math at scale</span>
+    <div class="built-for-inner">
+      <div class="built-for-content">
+        <p class="section-label">Audience</p>
+        <h2 class="section-title">Built for</h2>
+        <div class="audience-grid">
+          <span class="audience-tag">Students</span>
+          <span class="audience-tag">Educators</span>
+          <span class="audience-tag">Engineers</span>
+          <span class="audience-tag">Developers</span>
+          <span class="audience-tag">Anyone doing symbolic math at scale</span>
+        </div>
+      </div>
+      <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone" />
     </div>
   </section>
 
