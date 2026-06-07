@@ -369,6 +369,73 @@
       color: var(--text);
     }
 
+    /* ── EXCEL SECTION ── */
+    .excel-section {
+      background: #f0f4ff;
+      padding: 4rem 2rem;
+    }
+
+    .excel-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .excel-screenshots {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    .excel-screenshot {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background: #fff;
+    }
+
+    .excel-screenshot img {
+      width: 100%;
+      display: block;
+    }
+
+    .excel-screenshot-caption {
+      padding: 0.8rem 1rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .excel-functions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.8rem;
+      justify-content: center;
+    }
+
+    .excel-fn {
+      background: #fff;
+      border: 1px solid #d0d8f0;
+      border-radius: 8px;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.85rem;
+      font-family: 'Courier New', monospace;
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    .excel-badge {
+      display: inline-block;
+      background: #217346;
+      color: #fff;
+      border-radius: 6px;
+      padding: 0.25rem 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.8rem;
+    }
+
     /* ── CTA ── */
     .cta-section {
       background: linear-gradient(140deg, var(--purple) 0%, #3a2570 100%);
@@ -475,6 +542,7 @@
     <ul class="nav-links">
       <li><a href="#screenshots">Screenshots</a></li>
       <li><a href="#features">Features</a></li>
+      <li><a href="#excel">Excel</a></li>
       <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScfCBJ9KUIoRFe6I3hDlttwTaf2NClMnIoJM2iM3nuXJAm1dw/viewform" target="_blank" rel="noopener">Contact</a></li>
     </ul>
   </nav>
@@ -593,6 +661,41 @@
         </div>
       </div>
       <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone" />
+    </div>
+  </section>
+
+  <!-- EXCEL -->
+  <section class="excel-section" id="excel">
+    <div class="excel-inner">
+      <div style="text-align:center">
+        <span class="excel-badge">Microsoft Excel</span>
+        <p class="section-label">Coming to Excel</p>
+        <h2 class="section-title">PAE Bird as Excel Functions</h2>
+        <p class="section-sub">Use PAE Bird's math engine directly inside Excel cells — no app switching, no copy-paste. Solve, expand, factor, differentiate, and integrate as native spreadsheet formulas.</p>
+      </div>
+
+      <div class="excel-functions">
+        <span class="excel-fn">=PAE.SOLVE("x^2 - 5x + 6 = 0")</span>
+        <span class="excel-fn">=PAE.EXPAND("(2x-1)^3")</span>
+        <span class="excel-fn">=PAE.FACTOR("2x^2 + 6x + 4")</span>
+        <span class="excel-fn">=PAE.DIFFERENTIATE("x^3 + 2x","x")</span>
+        <span class="excel-fn">=PAE.INTEGRATE("3x^2","x")</span>
+      </div>
+
+      <div class="excel-screenshots">
+        <div class="excel-screenshot">
+          <img src="appsource/screenshot-1.png" alt="PAE Bird Excel add-in — function results" />
+          <p class="excel-screenshot-caption">All five PAE functions returning results live in Excel cells.</p>
+        </div>
+        <div class="excel-screenshot">
+          <img src="appsource/screenshot-4.png" alt="PAE Bird Excel — formula bar showing =PAE.SOLVE()" />
+          <p class="excel-screenshot-caption">Native Excel formula syntax — type it just like any other function.</p>
+        </div>
+        <div class="excel-screenshot">
+          <img src="appsource/screenshot-2.png" alt="PAE Bird Excel — worksheet generator" />
+          <p class="excel-screenshot-caption">Generate Student and Teacher worksheets directly from the task pane.</p>
+        </div>
+      </div>
     </div>
   </section>
 
