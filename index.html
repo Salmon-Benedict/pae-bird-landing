@@ -392,6 +392,13 @@
       overflow: hidden;
       box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       background: #fff;
+      cursor: zoom-in;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .excel-screenshot:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.14);
     }
 
     .excel-screenshot img {
@@ -721,7 +728,7 @@
     const overlay = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
 
-    document.querySelectorAll('.screenshot-card img').forEach(img => {
+    document.querySelectorAll('.screenshot-card img, .excel-screenshot img').forEach(img => {
       img.addEventListener('click', () => {
         lbImg.src = img.src;
         lbImg.alt = img.alt;
