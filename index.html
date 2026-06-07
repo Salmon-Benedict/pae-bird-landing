@@ -737,7 +737,8 @@
         <span class="sheets-badge">Google Sheets</span>
         <p class="section-label">Coming to Google Workspace Marketplace</p>
         <h2 class="section-title">PAE Bird in Google Sheets</h2>
-        <p class="section-sub">Use PAE Bird's algebra engine as native Google Sheets formulas — solve equations, expand, factor, differentiate, and integrate right inside your spreadsheet.</p>
+        <p class="section-sub">Use PAE Bird's algebra engine as native Google Sheets formulas — solve equations, expand, factor, differentiate, and integrate right inside your spreadsheet. Powered by PAE Bird's cloud API; math expressions are processed securely and never stored.</p>
+        <p style="font-size:0.82rem;color:var(--muted);margin-top:-1rem;margin-bottom:2rem;">Note: unlike the offline Mac app, the Google Sheets add-on sends formula inputs to PAE Bird's API to compute results.</p>
       </div>
 
       <div class="excel-functions">
@@ -746,6 +747,21 @@
         <span class="excel-fn">=PAE_FACTOR("2x^2 + 6x + 4")</span>
         <span class="excel-fn">=PAE_DIFFERENTIATE("x^3 + 2x","x")</span>
         <span class="excel-fn">=PAE_INTEGRATE("3x^2","x")</span>
+      </div>
+
+      <div class="excel-screenshots" style="margin-top:2.5rem;">
+        <div class="excel-screenshot">
+          <img src="sheets-scrn/sheets-screenshot-1.png" alt="PAE Bird in Google Sheets — PAE_EXPAND formula bar" />
+          <p class="excel-screenshot-caption">Results returned directly into Sheets cells. Formula bar shows the PAE Bird function.</p>
+        </div>
+        <div class="excel-screenshot">
+          <img src="sheets-scrn/sheets-screenshot-2.png" alt="PAE Bird in Google Sheets — PAE_FACTOR formula bar" />
+          <p class="excel-screenshot-caption">All five operations available: solve, expand, factor, differentiate, integrate.</p>
+        </div>
+        <div class="excel-screenshot">
+          <img src="sheets-scrn/sheets-screenshot-3.png" alt="PAE Bird Google Sheets — native autocomplete showing all 5 functions" />
+          <p class="excel-screenshot-caption">Native Sheets autocomplete surfaces all PAE Bird functions as you type.</p>
+        </div>
       </div>
     </div>
   </section>
