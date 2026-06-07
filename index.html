@@ -522,7 +522,30 @@
       height: auto;
       display: block;
       flex-shrink: 0;
+      transition: transform 0.25s, filter 0.25s;
+      cursor: pointer;
+    }
+
+    .parrot-standalone:hover {
+      transform: scale(1.5);
+      filter: drop-shadow(0 8px 24px rgba(232,83,26,0.35));
+    }
+
+    .parrot-wrap {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 0.8rem;
       transform: translateX(180px);
+    }
+
+    .parrot-tagline {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--orange);
+      white-space: nowrap;
     }
 
     /* ── SHEETS SECTION ── */
@@ -557,13 +580,6 @@
       letter-spacing: 0.01em;
     }
 
-    .nav-logo {
-      transition: transform 0.2s;
-    }
-
-    .nav-logo:hover {
-      transform: scale(1.1);
-    }
 
     /* ── FOOTER ── */
     footer {
@@ -582,13 +598,10 @@
 
   <!-- NAV -->
   <nav>
-    <div style="display:flex;align-items:center;gap:1.2rem;">
-      <span class="nav-tagline">PAE Bird — Want a π?</span>
     <a class="nav-logo" href="#">
       <div class="nav-logo-icon">P</div>
       <span class="nav-logo-text">PAE Bird</span>
     </a>
-    </div>
     <ul class="nav-links">
       <li><a href="#screenshots">Screenshots</a></li>
       <li><a href="#features">Features</a></li>
@@ -711,7 +724,10 @@
           <span class="audience-tag">Anyone doing symbolic math at scale</span>
         </div>
       </div>
-      <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone" />
+      <div class="parrot-wrap">
+        <span class="parrot-tagline">PAE Bird — Want a π?</span>
+        <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone" />
+      </div>
     </div>
   </section>
 
