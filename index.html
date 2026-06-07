@@ -548,6 +548,17 @@
       margin-bottom: 0.8rem;
     }
 
+    .nav-tagline {
+      font-family: 'DM Serif Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      background: linear-gradient(90deg, var(--yellow), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      white-space: nowrap;
+    }
+
     /* ── FOOTER ── */
     footer {
       background: var(--dark);
@@ -565,10 +576,13 @@
 
   <!-- NAV -->
   <nav>
+    <div style="display:flex;align-items:center;gap:1.2rem;">
+      <span class="nav-tagline">PAE Bird — Want a π?</span>
     <a class="nav-logo" href="#">
       <div class="nav-logo-icon">P</div>
       <span class="nav-logo-text">PAE Bird</span>
     </a>
+    </div>
     <ul class="nav-links">
       <li><a href="#screenshots">Screenshots</a></li>
       <li><a href="#features">Features</a></li>
