@@ -543,7 +543,7 @@
     .parrot-tagline {
       font-family: 'DM Serif Display', serif;
       font-style: italic;
-      font-size: 0.95rem;
+      font-size: 1.45rem;
       color: var(--orange);
       white-space: nowrap;
     }
@@ -581,6 +581,79 @@
     }
 
 
+    /* ── LIBREOFFICE SECTION ── */
+    .libreoffice-section {
+      background: #edfaf7;
+      padding: 4rem 2rem;
+    }
+
+    .libreoffice-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .libreoffice-badge {
+      display: inline-block;
+      background: #1a9c87;
+      color: #fff;
+      border-radius: 6px;
+      padding: 0.25rem 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.8rem;
+    }
+
+    .libre-tier-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+
+    .libre-tier-card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    }
+
+    .libre-tier-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+
+    .libre-tier-card ul {
+      list-style: none;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    .libre-tier-card ul li::before {
+      content: "✓ ";
+      color: #1a9c87;
+      font-weight: 700;
+    }
+
+    .libre-upgrade-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      background: #1a9c87;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+
+    .libre-upgrade-link:hover { opacity: 0.85; }
+
     /* ── FOOTER ── */
     footer {
       background: var(--dark);
@@ -607,13 +680,14 @@
       <li><a href="#features">Features</a></li>
       <li><a href="#excel">Excel</a></li>
       <li><a href="#sheets">Sheets</a></li>
+      <li><a href="#libreoffice">LibreOffice</a></li>
       <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScfCBJ9KUIoRFe6I3hDlttwTaf2NClMnIoJM2iM3nuXJAm1dw/viewform" target="_blank" rel="noopener">Contact</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-badge">Mac · Excel · Google Sheets</div>
+    <div class="hero-badge">Mac · Excel · Google Sheets · LibreOffice</div>
     <h1>PAE Bird</h1>
     <p>A high-speed polynomial algebra engine for macOS. Expand, factor, solve, differentiate, and generate worksheets — instantly, offline, in bulk.</p>
     <a href="#" class="hero-cta">
@@ -710,27 +784,6 @@
     </div>
   </section>
 
-  <!-- BUILT FOR -->
-  <section class="built-for">
-    <div class="built-for-inner">
-      <div class="built-for-content">
-        <p class="section-label">Audience</p>
-        <h2 class="section-title">Built for</h2>
-        <div class="audience-grid">
-          <span class="audience-tag">Students</span>
-          <span class="audience-tag">Educators</span>
-          <span class="audience-tag">Engineers</span>
-          <span class="audience-tag">Developers</span>
-          <span class="audience-tag">Anyone doing symbolic math at scale</span>
-        </div>
-      </div>
-      <div class="parrot-wrap">
-        <span class="parrot-tagline">PAE Bird — Want a π?</span>
-        <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone" />
-      </div>
-    </div>
-  </section>
-
   <!-- EXCEL -->
   <section class="excel-section" id="excel">
     <div class="excel-inner">
@@ -798,6 +851,74 @@
           <img src="sheets-scrn/sheets-screenshot-3.png" alt="PAE Bird Google Sheets — native autocomplete showing all 5 functions" />
           <p class="excel-screenshot-caption">Native Sheets autocomplete surfaces all PAE Bird functions as you type.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIBREOFFICE -->
+  <section class="libreoffice-section" id="libreoffice">
+    <div class="libreoffice-inner">
+      <div style="text-align:center">
+        <span class="libreoffice-badge">LibreOffice Calc</span>
+        <p class="section-label">Now on Linux</p>
+        <h2 class="section-title">PAE Bird in LibreOffice</h2>
+        <p class="section-sub">Install the .oxt extension and use PAE Bird's algebra engine as native Calc formulas — works out of the box on Linux, macOS, and Windows.</p>
+      </div>
+
+      <div class="excel-functions">
+        <span class="excel-fn">=PAE_SOLVE("x^2 - 5x + 6 = 0")</span>
+        <span class="excel-fn">=PAE_EXPAND("(2x-1)^3")</span>
+        <span class="excel-fn">=PAE_FACTOR("2x^2 + 6x + 4")</span>
+        <span class="excel-fn">=PAE_DIFFERENTIATE("x^3 + 2x","x")</span>
+        <span class="excel-fn">=PAE_INTEGRATE("3x^2","x")</span>
+      </div>
+
+      <div class="libre-tier-cards">
+        <div class="libre-tier-card">
+          <h3>Free Tier</h3>
+          <ul>
+            <li>50 operations / day</li>
+            <li>All 5 PAE functions</li>
+            <li>No sign-up required</li>
+            <li>Works immediately after install</li>
+          </ul>
+        </div>
+        <div class="libre-tier-card">
+          <h3>Paid Tier</h3>
+          <ul>
+            <li>Unlimited operations</li>
+            <li>Personal API key</li>
+            <li>Enter key via Tools → PAE Bird Settings</li>
+          </ul>
+          <a href="register.html" class="libre-upgrade-link">Get a paid key →</a>
+        </div>
+      </div>
+
+      <p style="text-align:center;margin-top:2.5rem;font-size:0.88rem;color:var(--muted);">
+        Install: Extensions → Extension Manager → Add → select <strong>PAEBird.oxt</strong>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/Salmon-Benedict/PAE-LibreOffice/releases/download/v1.0.0/PAEBird.oxt" style="color:#1a9c87;">Download PAEBird.oxt</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- BUILT FOR -->
+  <section class="built-for">
+    <div class="built-for-inner">
+      <div class="built-for-content">
+        <p class="section-label">Audience</p>
+        <h2 class="section-title">Built for</h2>
+        <div class="audience-grid">
+          <span class="audience-tag">Students</span>
+          <span class="audience-tag">Educators</span>
+          <span class="audience-tag">Engineers</span>
+          <span class="audience-tag">Developers</span>
+          <span class="audience-tag">Anyone doing symbolic math at scale</span>
+        </div>
+      </div>
+      <div class="parrot-wrap">
+        <span class="parrot-tagline">PAE Bird — Want a π?</span>
+        <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone" />
       </div>
     </div>
   </section>
