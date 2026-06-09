@@ -345,11 +345,11 @@
       display: flex;
       white-space: nowrap;
       animation: fib-scroll 90s linear infinite;
+      will-change: transform;
       font-family: 'DM Serif Display', serif;
       font-size: 1.43rem;
       color: #2b6cb0;
       opacity: 0.55;
-      letter-spacing: 0.12em;
     }
     .fib-ticker {
       overflow: hidden;
@@ -361,10 +361,11 @@
       gap: 1.8rem;
       white-space: nowrap;
       animation: fib-scroll 28s linear infinite;
+      will-change: transform;
     }
     @keyframes fib-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+      from { transform: translate3d(0, 0, 0); }
+      to   { transform: translate3d(-50%, 0, 0); }
     }
     .fib-num {
       font-family: 'DM Serif Display', serif;
