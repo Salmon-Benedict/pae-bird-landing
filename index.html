@@ -1,42 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PAE Bird — Polynomial Algebra Engine for Mac</title>
-
-  <!-- SEO -->
-  <meta name="description" content="PAE Bird is a fast, offline Mac app for polynomial algebra. Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of expressions instantly." />
-  <meta name="keywords" content="polynomial algebra, factoring calculator, math worksheet generator, symbolic math, calculus tool, mac app, algebra engine, expand polynomials, solve equations" />
-  <link rel="canonical" href="https://salmon-benedict.github.io/pae-bird-landing/" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap" rel="stylesheet" />
-
-  <!-- Open Graph (LinkedIn, Facebook) -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://salmon-benedict.github.io/pae-bird-landing/" />
-  <meta property="og:title" content="PAE Bird — Polynomial Algebra Engine for Mac" />
-  <meta property="og:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly. Free offline Mac app." />
-  <meta property="og:image" content="https://salmon-benedict.github.io/pae-bird-landing/parrot_web.jpg" />
-
-  <!-- Twitter / X Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="PAE Bird — Polynomial Algebra Engine for Mac" />
-  <meta name="twitter:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly." />
-  <meta name="twitter:image" content="https://salmon-benedict.github.io/pae-bird-landing/parrot_web.jpg" />
-
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9HBF205E1V"></script>
-  <script>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>PAE Bird — Polynomial Algebra Engine for Mac</title>
+        <!-- SEO -->
+        <meta name="description" content="PAE Bird is a fast, offline Mac app for polynomial algebra. Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of expressions instantly.">
+        <meta name="keywords" content="polynomial algebra, factoring calculator, math worksheet generator, symbolic math, calculus tool, mac app, algebra engine, expand polynomials, solve equations">
+        <link rel="canonical" href="https://salmon-benedict.github.io/pae-bird-landing/">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Pinyon+Script&amp;display=swap" rel="stylesheet">
+        <!-- Open Graph (LinkedIn, Facebook) -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://salmon-benedict.github.io/pae-bird-landing/">
+        <meta property="og:title" content="PAE Bird — Polynomial Algebra Engine for Mac">
+        <meta property="og:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly. Free offline Mac app.">
+        <meta property="og:image" content="https://salmon-benedict.github.io/pae-bird-landing/parrot_web.jpg">
+        <!-- Twitter / X Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="PAE Bird — Polynomial Algebra Engine for Mac">
+        <meta name="twitter:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly.">
+        <meta name="twitter:image" content="https://salmon-benedict.github.io/pae-bird-landing/parrot_web.jpg">
+        <!-- Google Analytics -->
+        <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-9HBF205E1V"></script>
+        <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-9HBF205E1V');
   </script>
-
-  <!-- Structured Data -->
-  <script type="application/ld+json">
+        <!-- Structured Data -->
+        <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -51,836 +46,613 @@
     }
   }
   </script>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --orange: #e8531a;
-      --yellow: #f5a623;
-      --purple: #5b3fa0;
-      --dark: #1a1a2e;
-      --mid: #2d2d44;
-      --light-bg: #f5f5f7;
-      --text: #1d1d1f;
-      --muted: #6e6e73;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-      color: var(--text);
-      background: #fff;
-    }
-
-    /* ── NAV ── */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(26, 26, 46, 0.96);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2.5rem;
-      height: 56px;
-    }
-
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      text-decoration: none;
-    }
-
-    .nav-logo-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 7px;
-      background: linear-gradient(135deg, var(--orange), var(--yellow));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 1rem;
-      color: #fff;
-    }
-
-    .nav-logo-text {
-      font-size: 1rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-      list-style: none;
-    }
-
-    .nav-links a {
-      color: rgba(255,255,255,0.8);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover { color: #fff; }
-
-    /* ── HERO ── */
-    .hero {
-      background:
-        linear-gradient(140deg, rgba(192,57,15,0.75) 0%, rgba(232,83,26,0.75) 35%, rgba(245,166,35,0.65) 70%, rgba(247,208,96,0.8) 100%),
-        url('parrot_web.jpg') top/cover no-repeat;
-      min-height: 100vh;
-      padding: 5rem 2rem 4rem;
-      text-align: center;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero-badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,255,255,0.35);
-      border-radius: 99px;
-      padding: 0.3rem 1rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.4rem, 6vw, 4rem);
-      font-weight: 400;
-      line-height: 1.1;
-      letter-spacing: 0;
-      margin-bottom: 1.2rem;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.15);
-    }
-
-    .hero p {
-      font-size: clamp(1.17rem, 2.5vw, 1.42rem);
-      max-width: 600px;
-      margin: 0 auto 2.5rem;
-      opacity: 0.92;
-      line-height: 1.6;
-    }
-
-    .hero-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: var(--dark);
-      color: #fff;
-      text-decoration: none;
-      border-radius: 12px;
-      padding: 0.8rem 1.8rem;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: background 0.2s, transform 0.15s;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
-    }
-
-    .hero-cta:hover { background: var(--mid); transform: translateY(-1px); }
-
-    .hero-cta-soon {
-      font-size: 0.75rem;
-      opacity: 0.6;
-      font-weight: 400;
-      margin-top: 0.9rem;
-    }
-
-
-    /* ── FEATURES STRIP ── */
-    .features-strip {
-      background: var(--dark);
-      color: #fff;
-      padding: 3rem 2rem;
-    }
-
-    .features-strip h2 {
-      text-align: center;
-      font-size: 1.1rem;
-      font-weight: 500;
-      opacity: 0.55;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 2.5rem;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .feature-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 14px;
-      padding: 1.4rem 1.2rem;
-    }
-
-    .feature-icon {
-      font-size: 1.6rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .feature-card h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 0.35rem;
-    }
-
-    .feature-card p {
-      font-size: 0.82rem;
-      opacity: 0.6;
-      line-height: 1.5;
-    }
-
-    /* ── SCREENSHOTS ── */
-    .screenshots-section {
-      background: var(--light-bg);
-      padding: 4rem 2rem;
-    }
-
-    .section-label {
-      text-align: center;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 0.5rem;
-    }
-
-    .section-title {
-      text-align: center;
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      margin-bottom: 0.8rem;
-    }
-
-    .section-sub {
-      text-align: center;
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 520px;
-      margin: 0 auto 3rem;
-      line-height: 1.6;
-    }
-
-    .screenshots-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 2rem;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .screenshot-card {
-      background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .screenshot-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.14);
-    }
-
-    .screenshot-card img {
-      width: 100%;
-      display: block;
-    }
-
-    .screenshot-caption {
-      padding: 1rem 1.2rem;
-    }
-
-    .screenshot-caption h3 {
-      font-size: 0.95rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .screenshot-caption p {
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    /* wide card spans full row */
-    .screenshot-card.wide {
-      grid-column: 1 / -1;
-    }
-
-    .screenshot-card.wide img {
-      max-height: 420px;
-      object-fit: cover;
-      object-position: top;
-    }
-
-    /* ── BUILT FOR ── */
-    .built-for {
-      padding: 4rem 2rem 2rem;
-    }
-    .pi-ticker {
-      overflow: hidden;
-      width: 100%;
-      padding: 0 0 1.5rem;
-    }
-    .pi-track {
-      display: flex;
-      white-space: nowrap;
-      animation: fib-scroll 90s linear infinite;
-      will-change: transform;
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.43rem;
-      color: #2b6cb0;
-      opacity: 0.55;
-    }
-    .fib-ticker {
-      overflow: hidden;
-      width: 100%;
-      padding: 1.5rem 0 0;
-    }
-    .fib-track {
-      display: flex;
-      gap: 1.8rem;
-      white-space: nowrap;
-      animation: fib-scroll 28s linear infinite;
-      will-change: transform;
-    }
-    @keyframes fib-scroll {
-      from { transform: translate3d(0, 0, 0); }
-      to   { transform: translate3d(-50%, 0, 0); }
-    }
-    .fib-num {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.43rem;
-      color: var(--orange);
-      opacity: 0.55;
-      flex-shrink: 0;
-    }
-
-    .built-for-inner {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      max-width: 860px;
-      margin: 0 auto;
-      gap: 2rem;
-    }
-
-    .built-for-content {
-      text-align: center;
-      flex: 1;
-    }
-
-    .audience-grid {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      max-width: 640px;
-      margin: 2rem auto 0;
-    }
-
-    .audience-tag {
-      background: var(--light-bg);
-      border-radius: 99px;
-      padding: 0.5rem 1.3rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    /* ── EXCEL SECTION ── */
-    .excel-section {
-      background: #f0f4ff;
-      padding: 4rem 2rem;
-    }
-
-    .excel-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .excel-screenshots {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2.5rem;
-    }
-
-    .excel-screenshot {
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      background: #fff;
-      cursor: zoom-in;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .excel-screenshot:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.14);
-    }
-
-    .excel-screenshot img {
-      width: 100%;
-      display: block;
-    }
-
-    .excel-screenshot-caption {
-      padding: 0.8rem 1rem;
-      font-size: 0.82rem;
-      color: var(--muted);
-    }
-
-    .excel-functions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-top: 1.8rem;
-      justify-content: center;
-    }
-
-    .excel-fn {
-      background: #fff;
-      border: 1px solid #d0d8f0;
-      border-radius: 8px;
-      padding: 0.4rem 0.9rem;
-      font-size: 0.85rem;
-      font-family: 'Courier New', monospace;
-      font-weight: 600;
-      color: var(--purple);
-    }
-
-    .excel-badge {
-      display: inline-block;
-      background: #217346;
-      color: #fff;
-      border-radius: 6px;
-      padding: 0.25rem 0.7rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.8rem;
-    }
-
-    /* ── CTA ── */
-    .cta-section {
-      background: linear-gradient(140deg, var(--purple) 0%, #3a2570 100%);
-      color: #fff;
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-
-    .cta-section h2 {
-      font-size: clamp(1.6rem, 4vw, 2.4rem);
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-      letter-spacing: -0.02em;
-    }
-
-    .cta-section p {
-      opacity: 0.75;
-      font-size: 1rem;
-      max-width: 440px;
-      margin: 0 auto 2rem;
-      line-height: 1.6;
-    }
-
-    .btn-appstore {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #fff;
-      color: var(--dark);
-      text-decoration: none;
-      border-radius: 12px;
-      padding: 0.8rem 1.8rem;
-      font-size: 1rem;
-      font-weight: 700;
-      transition: opacity 0.2s, transform 0.15s;
-    }
-
-    .btn-appstore:hover { opacity: 0.9; transform: translateY(-1px); }
-
-    .btn-appstore-soon {
-      font-size: 0.75rem;
-      opacity: 0.45;
-      font-weight: 400;
-      margin-top: 0.9rem;
-    }
-
-    /* ── LIGHTBOX ── */
-    .lightbox-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.88);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      cursor: zoom-out;
-    }
-
-    .lightbox-overlay.active {
-      display: flex;
-    }
-
-    .lightbox-overlay img {
-      max-width: 92vw;
-      max-height: 92vh;
-      border-radius: 10px;
-      box-shadow: 0 16px 64px rgba(0,0,0,0.8);
-      pointer-events: none;
-    }
-
-    .screenshot-card {
-      cursor: zoom-in;
-    }
-
-    .parrot-standalone {
-      width: 180px;
-      height: auto;
-      display: block;
-      flex-shrink: 0;
-      transition: transform 0.25s, filter 0.25s;
-      cursor: pointer;
-    }
-
-    .parrot-standalone:hover {
-      transform: scale(1.5);
-      filter: drop-shadow(0 8px 24px rgba(232,83,26,0.35));
-    }
-
-    .parrot-wrap {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      flex-shrink: 0;
-      gap: 0.8rem;
-      transform: translateX(180px);
-    }
-
-    .parrot-tagline {
-      height: 38px;
-      width: auto;
-    }
-
-    /* ── SHEETS SECTION ── */
-    .sheets-section {
-      background: #f0fff6;
-      padding: 4rem 2rem;
-    }
-
-    .sheets-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-
-    .sheets-badge {
-      display: inline-block;
-      background: #0f9d58;
-      color: #fff;
-      border-radius: 6px;
-      padding: 0.25rem 0.7rem;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      margin-bottom: 0.8rem;
-    }
-
-    .nav-tagline {
-      font-family: 'DM Serif Display', serif;
-      font-style: italic;
-      font-size: 1.05rem;
-      color: var(--yellow);
-      white-space: nowrap;
-      letter-spacing: 0.01em;
-    }
-
-
-    /* ── FOOTER ── */
-    footer {
-      background: var(--dark);
-      color: rgba(255,255,255,0.4);
-      text-align: center;
-      padding: 1.8rem 2rem;
-      font-size: 0.82rem;
-    }
-
-    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
-    footer a:hover { color: #fff; }
-  </style>
-</head>
-<body>
-
-  <!-- NAV -->
-  <nav>
-    <a class="nav-logo" href="#">
-      <div class="nav-logo-icon">P</div>
-      <span class="nav-logo-text">PAE Bird</span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#screenshots">Screenshots</a></li>
-      <li><a href="#features">Features</a></li>
-      <li><a href="#excel">Excel</a></li>
-      <li><a href="#sheets">Sheets</a></li>
-      <li><a href="https://docs.google.com/forms/d/e/1FAIpQLScfCBJ9KUIoRFe6I3hDlttwTaf2NClMnIoJM2iM3nuXJAm1dw/viewform" target="_blank" rel="noopener">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-badge">Mac · Excel · Google Sheets™</div>
-    <h1>PAE Bird</h1>
-    <p>A high-speed polynomial algebra engine for macOS. Expand, factor, solve, differentiate, and generate worksheets — instantly, offline, in bulk.</p>
-    <a href="#" class="hero-cta">
-      ⬇ Download on the Mac App Store®
-    </a>
-    <p class="hero-cta-soon">Coming soon to the Mac App Store®</p>
-  </section>
-
-  <!-- FEATURES STRIP -->
-  <section class="features-strip" id="features">
-    <h2>What PAE Bird does</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">📐</div>
-        <h3>Polynomial Expansion</h3>
-        <p>Expand any polynomial expression, including multi-variable and nested parentheses.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔢</div>
-        <h3>Factoring</h3>
-        <p>Full factoring — difference of squares, trinomials, cubes, grouping, and more.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔍</div>
-        <h3>Solving</h3>
-        <p>Solve symbolic expressions and equations step by step.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">∂</div>
-        <h3>Calculus</h3>
-        <p>Differentiate and integrate polynomial expressions using standard rules.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📋</div>
-        <h3>Batch Processing</h3>
-        <p>Input 100+ expressions at once. Process them all in one click.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📄</div>
-        <h3>Worksheet Generator</h3>
-        <p>Generate numbered student and teacher worksheets ready to print or export.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCREENSHOTS -->
-  <section class="screenshots-section" id="screenshots">
-    <p class="section-label">See it in action</p>
-    <h2 class="section-title">Built for real math workflows</h2>
-    <p class="section-sub">One input box. Every algebraic operation. Batch process an entire problem set in seconds.</p>
-
-    <div class="screenshots-grid">
-
-      <div class="screenshot-card">
-        <img src="screenshots/screenshot-1.png" alt="Polynomial expansion — batch input and results" />
-        <div class="screenshot-caption">
-          <h3>Expand Polynomials</h3>
-          <p>Paste any number of expressions and expand them all at once. Results appear instantly in the Solutions pane.</p>
+        <style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } :root { --orange: #e8531a; --yellow: #f5a623; --purple: #5b3fa0; --dark: #1a1a2e; --mid: #2d2d44; --light-bg: #f5f5f7; --text: #1d1d1f; --muted: #6e6e73; } body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; color: var(--text); background: #fff; } /* ── NAV ── */nav { position: sticky; top: 0; z-index: 100; background: rgba(26, 26, 46, 0.96); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: space-between; padding: 0 2.5rem; height: 56px; } .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; } .nav-logo-icon { width: 32px; height: 32px; border-radius: 7px; background: linear-gradient(135deg, var(--orange), var(--yellow)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: #fff; } .nav-logo-text { font-size: 1rem; font-weight: 600; color: #fff; } .nav-links { display: flex; gap: 1.5rem; list-style: none; } .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; } .nav-links a:hover { color: #fff; } /* ── HERO ── */.hero { background: linear-gradient(140deg, rgba(192,57,15,0.75) 0%, rgba(232,83,26,0.75) 35%, rgba(245,166,35,0.65) 70%, rgba(247,208,96,0.8) 100%),
+        url('parrot_web.jpg') top/cover no-repeat; min-height: 100vh; padding: 5rem 2rem 4rem; text-align: center; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; } .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); border-radius: 99px; padding: 0.3rem 1rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 1.5rem; } .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 400; line-height: 1.1; letter-spacing: 0; margin-bottom: 1.2rem; text-shadow: 0 2px 12px rgba(0,0,0,0.15); } .hero p { font-size: clamp(1.17rem, 2.5vw, 1.42rem); max-width: 600px; margin: 0 auto 2.5rem; opacity: 0.92; line-height: 1.6; } .hero-cta { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--dark); color: #fff; text-decoration: none; border-radius: 12px; padding: 0.8rem 1.8rem; font-size: 1rem; font-weight: 600; transition: background 0.2s, transform 0.15s; box-shadow: 0 4px 20px rgba(0,0,0,0.25); } .hero-cta:hover { background: var(--mid); transform: translateY(-1px); } .hero-cta-soon { font-size: 0.75rem; opacity: 0.6; font-weight: 400; margin-top: 0.9rem; } /* ── FEATURES STRIP ── */.features-strip { background: var(--dark); color: #fff; padding: 3rem 2rem; } .features-strip h2 { text-align: center; font-size: 1.1rem; font-weight: 500; opacity: 0.55; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2.5rem; } .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; max-width: 960px; margin: 0 auto; } .feature-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 1.4rem 1.2rem; } .feature-icon { font-size: 1.6rem; margin-bottom: 0.6rem; } .feature-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.35rem; } .feature-card p { font-size: 0.82rem; opacity: 0.6; line-height: 1.5; } /* ── SCREENSHOTS ── */.screenshots-section { background: var(--light-bg); padding: 4rem 2rem; } .section-label { text-align: center; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.5rem; } .section-title { text-align: center; font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; margin-bottom: 0.8rem; } .section-sub { text-align: center; color: var(--muted); font-size: 1rem; max-width: 520px; margin: 0 auto 3rem; line-height: 1.6; } .screenshots-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 2rem; max-width: 1100px; margin: 0 auto; } .screenshot-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08); transition: transform 0.2s, box-shadow 0.2s; } .screenshot-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.14); } .screenshot-card img { width: 100%; display: block; } .screenshot-caption { padding: 1rem 1.2rem; } .screenshot-caption h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; } .screenshot-caption p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; } /* wide card spans full row */.screenshot-card.wide { grid-column: 1 / -1; } .screenshot-card.wide img { max-height: 420px; object-fit: cover; object-position: top; } /* ── BUILT FOR ── */.built-for { padding: 4rem 2rem 2rem; background: linear-gradient(135deg, #5cd65c 0%, #ffffff 100%); } .pi-ticker { overflow: hidden; width: 100%; padding: 0 0 1.5rem; } .pi-track { display: flex; white-space: nowrap; animation: fib-scroll 90s linear infinite; will-change: transform; font-family: 'Pinyon Script', serif; font-size: 3rem; color: #2b6cb0; opacity: 0.55; } .fib-ticker { overflow: hidden; width: 100%; padding: 1.5rem 0 0; } .fib-track { display: flex; gap: 1.8rem; white-space: nowrap; animation: fib-scroll 28s linear infinite; will-change: transform; } @keyframes fib-scroll { from {  transform: translate3d(0, 0, 0); }  to {  transform: translate3d(-50%, 0, 0); } } .fib-num { font-family: 'Pinyon Script', serif; font-size: 3rem; color: var(--orange); opacity: 0.55; flex-shrink: 0; } .built-for-row { display: flex; align-items: center; justify-content: space-between; width: 100%; } .built-for-inner { flex: 1; min-width: 0; text-align: center; } .built-for-content { text-align: center; flex: 2; } .audience-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; max-width: 640px; margin: 2rem auto 0; } .audience-tag { background: var(--light-bg); border-radius: 99px; padding: 0.65rem 1.6rem; font-size: 1.1rem; font-weight: 500; color: var(--text); } /* ── EXCEL SECTION ── */.excel-section { background: #f0f4ff; padding: 4rem 2rem; } .excel-inner { max-width: 960px; margin: 0 auto; } .excel-screenshots { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; } .excel-screenshot { border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1); background: #fff; cursor: zoom-in; transition: transform 0.2s, box-shadow 0.2s; } .excel-screenshot:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.14); } .excel-screenshot img { width: 100%; display: block; } .excel-screenshot-caption { padding: 0.8rem 1rem; font-size: 0.82rem; color: var(--muted); } .excel-functions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.8rem; justify-content: center; } .excel-fn { background: #fff; border: 1px solid #d0d8f0; border-radius: 8px; padding: 0.4rem 0.9rem; font-size: 0.85rem; font-family: 'Courier New', monospace; font-weight: 600; color: var(--purple); } .excel-badge { display: inline-block; background: #217346; color: #fff; border-radius: 6px; padding: 0.25rem 0.7rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.8rem; } /* ── CTA ── */.cta-section { background: linear-gradient(135deg, var(--purple) 0%, #ffffff 100%); color: #fff; text-align: center; padding: 4rem 2rem; } .cta-section h2 { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 700; margin-bottom: 0.8rem; letter-spacing: -0.02em; } .cta-section p { opacity: 0.75; font-size: 1rem; max-width: 440px; margin: 0 auto 2rem; line-height: 1.6; } .btn-appstore { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--purple); color: #fff; text-decoration: none; border-radius: 12px; padding: 0.8rem 1.8rem; font-size: 1rem; font-weight: 700; transition: opacity 0.2s, transform 0.15s; } .btn-appstore:hover { opacity: 0.9; transform: translateY(-1px); } .btn-appstore-soon { font-size: 0.75rem; opacity: 0.45; font-weight: 400; margin-top: 0.9rem; } /* ── LIGHTBOX ── */.lightbox-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.88); z-index: 999; align-items: center; justify-content: center; cursor: zoom-out; } .lightbox-overlay.active { display: flex; } .lightbox-overlay img { max-width: 92vw; max-height: 92vh; border-radius: 10px; box-shadow: 0 16px 64px rgba(0,0,0,0.8); pointer-events: none; } .screenshot-card { cursor: zoom-in; } .fi-pi-art { width: 180px; height: auto; flex-shrink: 0; } .parrot-standalone { width: 180px; height: auto; display: block; flex-shrink: 0; transition: transform 0.25s, filter 0.25s; cursor: pointer; } .parrot-standalone:hover { transform: scale(1.5); filter: drop-shadow(0 8px 24px rgba(232,83,26,0.35)); } .parrot-wrap { display: flex; flex-direction: row; align-items: center; flex-shrink: 0; gap: 0.8rem; transform: translateX(180px); } .parrot-tagline { height: 38px; width: auto; } /* ── SHEETS SECTION ── */.sheets-section { background: #f0fff6; padding: 4rem 2rem; } .sheets-inner { max-width: 960px; margin: 0 auto; } .sheets-badge { display: inline-block; background: #0f9d58; color: #fff; border-radius: 6px; padding: 0.25rem 0.7rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; margin-bottom: 0.8rem; } .nav-tagline { font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.05rem; color: var(--yellow); white-space: nowrap; letter-spacing: 0.01em; } /* ── FOOTER ── */footer { background: var(--dark); color: rgba(255,255,255,0.4); text-align: center; padding: 1.8rem 2rem; font-size: 0.82rem; } footer a { color: rgba(255,255,255,0.5); text-decoration: none; } footer a:hover { color: #fff; } /* ── AUDIENCE SECTION ── */.audience-section { padding: 4rem 2rem; text-align: center; background: linear-gradient(135deg, #1a8ee0 0%, #ffffff 100%); }</style>
+    </head>
+    <body>
+        <!-- NAV -->
+        <nav>
+            <a class="nav-logo" href="#"> <div class="nav-logo-icon">P</div> <span class="nav-logo-text">PAE Bird</span> </a>
+            <ul class="nav-links">
+                <li>
+                    <a href="#screenshots">Screenshots</a>
+                </li>
+                <li>
+                    <a href="#features">Features</a>
+                </li>
+                <li>
+                    <a href="#excel">Excel</a>
+                </li>
+                <li>
+                    <a href="#sheets">Sheets</a>
+                </li>
+                <li>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScfCBJ9KUIoRFe6I3hDlttwTaf2NClMnIoJM2iM3nuXJAm1dw/viewform" target="_blank" rel="noopener">Contact</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-badge">Mac · Excel · Google Sheets™</div>
+            <h1>PAE Bird</h1>
+            <p>A high-speed polynomial algebra engine for macOS. Expand, factor, solve, differentiate, and generate worksheets — instantly, offline, in bulk.</p>
+            <a href="#" class="hero-cta">
+      ⬇ Download on the Mac App Store® </a>
+            <p class="hero-cta-soon">Coming soon to the Mac App Store®</p>
+        </section>
+        <!-- FEATURES STRIP -->
+        <section class="features-strip" id="features">
+            <h2>What PAE Bird does</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">📐</div>
+                    <h3>Polynomial Expansion</h3>
+                    <p>Expand any polynomial expression, including multi-variable and nested parentheses.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔢</div>
+                    <h3>Factoring</h3>
+                    <p>Full factoring — difference of squares, trinomials, cubes, grouping, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Solving</h3>
+                    <p>Solve symbolic expressions and equations step by step.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">∂</div>
+                    <h3>Calculus</h3>
+                    <p>Differentiate and integrate polynomial expressions using standard rules.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📋</div>
+                    <h3>Batch Processing</h3>
+                    <p>Input 100+ expressions at once. Process them all in one click.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h3>Worksheet Generator</h3>
+                    <p>Generate numbered student and teacher worksheets ready to print or export.</p>
+                </div>
+            </div>
+        </section>
+        <!-- SCREENSHOTS -->
+        <section class="screenshots-section" id="screenshots">
+            <p class="section-label">See it in action</p>
+            <h2 class="section-title">Built for real math workflows</h2>
+            <p class="section-sub">One input box. Every algebraic operation. Batch process an entire problem set in seconds.</p>
+            <div class="screenshots-grid">
+                <div class="screenshot-card">
+                    <img src="screenshots/screenshot-1.png" alt="Polynomial expansion — batch input and results">
+                    <div class="screenshot-caption">
+                        <h3>Expand Polynomials</h3>
+                        <p>Paste any number of expressions and expand them all at once. Results appear instantly in the Solutions pane.</p>
+                    </div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="screenshots/screenshot-2.png" alt="Factoring mode — full factored output">
+                    <div class="screenshot-caption">
+                        <h3>Factor Expressions</h3>
+                        <p>Switch to factor mode with a single <code>@:factor</code> directive. Handles difference of squares, trinomials, cubes, and grouping.</p>
+                    </div>
+                </div>
+                <div class="screenshot-card wide">
+                    <img src="screenshots/screenshot-3.png" alt="Full range — expand, factor, solve, differentiate, integrate in one batch">
+                    <div class="screenshot-caption">
+                        <h3>Every Operation in One Batch</h3>
+                        <p>Mix expand, factor, solve, differentiate, and integrate in a single input using <code>@:</code> mode switches. PAE Bird handles each section correctly.</p>
+                    </div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="screenshots/screenshot-4.png" alt="Worksheet output — numbered problems with solutions">
+                    <div class="screenshot-caption">
+                        <h3>Worksheet Output</h3>
+                        <p>Generate formatted worksheets with numbered problems and solutions — ready for students or educators to print and use.</p>
+                    </div>
+                </div>
+                <div class="screenshot-card">
+                    <img src="screenshots/screenshot-5.png" alt="Command reference built into the app">
+                    <div class="screenshot-caption">
+                        <h3>Built-in Command Reference</h3>
+                        <p>Every supported operation and <code>@:</code> directive documented inside the app. No external docs needed.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- EXCEL -->
+        <section class="excel-section" id="excel">
+            <div class="excel-inner">
+                <div style="text-align:center">
+                    <span class="excel-badge">Microsoft Excel®</span>
+                    <p class="section-label">Coming to Excel</p>
+                    <h2 class="section-title">PAE Bird as Excel Functions</h2>
+                    <p class="section-sub">Use PAE Bird's math engine directly inside Excel cells — no app switching, no copy-paste. Solve, expand, factor, differentiate, and integrate as native spreadsheet formulas.</p>
+                </div>
+                <div class="excel-functions">
+                    <span class="excel-fn">=PAE.SOLVE("x^2 - 5x + 6 = 0")</span>
+                    <span class="excel-fn">=PAE.EXPAND("(2x-1)^3")</span>
+                    <span class="excel-fn">=PAE.FACTOR("2x^2 + 6x + 4")</span>
+                    <span class="excel-fn">=PAE.DIFFERENTIATE("x^3 + 2x","x")</span>
+                    <span class="excel-fn">=PAE.INTEGRATE("3x^2","x")</span>
+                </div>
+                <div class="excel-screenshots">
+                    <div class="excel-screenshot">
+                        <img src="appsource/screenshot-1.png" alt="PAE Bird Excel add-in — function results">
+                        <p class="excel-screenshot-caption">All five PAE functions returning results live in Excel cells.</p>
+                    </div>
+                    <div class="excel-screenshot">
+                        <img src="appsource/screenshot-4.png" alt="PAE Bird Excel — formula bar showing =PAE.SOLVE()">
+                        <p class="excel-screenshot-caption">Native Excel formula syntax — type it just like any other function.</p>
+                    </div>
+                    <div class="excel-screenshot">
+                        <img src="appsource/screenshot-2.png" alt="PAE Bird Excel — worksheet generator">
+                        <p class="excel-screenshot-caption">Generate Student and Teacher worksheets directly from the task pane.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- GOOGLE SHEETS -->
+        <section class="sheets-section" id="sheets">
+            <div class="sheets-inner">
+                <div style="text-align:center">
+                    <span class="sheets-badge">Google Sheets™</span>
+                    <p class="section-label">Available as a Google Sheets™ Add-on</p>
+                    <h2 class="section-title">PAE Bird in Google Sheets™</h2>
+                    <p class="section-sub">Use PAE Bird's algebra engine as native Google Sheets™ formulas — solve equations, expand, factor, differentiate, and integrate right inside your spreadsheet. Powered by PAE Bird's cloud API; math expressions are processed securely and never stored.</p>
+                    <p style="font-size:0.82rem;color:var(--muted);margin-top:-1rem;margin-bottom:2rem;">Note: unlike the offline Mac app, the Google Sheets™ add-on sends formula inputs to PAE Bird's API to compute results.</p>
+                </div>
+                <div class="excel-functions">
+                    <span class="excel-fn">=PAE_SOLVE("x^2 - 5x + 6 = 0")</span>
+                    <span class="excel-fn">=PAE_EXPAND("(2x-1)^3")</span>
+                    <span class="excel-fn">=PAE_FACTOR("2x^2 + 6x + 4")</span>
+                    <span class="excel-fn">=PAE_DIFFERENTIATE("x^3 + 2x","x")</span>
+                    <span class="excel-fn">=PAE_INTEGRATE("3x^2","x")</span>
+                </div>
+                <div class="excel-screenshots" style="margin-top:2.5rem;">
+                    <div class="excel-screenshot">
+                        <img src="sheets-scrn/sheets-screenshot-1.png" alt="PAE Bird in Google Sheets — PAE_EXPAND formula bar">
+                        <p class="excel-screenshot-caption">Results returned directly into Sheets cells. Formula bar shows the PAE Bird function.</p>
+                    </div>
+                    <div class="excel-screenshot">
+                        <img src="sheets-scrn/sheets-screenshot-2.png" alt="PAE Bird in Google Sheets — PAE_FACTOR formula bar">
+                        <p class="excel-screenshot-caption">All five operations available: solve, expand, factor, differentiate, integrate.</p>
+                    </div>
+                    <div class="excel-screenshot">
+                        <img src="sheets-scrn/sheets-screenshot-3.png" alt="PAE Bird Google Sheets — native autocomplete showing all 5 functions">
+                        <p class="excel-screenshot-caption">Native Sheets autocomplete surfaces all PAE Bird functions as you type.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- LIBREOFFICE -->
+        <section class="sheets-section" id="libreoffice">
+            <div class="sheets-inner">
+                <div style="text-align:center">
+                    <span class="sheets-badge" style="background:#18a303;color:#fff;">LibreOffice</span>
+                    <p class="section-label">Coming Soon</p>
+                    <h2 class="section-title">PAE Bird for LibreOffice Calc</h2>
+                    <p class="section-sub">All five PAE Bird math functions — solve, expand, factor, differentiate, and integrate — coming to LibreOffice Calc as native spreadsheet formulas. Free tier included.</p>
+                </div>
+                <div class="excel-functions">
+                    <span class="excel-fn">=PAE_SOLVE("x^2 - 5x + 6 = 0")</span>
+                    <span class="excel-fn">=PAE_EXPAND("(2x-1)^3")</span>
+                    <span class="excel-fn">=PAE_FACTOR("2x^2 + 6x + 4")</span>
+                    <span class="excel-fn">=PAE_DIFFERENTIATE("x^3 + 2x";"x")</span>
+                    <span class="excel-fn">=PAE_INTEGRATE("3x^2";"x")</span>
+                </div>
+                <p style="text-align:center;margin-top:2.5rem;font-size:0.9rem;color:var(--muted);">Pending approval on the LibreOffice Extensions portal. Check back soon.</p>
+            </div>
+        </section>
+        <!-- BUILT FOR -->
+        <section class="built-for">
+            <div class="pi-ticker">
+                <div class="pi-track" id="pi-track">
+                    <span>3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989   </span>
+                    <span>3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989   </span>
+                    <span>3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989   </span>
+                    <span>3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989   </span>
+                </div>
+            </div>
+            <div class="built-for-row">
+                <img src="fi_pi.svg" alt="Fibonacci spiral" class="fi-pi-art">
+                <div class="parrot-wrap">
+                    <img src="pae-bird-tagline.png" alt="PAE Bird want a π?" class="parrot-tagline">
+                </div>
+                <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone">
+            </div>
+            <div class="fib-ticker">
+                <div class="fib-track" id="fib-track">
+                    <span class="fib-num">0</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">2</span>
+                    <span class="fib-num">3</span>
+                    <span class="fib-num">5</span>
+                    <span class="fib-num">8</span>
+                    <span class="fib-num">13</span>
+                    <span class="fib-num">21</span>
+                    <span class="fib-num">34</span>
+                    <span class="fib-num">55</span>
+                    <span class="fib-num">89</span>
+                    <span class="fib-num">144</span>
+                    <span class="fib-num">233</span>
+                    <span class="fib-num">377</span>
+                    <span class="fib-num">610</span>
+                    <span class="fib-num">987</span>
+                    <span class="fib-num">1,597</span>
+                    <span class="fib-num">2,584</span>
+                    <span class="fib-num">4,181</span>
+                    <span class="fib-num">6,765</span>
+                    <span class="fib-num">10,946</span>
+                    <span class="fib-num">17,711</span>
+                    <span class="fib-num">28,657</span>
+                    <span class="fib-num">46,368</span>
+                    <span class="fib-num">75,025</span>
+                    <span class="fib-num">121,393</span>
+                    <span class="fib-num">196,418</span>
+                    <span class="fib-num">317,811</span>
+                    <span class="fib-num">514,229</span>
+                    <span class="fib-num">832,040</span>
+                    <span class="fib-num">1,346,269</span>
+                    <span class="fib-num">2,178,309</span>
+                    <span class="fib-num">3,524,578</span>
+                    <span class="fib-num">5,702,887</span>
+                    <span class="fib-num">9,227,465</span>
+                    <span class="fib-num">14,930,352</span>
+                    <span class="fib-num">24,157,817</span>
+                    <span class="fib-num">39,088,169</span>
+                    <span class="fib-num">63,245,986</span>
+                    <span class="fib-num">102,334,155</span>
+                    <span class="fib-num">165,580,141</span>
+                    <span class="fib-num">267,914,296</span>
+                    <span class="fib-num">433,494,437</span>
+                    <span class="fib-num">701,408,733</span>
+                    <span class="fib-num">0</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">2</span>
+                    <span class="fib-num">3</span>
+                    <span class="fib-num">5</span>
+                    <span class="fib-num">8</span>
+                    <span class="fib-num">13</span>
+                    <span class="fib-num">21</span>
+                    <span class="fib-num">34</span>
+                    <span class="fib-num">55</span>
+                    <span class="fib-num">89</span>
+                    <span class="fib-num">144</span>
+                    <span class="fib-num">233</span>
+                    <span class="fib-num">377</span>
+                    <span class="fib-num">610</span>
+                    <span class="fib-num">987</span>
+                    <span class="fib-num">1,597</span>
+                    <span class="fib-num">2,584</span>
+                    <span class="fib-num">4,181</span>
+                    <span class="fib-num">6,765</span>
+                    <span class="fib-num">10,946</span>
+                    <span class="fib-num">17,711</span>
+                    <span class="fib-num">28,657</span>
+                    <span class="fib-num">46,368</span>
+                    <span class="fib-num">75,025</span>
+                    <span class="fib-num">121,393</span>
+                    <span class="fib-num">196,418</span>
+                    <span class="fib-num">317,811</span>
+                    <span class="fib-num">514,229</span>
+                    <span class="fib-num">832,040</span>
+                    <span class="fib-num">1,346,269</span>
+                    <span class="fib-num">2,178,309</span>
+                    <span class="fib-num">3,524,578</span>
+                    <span class="fib-num">5,702,887</span>
+                    <span class="fib-num">9,227,465</span>
+                    <span class="fib-num">14,930,352</span>
+                    <span class="fib-num">24,157,817</span>
+                    <span class="fib-num">39,088,169</span>
+                    <span class="fib-num">63,245,986</span>
+                    <span class="fib-num">102,334,155</span>
+                    <span class="fib-num">165,580,141</span>
+                    <span class="fib-num">267,914,296</span>
+                    <span class="fib-num">433,494,437</span>
+                    <span class="fib-num">701,408,733</span>
+                    <span class="fib-num">0</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">2</span>
+                    <span class="fib-num">3</span>
+                    <span class="fib-num">5</span>
+                    <span class="fib-num">8</span>
+                    <span class="fib-num">13</span>
+                    <span class="fib-num">21</span>
+                    <span class="fib-num">34</span>
+                    <span class="fib-num">55</span>
+                    <span class="fib-num">89</span>
+                    <span class="fib-num">144</span>
+                    <span class="fib-num">233</span>
+                    <span class="fib-num">377</span>
+                    <span class="fib-num">610</span>
+                    <span class="fib-num">987</span>
+                    <span class="fib-num">1,597</span>
+                    <span class="fib-num">2,584</span>
+                    <span class="fib-num">4,181</span>
+                    <span class="fib-num">6,765</span>
+                    <span class="fib-num">10,946</span>
+                    <span class="fib-num">17,711</span>
+                    <span class="fib-num">28,657</span>
+                    <span class="fib-num">46,368</span>
+                    <span class="fib-num">75,025</span>
+                    <span class="fib-num">121,393</span>
+                    <span class="fib-num">196,418</span>
+                    <span class="fib-num">317,811</span>
+                    <span class="fib-num">514,229</span>
+                    <span class="fib-num">832,040</span>
+                    <span class="fib-num">1,346,269</span>
+                    <span class="fib-num">2,178,309</span>
+                    <span class="fib-num">3,524,578</span>
+                    <span class="fib-num">5,702,887</span>
+                    <span class="fib-num">9,227,465</span>
+                    <span class="fib-num">14,930,352</span>
+                    <span class="fib-num">24,157,817</span>
+                    <span class="fib-num">39,088,169</span>
+                    <span class="fib-num">63,245,986</span>
+                    <span class="fib-num">102,334,155</span>
+                    <span class="fib-num">165,580,141</span>
+                    <span class="fib-num">267,914,296</span>
+                    <span class="fib-num">433,494,437</span>
+                    <span class="fib-num">701,408,733</span>
+                    <span class="fib-num">0</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">2</span>
+                    <span class="fib-num">3</span>
+                    <span class="fib-num">5</span>
+                    <span class="fib-num">8</span>
+                    <span class="fib-num">13</span>
+                    <span class="fib-num">21</span>
+                    <span class="fib-num">34</span>
+                    <span class="fib-num">55</span>
+                    <span class="fib-num">89</span>
+                    <span class="fib-num">144</span>
+                    <span class="fib-num">233</span>
+                    <span class="fib-num">377</span>
+                    <span class="fib-num">610</span>
+                    <span class="fib-num">987</span>
+                    <span class="fib-num">1,597</span>
+                    <span class="fib-num">2,584</span>
+                    <span class="fib-num">4,181</span>
+                    <span class="fib-num">6,765</span>
+                    <span class="fib-num">10,946</span>
+                    <span class="fib-num">17,711</span>
+                    <span class="fib-num">28,657</span>
+                    <span class="fib-num">46,368</span>
+                    <span class="fib-num">75,025</span>
+                    <span class="fib-num">121,393</span>
+                    <span class="fib-num">196,418</span>
+                    <span class="fib-num">317,811</span>
+                    <span class="fib-num">514,229</span>
+                    <span class="fib-num">832,040</span>
+                    <span class="fib-num">1,346,269</span>
+                    <span class="fib-num">2,178,309</span>
+                    <span class="fib-num">3,524,578</span>
+                    <span class="fib-num">5,702,887</span>
+                    <span class="fib-num">9,227,465</span>
+                    <span class="fib-num">14,930,352</span>
+                    <span class="fib-num">24,157,817</span>
+                    <span class="fib-num">39,088,169</span>
+                    <span class="fib-num">63,245,986</span>
+                    <span class="fib-num">102,334,155</span>
+                    <span class="fib-num">165,580,141</span>
+                    <span class="fib-num">267,914,296</span>
+                    <span class="fib-num">433,494,437</span>
+                    <span class="fib-num">701,408,733</span>
+                    <span class="fib-num">0</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">2</span>
+                    <span class="fib-num">3</span>
+                    <span class="fib-num">5</span>
+                    <span class="fib-num">8</span>
+                    <span class="fib-num">13</span>
+                    <span class="fib-num">21</span>
+                    <span class="fib-num">34</span>
+                    <span class="fib-num">55</span>
+                    <span class="fib-num">89</span>
+                    <span class="fib-num">144</span>
+                    <span class="fib-num">233</span>
+                    <span class="fib-num">377</span>
+                    <span class="fib-num">610</span>
+                    <span class="fib-num">987</span>
+                    <span class="fib-num">1,597</span>
+                    <span class="fib-num">2,584</span>
+                    <span class="fib-num">4,181</span>
+                    <span class="fib-num">6,765</span>
+                    <span class="fib-num">10,946</span>
+                    <span class="fib-num">17,711</span>
+                    <span class="fib-num">28,657</span>
+                    <span class="fib-num">46,368</span>
+                    <span class="fib-num">75,025</span>
+                    <span class="fib-num">121,393</span>
+                    <span class="fib-num">196,418</span>
+                    <span class="fib-num">317,811</span>
+                    <span class="fib-num">514,229</span>
+                    <span class="fib-num">832,040</span>
+                    <span class="fib-num">1,346,269</span>
+                    <span class="fib-num">2,178,309</span>
+                    <span class="fib-num">3,524,578</span>
+                    <span class="fib-num">5,702,887</span>
+                    <span class="fib-num">9,227,465</span>
+                    <span class="fib-num">14,930,352</span>
+                    <span class="fib-num">24,157,817</span>
+                    <span class="fib-num">39,088,169</span>
+                    <span class="fib-num">63,245,986</span>
+                    <span class="fib-num">102,334,155</span>
+                    <span class="fib-num">165,580,141</span>
+                    <span class="fib-num">267,914,296</span>
+                    <span class="fib-num">433,494,437</span>
+                    <span class="fib-num">701,408,733</span>
+                    <span class="fib-num">0</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">2</span>
+                    <span class="fib-num">3</span>
+                    <span class="fib-num">5</span>
+                    <span class="fib-num">8</span>
+                    <span class="fib-num">13</span>
+                    <span class="fib-num">21</span>
+                    <span class="fib-num">34</span>
+                    <span class="fib-num">55</span>
+                    <span class="fib-num">89</span>
+                    <span class="fib-num">144</span>
+                    <span class="fib-num">233</span>
+                    <span class="fib-num">377</span>
+                    <span class="fib-num">610</span>
+                    <span class="fib-num">987</span>
+                    <span class="fib-num">1,597</span>
+                    <span class="fib-num">2,584</span>
+                    <span class="fib-num">4,181</span>
+                    <span class="fib-num">6,765</span>
+                    <span class="fib-num">10,946</span>
+                    <span class="fib-num">17,711</span>
+                    <span class="fib-num">28,657</span>
+                    <span class="fib-num">46,368</span>
+                    <span class="fib-num">75,025</span>
+                    <span class="fib-num">121,393</span>
+                    <span class="fib-num">196,418</span>
+                    <span class="fib-num">317,811</span>
+                    <span class="fib-num">514,229</span>
+                    <span class="fib-num">832,040</span>
+                    <span class="fib-num">1,346,269</span>
+                    <span class="fib-num">2,178,309</span>
+                    <span class="fib-num">3,524,578</span>
+                    <span class="fib-num">5,702,887</span>
+                    <span class="fib-num">9,227,465</span>
+                    <span class="fib-num">14,930,352</span>
+                    <span class="fib-num">24,157,817</span>
+                    <span class="fib-num">39,088,169</span>
+                    <span class="fib-num">63,245,986</span>
+                    <span class="fib-num">102,334,155</span>
+                    <span class="fib-num">165,580,141</span>
+                    <span class="fib-num">267,914,296</span>
+                    <span class="fib-num">433,494,437</span>
+                    <span class="fib-num">701,408,733</span>
+                    <span class="fib-num">0</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">2</span>
+                    <span class="fib-num">3</span>
+                    <span class="fib-num">5</span>
+                    <span class="fib-num">8</span>
+                    <span class="fib-num">13</span>
+                    <span class="fib-num">21</span>
+                    <span class="fib-num">34</span>
+                    <span class="fib-num">55</span>
+                    <span class="fib-num">89</span>
+                    <span class="fib-num">144</span>
+                    <span class="fib-num">233</span>
+                    <span class="fib-num">377</span>
+                    <span class="fib-num">610</span>
+                    <span class="fib-num">987</span>
+                    <span class="fib-num">1,597</span>
+                    <span class="fib-num">2,584</span>
+                    <span class="fib-num">4,181</span>
+                    <span class="fib-num">6,765</span>
+                    <span class="fib-num">10,946</span>
+                    <span class="fib-num">17,711</span>
+                    <span class="fib-num">28,657</span>
+                    <span class="fib-num">46,368</span>
+                    <span class="fib-num">75,025</span>
+                    <span class="fib-num">121,393</span>
+                    <span class="fib-num">196,418</span>
+                    <span class="fib-num">317,811</span>
+                    <span class="fib-num">514,229</span>
+                    <span class="fib-num">832,040</span>
+                    <span class="fib-num">1,346,269</span>
+                    <span class="fib-num">2,178,309</span>
+                    <span class="fib-num">3,524,578</span>
+                    <span class="fib-num">5,702,887</span>
+                    <span class="fib-num">9,227,465</span>
+                    <span class="fib-num">14,930,352</span>
+                    <span class="fib-num">24,157,817</span>
+                    <span class="fib-num">39,088,169</span>
+                    <span class="fib-num">63,245,986</span>
+                    <span class="fib-num">102,334,155</span>
+                    <span class="fib-num">165,580,141</span>
+                    <span class="fib-num">267,914,296</span>
+                    <span class="fib-num">433,494,437</span>
+                    <span class="fib-num">701,408,733</span>
+                    <span class="fib-num">0</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">1</span>
+                    <span class="fib-num">2</span>
+                    <span class="fib-num">3</span>
+                    <span class="fib-num">5</span>
+                    <span class="fib-num">8</span>
+                    <span class="fib-num">13</span>
+                    <span class="fib-num">21</span>
+                    <span class="fib-num">34</span>
+                    <span class="fib-num">55</span>
+                    <span class="fib-num">89</span>
+                    <span class="fib-num">144</span>
+                    <span class="fib-num">233</span>
+                    <span class="fib-num">377</span>
+                    <span class="fib-num">610</span>
+                    <span class="fib-num">987</span>
+                    <span class="fib-num">1,597</span>
+                    <span class="fib-num">2,584</span>
+                    <span class="fib-num">4,181</span>
+                    <span class="fib-num">6,765</span>
+                    <span class="fib-num">10,946</span>
+                    <span class="fib-num">17,711</span>
+                    <span class="fib-num">28,657</span>
+                    <span class="fib-num">46,368</span>
+                    <span class="fib-num">75,025</span>
+                    <span class="fib-num">121,393</span>
+                    <span class="fib-num">196,418</span>
+                    <span class="fib-num">317,811</span>
+                    <span class="fib-num">514,229</span>
+                    <span class="fib-num">832,040</span>
+                    <span class="fib-num">1,346,269</span>
+                    <span class="fib-num">2,178,309</span>
+                    <span class="fib-num">3,524,578</span>
+                    <span class="fib-num">5,702,887</span>
+                    <span class="fib-num">9,227,465</span>
+                    <span class="fib-num">14,930,352</span>
+                    <span class="fib-num">24,157,817</span>
+                    <span class="fib-num">39,088,169</span>
+                    <span class="fib-num">63,245,986</span>
+                    <span class="fib-num">102,334,155</span>
+                    <span class="fib-num">165,580,141</span>
+                    <span class="fib-num">267,914,296</span>
+                    <span class="fib-num">433,494,437</span>
+                    <span class="fib-num">701,408,733</span>
+                </div>
+            </div>
+        </section>
+        <section class="audience-section">
+            <p class="section-label">Audience</p>
+            <h2 class="section-title">Built for</h2>
+            <div class="audience-grid">
+                <span class="audience-tag">Students</span>
+                <span class="audience-tag">Educators</span>
+                <span class="audience-tag">Engineers</span>
+                <span class="audience-tag">Developers</span>
+                <span class="audience-tag">Anyone doing symbolic math at scale</span>
+            </div>
+        </section>
+        <!-- CTA -->
+        <section class="cta-section">
+            <h2>Get PAE Bird for Mac</h2>
+            <p>Fully offline. Lightweight. Fast. Available on the Mac App Store®.</p>
+            <a href="#" class="btn-appstore">Download on the Mac App Store®</a>
+            <p class="btn-appstore-soon">Coming soon</p>
+        </section>
+        <!-- FOOTER -->
+        <footer>
+            <p>© 2026 PAE Bird &nbsp;·&nbsp; <a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Service</a> &nbsp;·&nbsp; <a href="https://docs.google.com/forms/d/e/1FAIpQLScfCBJ9KUIoRFe6I3hDlttwTaf2NClMnIoJM2iM3nuXJAm1dw/viewform" target="_blank" rel="noopener">Contact</a></p>
+            <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.5rem;">Google Sheets™ and Google Workspace™ are trademarks of Google LLC. Microsoft Excel® is a registered trademark of Microsoft Corporation. Mac App Store® is a trademark of Apple Inc.</p>
+        </footer>
+        <!-- LIGHTBOX -->
+        <div class="lightbox-overlay" id="lightbox">
+            <img id="lightbox-img" src="" alt="">
         </div>
-      </div>
-
-      <div class="screenshot-card">
-        <img src="screenshots/screenshot-2.png" alt="Factoring mode — full factored output" />
-        <div class="screenshot-caption">
-          <h3>Factor Expressions</h3>
-          <p>Switch to factor mode with a single <code>@:factor</code> directive. Handles difference of squares, trinomials, cubes, and grouping.</p>
-        </div>
-      </div>
-
-      <div class="screenshot-card wide">
-        <img src="screenshots/screenshot-3.png" alt="Full range — expand, factor, solve, differentiate, integrate in one batch" />
-        <div class="screenshot-caption">
-          <h3>Every Operation in One Batch</h3>
-          <p>Mix expand, factor, solve, differentiate, and integrate in a single input using <code>@:</code> mode switches. PAE Bird handles each section correctly.</p>
-        </div>
-      </div>
-
-      <div class="screenshot-card">
-        <img src="screenshots/screenshot-4.png" alt="Worksheet output — numbered problems with solutions" />
-        <div class="screenshot-caption">
-          <h3>Worksheet Output</h3>
-          <p>Generate formatted worksheets with numbered problems and solutions — ready for students or educators to print and use.</p>
-        </div>
-      </div>
-
-      <div class="screenshot-card">
-        <img src="screenshots/screenshot-5.png" alt="Command reference built into the app" />
-        <div class="screenshot-caption">
-          <h3>Built-in Command Reference</h3>
-          <p>Every supported operation and <code>@:</code> directive documented inside the app. No external docs needed.</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- EXCEL -->
-  <section class="excel-section" id="excel">
-    <div class="excel-inner">
-      <div style="text-align:center">
-        <span class="excel-badge">Microsoft Excel®</span>
-        <p class="section-label">Coming to Excel</p>
-        <h2 class="section-title">PAE Bird as Excel Functions</h2>
-        <p class="section-sub">Use PAE Bird's math engine directly inside Excel cells — no app switching, no copy-paste. Solve, expand, factor, differentiate, and integrate as native spreadsheet formulas.</p>
-      </div>
-
-      <div class="excel-functions">
-        <span class="excel-fn">=PAE.SOLVE("x^2 - 5x + 6 = 0")</span>
-        <span class="excel-fn">=PAE.EXPAND("(2x-1)^3")</span>
-        <span class="excel-fn">=PAE.FACTOR("2x^2 + 6x + 4")</span>
-        <span class="excel-fn">=PAE.DIFFERENTIATE("x^3 + 2x","x")</span>
-        <span class="excel-fn">=PAE.INTEGRATE("3x^2","x")</span>
-      </div>
-
-      <div class="excel-screenshots">
-        <div class="excel-screenshot">
-          <img src="appsource/screenshot-1.png" alt="PAE Bird Excel add-in — function results" />
-          <p class="excel-screenshot-caption">All five PAE functions returning results live in Excel cells.</p>
-        </div>
-        <div class="excel-screenshot">
-          <img src="appsource/screenshot-4.png" alt="PAE Bird Excel — formula bar showing =PAE.SOLVE()" />
-          <p class="excel-screenshot-caption">Native Excel formula syntax — type it just like any other function.</p>
-        </div>
-        <div class="excel-screenshot">
-          <img src="appsource/screenshot-2.png" alt="PAE Bird Excel — worksheet generator" />
-          <p class="excel-screenshot-caption">Generate Student and Teacher worksheets directly from the task pane.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- GOOGLE SHEETS -->
-  <section class="sheets-section" id="sheets">
-    <div class="sheets-inner">
-      <div style="text-align:center">
-        <span class="sheets-badge">Google Sheets™</span>
-        <p class="section-label">Available as a Google Sheets™ Add-on</p>
-        <h2 class="section-title">PAE Bird in Google Sheets™</h2>
-        <p class="section-sub">Use PAE Bird's algebra engine as native Google Sheets™ formulas — solve equations, expand, factor, differentiate, and integrate right inside your spreadsheet. Powered by PAE Bird's cloud API; math expressions are processed securely and never stored.</p>
-        <p style="font-size:0.82rem;color:var(--muted);margin-top:-1rem;margin-bottom:2rem;">Note: unlike the offline Mac app, the Google Sheets™ add-on sends formula inputs to PAE Bird's API to compute results.</p>
-      </div>
-
-      <div class="excel-functions">
-        <span class="excel-fn">=PAE_SOLVE("x^2 - 5x + 6 = 0")</span>
-        <span class="excel-fn">=PAE_EXPAND("(2x-1)^3")</span>
-        <span class="excel-fn">=PAE_FACTOR("2x^2 + 6x + 4")</span>
-        <span class="excel-fn">=PAE_DIFFERENTIATE("x^3 + 2x","x")</span>
-        <span class="excel-fn">=PAE_INTEGRATE("3x^2","x")</span>
-      </div>
-
-      <div class="excel-screenshots" style="margin-top:2.5rem;">
-        <div class="excel-screenshot">
-          <img src="sheets-scrn/sheets-screenshot-1.png" alt="PAE Bird in Google Sheets — PAE_EXPAND formula bar" />
-          <p class="excel-screenshot-caption">Results returned directly into Sheets cells. Formula bar shows the PAE Bird function.</p>
-        </div>
-        <div class="excel-screenshot">
-          <img src="sheets-scrn/sheets-screenshot-2.png" alt="PAE Bird in Google Sheets — PAE_FACTOR formula bar" />
-          <p class="excel-screenshot-caption">All five operations available: solve, expand, factor, differentiate, integrate.</p>
-        </div>
-        <div class="excel-screenshot">
-          <img src="sheets-scrn/sheets-screenshot-3.png" alt="PAE Bird Google Sheets — native autocomplete showing all 5 functions" />
-          <p class="excel-screenshot-caption">Native Sheets autocomplete surfaces all PAE Bird functions as you type.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- LIBREOFFICE -->
-  <section class="sheets-section" id="libreoffice">
-    <div class="sheets-inner">
-      <div style="text-align:center">
-        <span class="sheets-badge" style="background:#18a303;color:#fff;">LibreOffice</span>
-        <p class="section-label">Coming Soon</p>
-        <h2 class="section-title">PAE Bird for LibreOffice Calc</h2>
-        <p class="section-sub">All five PAE Bird math functions — solve, expand, factor, differentiate, and integrate — coming to LibreOffice Calc as native spreadsheet formulas. Free tier included.</p>
-      </div>
-
-      <div class="excel-functions">
-        <span class="excel-fn">=PAE_SOLVE("x^2 - 5x + 6 = 0")</span>
-        <span class="excel-fn">=PAE_EXPAND("(2x-1)^3")</span>
-        <span class="excel-fn">=PAE_FACTOR("2x^2 + 6x + 4")</span>
-        <span class="excel-fn">=PAE_DIFFERENTIATE("x^3 + 2x";"x")</span>
-        <span class="excel-fn">=PAE_INTEGRATE("3x^2";"x")</span>
-      </div>
-
-      <p style="text-align:center;margin-top:2.5rem;font-size:0.9rem;color:var(--muted);">Pending approval on the LibreOffice Extensions portal. Check back soon.</p>
-    </div>
-  </section>
-
-  <!-- BUILT FOR -->
-  <section class="built-for">
-    <div class="pi-ticker"><div class="pi-track" id="pi-track"></div></div>
-    <div class="built-for-inner">
-      <div class="built-for-content">
-        <p class="section-label">Audience</p>
-        <h2 class="section-title">Built for</h2>
-        <div class="audience-grid">
-          <span class="audience-tag">Students</span>
-          <span class="audience-tag">Educators</span>
-          <span class="audience-tag">Engineers</span>
-          <span class="audience-tag">Developers</span>
-          <span class="audience-tag">Anyone doing symbolic math at scale</span>
-        </div>
-      </div>
-      <div class="parrot-wrap">
-        <img src="pae-bird-tagline.png" alt="PAE Bird want a π?" class="parrot-tagline" />
-        <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone" />
-      </div>
-    </div>
-    <div class="fib-ticker"><div class="fib-track" id="fib-track"></div></div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <h2>Get PAE Bird for Mac</h2>
-    <p>Fully offline. Lightweight. Fast. Available on the Mac App Store®.</p>
-    <a href="#" class="btn-appstore">Download on the Mac App Store®</a>
-    <p class="btn-appstore-soon">Coming soon</p>
-  </section>
-
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2026 PAE Bird &nbsp;·&nbsp; <a href="privacy.html">Privacy Policy</a> &nbsp;·&nbsp; <a href="terms.html">Terms of Service</a> &nbsp;·&nbsp; <a href="https://docs.google.com/forms/d/e/1FAIpQLScfCBJ9KUIoRFe6I3hDlttwTaf2NClMnIoJM2iM3nuXJAm1dw/viewform" target="_blank" rel="noopener">Contact</a></p>
-    <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.5rem;">Google Sheets™ and Google Workspace™ are trademarks of Google LLC. Microsoft Excel® is a registered trademark of Microsoft Corporation. Mac App Store® is a trademark of Apple Inc.</p>
-  </footer>
-
-  <!-- LIGHTBOX -->
-  <div class="lightbox-overlay" id="lightbox">
-    <img id="lightbox-img" src="" alt="" />
-  </div>
-
-  <script>
+        <script>
     const overlay = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
 
@@ -898,9 +670,8 @@
       if (e.key === 'Escape') overlay.classList.remove('active');
     });
   </script>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js"></script>
-  <script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js"></script>
+        <script>
     (function() {
       Decimal.set({ precision: 1005 });
       const pi = Decimal.acos(-1).toFixed(1000);
@@ -912,7 +683,7 @@
       track.appendChild(span2);
     })();
   </script>
-  <script>
+        <script>
     (function() {
       const seq = [];
       let a = 0, b = 1;
@@ -927,5 +698,5 @@
       });
     })();
   </script>
-</body>
+    </body>
 </html>
