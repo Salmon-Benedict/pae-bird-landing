@@ -334,7 +334,44 @@
 
     /* ── BUILT FOR ── */
     .built-for {
-      padding: 4rem 2rem;
+      padding: 4rem 2rem 2rem;
+    }
+    .pi-ticker {
+      overflow: hidden;
+      width: 100%;
+      padding: 0 0 1.5rem;
+    }
+    .pi-track {
+      display: flex;
+      white-space: nowrap;
+      animation: fib-scroll 90s linear infinite;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.43rem;
+      color: #2b6cb0;
+      opacity: 0.55;
+      letter-spacing: 0.12em;
+    }
+    .fib-ticker {
+      overflow: hidden;
+      width: 100%;
+      padding: 1.5rem 0 0;
+    }
+    .fib-track {
+      display: flex;
+      gap: 1.8rem;
+      white-space: nowrap;
+      animation: fib-scroll 28s linear infinite;
+    }
+    @keyframes fib-scroll {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .fib-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.43rem;
+      color: var(--orange);
+      opacity: 0.55;
+      flex-shrink: 0;
     }
 
     .built-for-inner {
@@ -802,6 +839,7 @@
 
   <!-- BUILT FOR -->
   <section class="built-for">
+    <div class="pi-ticker"><div class="pi-track" id="pi-track"></div></div>
     <div class="built-for-inner">
       <div class="built-for-content">
         <p class="section-label">Audience</p>
@@ -819,6 +857,7 @@
         <img src="parrot_web.jpg" alt="PAE Bird mascot" class="parrot-standalone" />
       </div>
     </div>
+    <div class="fib-ticker"><div class="fib-track" id="fib-track"></div></div>
   </section>
 
   <!-- CTA -->
@@ -859,5 +898,33 @@
     });
   </script>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/decimal.js/10.4.3/decimal.min.js"></script>
+  <script>
+    (function() {
+      Decimal.set({ precision: 1005 });
+      const pi = Decimal.acos(-1).toFixed(1000);
+      const track = document.getElementById('pi-track');
+      const span1 = document.createElement('span');
+      span1.textContent = pi + '   ';
+      const span2 = span1.cloneNode(true);
+      track.appendChild(span1);
+      track.appendChild(span2);
+    })();
+  </script>
+  <script>
+    (function() {
+      const seq = [];
+      let a = 0, b = 1;
+      while (a <= 1000000000) { seq.push(a); [a, b] = [b, a + b]; }
+      const track = document.getElementById('fib-track');
+      // Duplicate 4x so -50% translation creates a seamless loop
+      [...seq, ...seq, ...seq, ...seq].forEach(n => {
+        const span = document.createElement('span');
+        span.className = 'fib-num';
+        span.textContent = n.toLocaleString();
+        track.appendChild(span);
+      });
+    })();
+  </script>
 </body>
 </html>
