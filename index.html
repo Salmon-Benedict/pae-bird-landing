@@ -675,6 +675,10 @@
         <div class="lightbox-overlay" id="lightbox">
             <img id="lightbox-img" src="" alt="">
         </div>
+        <!-- PARROT POPOUT -->
+        <div id="parrot-popout" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.85);align-items:center;justify-content:center;cursor:zoom-out;" onclick="this.style.display='none';">
+            <img src="parrot_web.jpg" alt="PAE Bird mascot" style="max-width:92vw;max-height:92vh;border-radius:16px;box-shadow:0 16px 64px rgba(0,0,0,0.8);pointer-events:none;">
+        </div>
         <script>
     const overlay = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
@@ -685,6 +689,14 @@
         lbImg.alt = img.alt;
         overlay.classList.add('active');
       });
+    });
+
+    const parrotPopout = document.getElementById('parrot-popout');
+    document.querySelector('.parrot-standalone').addEventListener('click', () => {
+      parrotPopout.style.display = 'flex';
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') parrotPopout.style.display = 'none';
     });
 
     overlay.addEventListener('click', () => overlay.classList.remove('active'));
