@@ -653,10 +653,10 @@
                     <img src="woods portrait sm.jpg" alt="Stewart Breier" style="width:220px;height:280px;object-fit:cover;border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.15);flex-shrink:0;margin-left:-3rem;">
                     <div style="flex:1;text-align:left;">
                         <p style="font-size:1.05rem;line-height:1.8;color:var(--text);">
-                            Work on PAE Bird began with hand coding, with the first few rounds programmed in LISP, before migrating to C++. Later developments increasingly incorporated AI. The first spark of a dream of a PAE Bird originated during my first youthful programming lessons with BASIC, where I was amazed at how I could automate Algebra.
+                            Work on PAE Bird began with hand coding, with the first few rounds in LISP, before migrating to C++. Later developments increasingly incorporated AI. The first spark of a dream of a PAE Bird originated during my youthful programming lessons in BASIC, where I was amazed at how I could automate Algebra.
                         </p>
                         <p style="font-size:1.05rem;line-height:1.8;color:var(--text);margin-top:1.2rem;">
-                            When I am not programming PAE Bird, I am in the classroom as a Substitute Teacher, furthering my education at National University in their MSW program, submitting my poetry to publications, playing TTRPGs, painting digital art, or working on my Tai Chi.
+                            When I am not programming PAE Bird, I am in the classroom as a Substitute Teacher, furthering my education at National University in their MSW program, submitting my poetry, playing TTRPGs, painting digital art, or working on my Tai Chi.
                         </p>
                         <a href="https://www.linkedin.com/in/stewart-breier-32b28460" target="_blank" rel="noopener" style="display:inline-block;margin-top:1.5rem;background:#0a66c2;color:#fff;text-decoration:none;border-radius:10px;padding:0.7rem 1.6rem;font-size:0.95rem;font-weight:600;">Connect on LinkedIn</a>
                     </div>
@@ -792,7 +792,7 @@
     (function() {
       const seq = [];
       let a = 0, b = 1;
-      while (a <= 1000000) { seq.push(a); [a, b] = [b, a + b]; }
+      while (a <= 1000000000000) { seq.push(a); [a, b] = [b, a + b]; }
       const track = document.getElementById('fib-track');
       track.innerHTML = '';
       [...seq, ...seq].forEach(n => {
