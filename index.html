@@ -11,6 +11,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
         <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Pinyon+Script&amp;display=swap" rel="stylesheet">
+        <link href="https://fonts.cdnfonts.com/css/optimus-princeps" rel="stylesheet">
         <!-- Open Graph (LinkedIn, Facebook) -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://salmon-benedict.github.io/pae-bird-landing/">
@@ -740,7 +741,7 @@
       if (e.key === 'Escape') overlay.classList.remove('active');
     });
 
-    // Pi slice → parrot munch
+    // Pi slice → parrot munch (with progressive pie erasure and half-eaten lock)
     (function() {
       const piImg = document.querySelector('.pi-parrot-float img[alt="Pi illustrated"]');
       const parrot = document.querySelector('.parrot-standalone');
@@ -751,16 +752,90 @@
       pre.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;background-image:url("pi illustrated.webp")';
       document.body.appendChild(pre);
 
-      piImg.style.cursor = 'pointer';
+      // Wrap piImg so we can overlay a canvas on top of it
+      const wrapper = document.createElement('span');
+      wrapper.style.cssText = 'position:relative;display:inline-block;line-height:0;flex-shrink:0;cursor:pointer;';
+      piImg.parentNode.insertBefore(wrapper, piImg);
+      wrapper.appendChild(piImg);
 
-      piImg.addEventListener('click', function() {
+      const eraseCanvas = document.createElement('canvas');
+      eraseCanvas.style.cssText = 'position:absolute;top:0;left:0;pointer-events:none;';
+      wrapper.appendChild(eraseCanvas);
+
+      let eraseCtx = null;
+
+      function initEraseCanvas() {
+        const w = piImg.offsetWidth;
+        const h = piImg.offsetHeight;
+        if (!w || !h) { requestAnimationFrame(initEraseCanvas); return; }
+        eraseCanvas.width = w;
+        eraseCanvas.height = h;
+        eraseCtx = eraseCanvas.getContext('2d');
+        eraseCtx.drawImage(piImg, 0, 0, w, h);
+        piImg.style.opacity = '0'; // canvas is now the visible copy
+      }
+
+      if (piImg.complete) {
+        requestAnimationFrame(initEraseCanvas);
+      } else {
+        piImg.addEventListener('load', () => requestAnimationFrame(initEraseCanvas));
+      }
+
+      // Track eaten wedge intervals in degrees for accurate coverage calculation
+      const eatenIntervals = [];
+
+      function computeCoverage() {
+        if (eatenIntervals.length === 0) return 0;
+        const segs = [];
+        for (const [a1, a2] of eatenIntervals) {
+          const start = ((a1 % 360) + 360) % 360;
+          const end   = start + (a2 - a1); // span is always 60°
+          if (end > 360) { segs.push([start, 360]); segs.push([0, end - 360]); }
+          else           { segs.push([start, end]); }
+        }
+        segs.sort((a, b) => a[0] - b[0]);
+        let total = 0, cs = segs[0][0], ce = segs[0][1];
+        for (let i = 1; i < segs.length; i++) {
+          const [s, e] = segs[i];
+          if (s <= ce) { ce = Math.max(ce, e); }
+          else         { total += ce - cs; cs = s; ce = e; }
+        }
+        return Math.min(total + ce - cs, 360) / 360;
+      }
+
+      let halfEaten = false;
+
+      function onHalfEaten() {
+        halfEaten = true;
+        wrapper.style.cursor = 'default';
+
+        const styleEl = document.createElement('style');
+        styleEl.textContent = '@keyframes taglinePop{from{opacity:0;transform:scale(0.5)}to{opacity:1;transform:scale(1)}}';
+        document.head.appendChild(styleEl);
+
+        const taglineImg = document.querySelector('.parrot-tagline');
+        if (taglineImg) {
+          const taglineText = document.createElement('span');
+          taglineText.textContent = 'PAE Bird 8π!';
+          taglineText.style.cssText = [
+            "font-family:'OptimusPrinceps','Pinyon Script',serif",
+            "font-size:calc(2.4rem + 4pt)",
+            "color:#1a4c0a",
+            "white-space:nowrap",
+            "display:inline-block",
+            "animation:taglinePop 0.4s ease-out"
+          ].join(';');
+          taglineImg.parentNode.replaceChild(taglineText, taglineImg);
+        }
+      }
+
+      wrapper.addEventListener('click', function() {
+        if (halfEaten) return;
+
         const piRect  = piImg.getBoundingClientRect();
         const pRect   = parrot.getBoundingClientRect();
-        const cx  = piRect.left  + piRect.width  / 2;
-        const cy  = piRect.top   + piRect.height / 2;
         const pcx = pRect.left   + pRect.width   / 2;
         const pcy = pRect.top    + pRect.height  / 3;
-        const size  = piRect.height * 1.1;
         const angle = Math.random() * 300 - 30;
         const spread = 60;
         const a1 = (angle - spread / 2) * Math.PI / 180;
@@ -773,6 +848,10 @@
         const dy = pcy - (piRect.top  + piRect.height / 2);
         const rot = 360 + Math.random() * 180;
 
+        // Record this bite for coverage tracking
+        eatenIntervals.push([angle - spread / 2, angle + spread / 2]);
+
+        // Flying slice — clone the original img (opacity reset in cssText so it's visible)
         const slice = piImg.cloneNode(true);
         slice.removeAttribute('class');
         slice.style.cssText = `
@@ -790,6 +869,25 @@
           slice.style.transform = `translate(${dx}px,${dy}px) scale(0.15) rotate(${rot}deg)`;
           slice.style.opacity = '0';
         }));
+
+        // Erase the same wedge from the canvas
+        if (eraseCtx) {
+          const cw = eraseCanvas.width, ch = eraseCanvas.height;
+          eraseCtx.save();
+          eraseCtx.globalCompositeOperation = 'destination-out';
+          eraseCtx.beginPath();
+          eraseCtx.moveTo(cw / 2, ch / 2);
+          eraseCtx.lineTo(cw * x1 / 100, ch * y1 / 100);
+          eraseCtx.lineTo(cw * x2 / 100, ch * y2 / 100);
+          eraseCtx.closePath();
+          eraseCtx.fill();
+          eraseCtx.restore();
+        }
+
+        // After the last slice lands, check if half the pie is gone
+        if (computeCoverage() >= 0.5) {
+          setTimeout(onHalfEaten, 950);
+        }
 
         // Parrot munch on arrival
         setTimeout(() => {
