@@ -142,7 +142,7 @@
             <div class="hero-badge">Mac · Excel · Google Sheets™</div>
             <h1>PAE Bird ™</h1>
             <p>A high-speed polynomial algebra engine for macOS. Expand, factor, solve, differentiate, and generate worksheets — instantly, offline, in bulk.</p>
-            <a href="https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12" class="hero-cta" target="_blank" rel="noopener">
+            <a href="https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12" class="hero-cta" target="_blank" rel="noopener" onclick="gtag('event','download',{file_name:'mac-app-store',product:'Mac'});">
       ⬇ Download on the Mac App Store® </a>
             <p class="hero-cta-soon">Released July 13, 2026 — available now</p>
         </section>
@@ -233,7 +233,7 @@
                     <p class="section-label">Available for Download</p>
                     <h2 class="section-title">PAE Bird as Excel Functions</h2>
                     <p class="section-sub">Use PAE Bird's math engine directly inside Excel cells — no app switching, no copy-paste. Solve, expand, factor, differentiate, and integrate as native spreadsheet formulas.</p>
-                    <a href="https://salmon-benedict.github.io/Poly-Excel-Widget/manifest.xml" class="section-download-btn" style="background:#217346;color:#fff;" target="_blank" rel="noopener">⬇ Download manifest.xml</a>
+                    <a href="https://salmon-benedict.github.io/Poly-Excel-Widget/manifest.xml" class="section-download-btn" style="background:#217346;color:#fff;" target="_blank" rel="noopener" onclick="gtag('event','download',{file_name:'manifest.xml',product:'Excel'});">⬇ Download manifest.xml</a>
                 </div>
                 <div class="excel-functions">
                     <span class="excel-fn">=PAE.SOLVE("x^2 - 5x + 6 = 0")</span>
@@ -297,9 +297,10 @@
             <div class="sheets-inner">
                 <div style="text-align:center">
                     <span class="sheets-badge" style="background:#18a303;color:#fff;">LibreOffice</span>
-                    <p class="section-label">Coming Soon</p>
+                    <p class="section-label">Available for Download</p>
                     <h2 class="section-title">PAE Bird for LibreOffice Calc</h2>
-                    <p class="section-sub">All five PAE Bird math functions — solve, expand, factor, differentiate, and integrate — coming to LibreOffice Calc as native spreadsheet formulas. Free tier included.</p>
+                    <p class="section-sub">38 PAE Bird math functions — solve, expand, factor, calculus, matrices, chemistry, and more — as native LibreOffice Calc formulas. Free tier included.</p>
+                    <a href="https://github.com/Salmon-Benedict/PAE-LibreOffice/releases/download/template-v1/PAEBird-Template.ods" class="section-download-btn" style="background:#18a303;color:#fff;" target="_blank" rel="noopener" onclick="gtag('event','download',{file_name:'PAEBird-Template.ods',product:'LibreOffice'});">⬇ Download starter template</a>
                 </div>
                 <div class="excel-functions">
                     <span class="excel-fn">=PAE_SOLVE("x^2 - 5x + 6 = 0")</span>
@@ -308,14 +309,14 @@
                     <span class="excel-fn">=PAE_DIFFERENTIATE("x^3 + 2x";"x")</span>
                     <span class="excel-fn">=PAE_INTEGRATE("3x^2";"x")</span>
                 </div>
-                <p style="text-align:center;margin-top:2.5rem;font-size:0.9rem;color:var(--muted);">Temporarily unavailable while we resolve a compatibility issue. Check back soon.</p>
+                <p style="text-align:center;margin-top:2.5rem;font-size:0.9rem;color:var(--muted);">A starter spreadsheet, not an installable extension — open it, click "Enable Macros," and start using the functions or copy them into your own file.</p>
             </div>
         </section>
         <!-- DOWNLOADS -->
         <section class="downloads-section" id="downloads">
             <p class="section-label">Get PAE Bird</p>
             <h2 class="section-title">Downloads</h2>
-            <p class="section-sub">Available today on the Mac App Store and Excel. LibreOffice and Google Sheets™ are coming soon.</p>
+            <p class="section-sub">Available today on the Mac App Store, Excel, and LibreOffice. Google Sheets™ is coming soon.</p>
             <div class="downloads-grid">
                 <div class="download-card">
                     <span class="download-icon">🖥️</span>
@@ -333,9 +334,9 @@
                 <div class="download-card">
                     <span class="download-icon">📗</span>
                     <h3>LibreOffice Calc</h3>
-                    <p class="download-status soon">Temporarily unavailable</p>
-                    <span class="download-btn disabled">⬇ Not yet available</span>
-                    <p class="download-note">Resolving a compatibility issue. Check back soon.</p>
+                    <p class="download-status ready">Available here for download</p>
+                    <a href="https://github.com/Salmon-Benedict/PAE-LibreOffice/releases/download/template-v1/PAEBird-Template.ods" class="download-btn" target="_blank" rel="noopener" onclick="gtag('event','download',{file_name:'PAEBird-Template.ods',product:'LibreOffice'});">⬇ Download starter template</a>
+                    <p class="download-note">A starter spreadsheet, not an extension — open, enable macros, use.</p>
                 </div>
                 <div class="download-card">
                     <span class="download-icon">📈</span>
