@@ -149,6 +149,8 @@ Fe + O2 = Fe2O3
 det([[1,2],[3,4]])
 inverse([[1,2],[3,4]])
 [[1,2],[3,4]]+[[5,6],[7,8]]
+3x*[[1,2],[3,4]]
+det([[x,1],[2,y]])
 
 # Factorial (works in any mode, not just expand)
 @:expand
@@ -167,20 +169,23 @@ x + 5 = 12
 
 <!-- ─────────────────────────────────────────────────────── -->
 <h2>5. Matrices</h2>
-<p>Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly from the input in any mode — no mode switch needed, the same way <code>!</code> (factorial) already works everywhere.</p>
+<p>Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly from the input in any mode — no mode switch needed, the same way <code>!</code> (factorial) already works everywhere. A matrix is a full citizen of ordinary algebra now: cells may hold variables and expressions (not just numbers), a matrix can be scaled by a whole polynomial expression rather than just a bare number, and matrices nest freely inside parentheses alongside everything else.</p>
 <table>
   <tr><th>Op</th><th>Syntax</th><th>Example</th></tr>
   <tr><td>Add</td><td><code>matrixA+matrixB</code></td><td><code>[[1,2],[3,4]]+[[5,6],[7,8]]</code></td></tr>
   <tr><td>Subtract</td><td><code>matrixA-matrixB</code></td><td><code>[[5,6],[7,8]]-[[1,2],[3,4]]</code></td></tr>
   <tr><td>Multiply</td><td><code>matrixA*matrixB</code></td><td><code>[[1,2],[3,4]]*[[5,6],[7,8]]</code></td></tr>
-  <tr><td>Scalar multiply</td><td><code>k*matrix</code> or <code>matrix*k</code></td><td><code>3*[[1,2],[3,4]]</code></td></tr>
+  <tr><td>Scalar multiply</td><td><code>k*matrix</code> or <code>matrix*k</code> — <code>k</code> can be a full expression, not just a number</td><td><code>3*[[1,2],[3,4]]</code>, or <code>3x*[[1,2],[3,4]]</code> → <code>[[3x,6x],[9x,12x]]</code></td></tr>
+  <tr><td>Power</td><td><code>matrix^n</code> (square matrices only)</td><td><code>[[1,2],[3,4]]^2</code> → <code>[[7,10],[15,22]]</code></td></tr>
   <tr><td>Transpose</td><td><code>transpose(matrix)</code></td><td><code>transpose([[1,2,3],[4,5,6]])</code></td></tr>
-  <tr><td>Determinant</td><td><code>det(matrix)</code></td><td><code>det([[1,2],[3,4]])</code></td></tr>
-  <tr><td>Inverse</td><td><code>inverse(matrix)</code></td><td><code>inverse([[1,2],[3,4]])</code></td></tr>
-  <tr><td>Row reduce</td><td><code>rref(matrix)</code></td><td><code>rref([[1,2,3],[4,5,6]])</code></td></tr>
+  <tr><td>Determinant</td><td><code>det(matrix)</code> — works symbolically too</td><td><code>det([[1,2],[3,4]])</code>, or <code>det([[x,1],[2,y]])</code> → <code>xy-2</code></td></tr>
+  <tr><td>Inverse</td><td><code>inverse(matrix)</code> — works symbolically too</td><td><code>inverse([[1,2],[3,4]])</code></td></tr>
+  <tr><td>Row reduce</td><td><code>rref(matrix)</code> — works symbolically too</td><td><code>rref([[1,2,3],[4,5,6]])</code></td></tr>
 </table>
-<p>A bare matrix on its own (just <code>[[1,2],[3,4]]</code>, no operator or function) is validated and reformatted. Cell values may be integers, decimals, or fractions (e.g. <code>3/4</code>), and always print back exactly — never rounded to a decimal. Dimension mismatches and non-square/singular inputs report a clear error rather than crashing.</p>
+<p>A bare matrix on its own (just <code>[[1,2],[3,4]]</code>, no operator or function) is validated and reformatted. Cell values may be integers, decimals, fractions (e.g. <code>3/4</code>), or genuine algebraic expressions — a variable, a sum, even a rational expression like <code>1/(x-2)</code> — and always print back exactly, never rounded to a decimal. Dimension mismatches, non-square/singular inputs, and invalid combinations (e.g. adding a matrix to a plain number) all report a clear error rather than crashing.</p>
 <p>A matrix result isn't a plain number, so a whole-line matrix expression is returned directly, regardless of whatever <code>@:</code> mode happens to be active — but <code>det(...)</code>'s numeric result composes normally into a larger expression, exactly like <code>!</code>: <code>det([[1,2],[3,4]])+5</code> expands to <code>3</code>.</p>
+<p>Matrices nest anywhere an ordinary expression does, not just at the top level — e.g. <code>(x+1)*([[x,0],[0,4]])</code> expands to <code>[[x^2+x,0],[0,4x+4]]</code>.</p>
+<p><code>det</code>/<code>inverse</code>/<code>rref</code> on a matrix with variable entries always produce an exact symbolic result — determinant via cofactor expansion, inverse/row-reduction by picking pivots the way a first linear-algebra course would for a matrix with a parameter: a cell only counts as zero if it's zero for <em>every</em> value of its variables, so e.g. a cell like <code>x-2</code> (zero at just one point) is still treated as a usable pivot.</p>
 <div class="note">
   <strong>Tip:</strong> <code>@:csv2bracket</code> / <code>@:bracket2csv</code> convert between bracket notation and a single quoted CSV cell, for pasting a matrix result into a spreadsheet row alongside other data. A dedicated matrix-only CSV or <code>.xlsx</code> file (a real Excel file — cells keep their exact values, e.g. <code>3/4</code>, rather than a decimal or a misread date) can be imported/exported directly from the command line.
 </div>
