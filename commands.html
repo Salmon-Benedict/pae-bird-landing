@@ -40,6 +40,9 @@
 <div class="note" style="margin-top:12px">
   <strong>Tip:</strong> Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly — no mode switch needed, in any mode, the same way <code>!</code> is. See §5.
 </div>
+<div class="note" style="margin-top:12px">
+  <strong>Using Excel?</strong> A couple of things work differently there — <a href="#excel-differences">jump to §9</a>.
+</div>
 
 <!-- ─────────────────────────────────────────────────────── -->
 <h2>1. Plain Expressions</h2>
@@ -209,7 +212,7 @@ x - 3 = 9          <span style="color:#718096"># -> still triggered, same mode</
 <p>Results are displayed with real Unicode superscript/subscript characters — <code>^exponent</code> and <code>_subscript</code> notation in output is rendered as e.g. x², x_1 → x₁ — no special input needed, this happens automatically to every result. These characters are also accepted as <em>input</em> — copy a previous answer like <code>x²+1</code> straight back into a new line (or type <code>²</code>/<code>₁</code> directly) and it parses exactly like <code>x^2+1</code>.</p>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>9. How Excel Differs</h2>
+<h2 id="excel-differences">9. How Excel Differs</h2>
 <p>Excel Custom Functions have two hard platform constraints the Mac app, Google Sheets, and LibreOffice don't: a function can never write to any cell besides its own, and a function's name can't change per call. Two things in this reference work differently in Excel as a result.</p>
 <table>
   <tr><th>Feature</th><th>Everywhere else</th><th>Excel</th></tr>
