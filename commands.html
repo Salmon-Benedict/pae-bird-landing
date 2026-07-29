@@ -91,11 +91,12 @@
 
 <!-- ─────────────────────────────────────────────────────── -->
 <h2>3. <code>@@:</code> One-Line Override</h2>
-<p>Apply a mode to just one line without changing the current mode.</p>
+<p>Apply a mode to just one line without changing the current mode. <code>@@:setval</code> is the one exception that takes a leading <code>var=val ...</code> list before its expression — every other mode takes just the expression, no separate variable argument (e.g. an inline differentiate/integrate variable isn't supported this way; use the persistent <code>@:differentiate y</code> form for that).</p>
 <table>
   <tr><th>Command</th><th>Example</th></tr>
   <tr><td><code>@@:&lt;mode&gt; &lt;expr&gt;</code></td><td><code>@@:factor x^2 + 5x + 6</code></td></tr>
   <tr><td><code>@@:setval &lt;var=val ...&gt; &lt;expr&gt;</code></td><td><code>@@:setval x=3 x^2 + 1</code> → substitutes into just this one line, no persistence.</td></tr>
+  <tr><td><code>@@:&lt;mode&gt;ç &lt;expr&gt;</code></td><td><code>@@:factorç x^2 - 9</code> → the next-line trigger (§7) works here too, for just this one line.</td></tr>
 </table>
 
 <!-- ─────────────────────────────────────────────────────── -->
@@ -155,8 +156,11 @@ inverse([[1,2],[3,4]])
 x^2 + y
 @:clearval
 
-# Next-line trigger -- answer goes on the line/cell below instead of alongside
-x + 5 = 12 ç</pre>
+# Next-line trigger -- answer goes on the line/cell below instead of alongside.
+# The ç lives on the mode switch itself, applying to every line under it.
+@:solveç
+x + 5 = 12
+@:solve</pre>
 
 <!-- ─────────────────────────────────────────────────────── -->
 <h2>5. Matrices</h2>
@@ -191,16 +195,29 @@ x^2 + y        <span style="color:#718096"># -> x^2 + y, unchanged</span></pre>
 
 <!-- ─────────────────────────────────────────────────────── -->
 <h2>7. Next-Line Trigger — <code>ç</code></h2>
-<p>Prefix or suffix any line with <code>ç</code> (c-cedilla, U+00E7) to place the computed answer on the next line/cell instead of alongside the problem — e.g. in a spreadsheet, the formula's own cell stays blank and the result spills into the cell below. Works in any mode, alongside any other feature (matrices, factorial, setval).</p>
-<pre>x + 5 = 12 ç      <span style="color:#718096"># -> this cell blank, "x = 7" appears one row below</span>
-ç 3! + 2          <span style="color:#718096"># leading or trailing -- both work</span></pre>
+<p>Prefix or suffix a mode-switch command with <code>ç</code> (c-cedilla, U+00E7) to place every following line's computed answer on the next line/cell instead of alongside the problem — e.g. in a spreadsheet, the formula's own cell shows the problem text and the result spills into the cell below. The marker lives on the <em>command</em>, not the expression — so it applies to every line under that mode switch, not just one, and never has to be stripped back out of an expression before it's parsed.</p>
+<pre>@:solveç
+x + 5 = 12        <span style="color:#718096"># -> this cell shows "x + 5 = 12", "x = 7" appears one row below</span>
+x - 3 = 9          <span style="color:#718096"># -> still triggered, same mode</span>
+@:solve            <span style="color:#718096"># drop the ç to go back to normal (in-place) mode</span></pre>
 
 <!-- ─────────────────────────────────────────────────────── -->
 <h2>8. Indexed Variables &amp; Superscript/Subscript Display</h2>
 <p>A lowercase letter followed by <code>_</code> and a digit, single letter, or parenthesized expression is a genuinely distinct indexed variable — <code>x_1</code> and <code>x_2</code> are different symbols, not just different-looking text, and combine/expand correctly like any other variable. Parenthesized subscripts are normalized, so <code>x_(1+x)</code> and <code>x_(x+1)</code> refer to the same variable.</p>
 <pre>x_1 + x_2 + x_1     <span style="color:#718096"># -> 2x_1 + x_2</span>
 (x_1)^2 * x_1        <span style="color:#718096"># -> x_1³</span></pre>
-<p>Results are displayed with real Unicode superscript/subscript characters — <code>^exponent</code> and <code>_subscript</code> notation in output is rendered as e.g. x², x_1 → x₁ — no special input needed, this happens automatically to every result.</p>
+<p>Results are displayed with real Unicode superscript/subscript characters — <code>^exponent</code> and <code>_subscript</code> notation in output is rendered as e.g. x², x_1 → x₁ — no special input needed, this happens automatically to every result. These characters are also accepted as <em>input</em> — copy a previous answer like <code>x²+1</code> straight back into a new line (or type <code>²</code>/<code>₁</code> directly) and it parses exactly like <code>x^2+1</code>.</p>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>9. How Excel Differs</h2>
+<p>Excel Custom Functions have two hard platform constraints the Mac app, Google Sheets, and LibreOffice don't: a function can never write to any cell besides its own, and a function's name can't change per call. Two things in this reference work differently in Excel as a result.</p>
+<table>
+  <tr><th>Feature</th><th>Everywhere else</th><th>Excel</th></tr>
+  <tr><td>Next-line trigger</td><td><code>ç</code> on a mode switch (§7): <code>@:factorç</code></td><td>A separate function name per scalar op: <code>PAE.FACTOR_N(...)</code> instead of <code>PAE.FACTOR(...)</code> — one <code>_N</code> variant exists for every scalar function. Matrix functions (<code>PAE.MATRIXADD</code> and friends) don't have <code>_N</code> variants — they take cell ranges, not typed expressions, so ç has no meaning there.</td></tr>
+  <tr><td>Where the answer lands</td><td>The next line/cell, as a plain value immediately</td><td><code>PAE.FACTOR_N(...)</code> spills the answer into the cell below via Excel's own dynamic-array mechanism. While the PAE Bird task pane is open, that spilled cell is automatically converted to a plain, independently-editable value shortly after — matching Copy → Paste Special → Values — since Excel otherwise always shows a spilled cell's formula grayed out and non-editable. The formula cell itself keeps its live formula either way. If the task pane is closed, the spilled cell just stays as a live spill result until it's reopened.</td></tr>
+</table>
+<pre>=PAE.FACTOR_N("x^2-9")   <span style="color:#718096"># formula cell keeps this exact formula</span>
+                          <span style="color:#718096"># cell below shows: (x-3)(x+3)</span></pre>
 
 </body>
 </html>
