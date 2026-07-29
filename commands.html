@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PAE Bird — Command Reference</title>
+  <meta name="description" content="Full syntax reference for PAE Bird: mode switches, matrices, variable substitution, the next-line trigger, and every command supported across the Mac app, Excel, Google Sheets, and LibreOffice.">
+  <link rel="canonical" href="https://salmon-benedict.github.io/pae-bird-landing/commands.html">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 0 auto; padding: 32px 24px 64px; color: #222; max-width: 860px; font-size: 16px; line-height: 1.6; }
+    a.back-link { display: inline-block; margin-bottom: 20px; color: #e8531a; text-decoration: none; font-size: 0.9em; font-weight: 600; }
+    a.back-link:hover { text-decoration: underline; }
+    h1 { color: #2b6cb0; margin-bottom: 4px; }
+    h2 { color: #2b6cb0; margin-top: 32px; border-bottom: 1px solid #bee3f8; padding-bottom: 4px; }
+    p.subtitle { color: #555; margin-top: 4px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 8px; }
+    th { background: #ebf8ff; text-align: left; padding: 7px 12px; border: 1px solid #bee3f8; font-size: 0.88em; color: #2b6cb0; }
+    td { padding: 6px 12px; border: 1px solid #e2e8f0; vertical-align: top; font-size: 0.92em; }
+    tr:nth-child(even) td { background: #f7fafc; }
+    code { background: #edf2f7; padding: 1px 5px; border-radius: 3px; font-family: "Courier New", Courier, monospace; font-size: 0.93em; }
+    pre { background: #f7fafc; padding: 14px 16px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 0.91em; line-height: 1.6; overflow-x: auto; }
+    .note { background: #fffbea; border: 1px solid #f6e05e; border-radius: 4px; padding: 10px 14px; margin-top: 16px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+
+<a class="back-link" href="index.html">← Back to PAE Bird</a>
+<h1>PAE Bird — Command Reference</h1>
+<p class="subtitle">One syntax, everywhere: the Mac app, Excel, Google Sheets, and LibreOffice all use the same command engine. Type expressions one per line, then apply a mode.</p>
+
+<div class="note">
+  <strong>Tip:</strong> Plain expressions are expanded by default. No prefix needed for basic polynomial multiplication and simplification.
+</div>
+<div class="note" style="margin-top:12px">
+  <strong>Tip:</strong> To generate a practice worksheet, use the <strong>Worksheet</strong> button (Mac app toolbar) or the <strong>Generate Worksheet</strong> option (Excel/LibreOffice task pane).
+</div>
+<div class="note" style="margin-top:12px">
+  <strong>Tip:</strong> Append <code>!</code> to any whole number for its factorial, in any mode — e.g. <code>3!+2</code> expands to <code>8</code>, <code>5!=x</code> solves to <code>x = 120</code>. A decimal or a bare variable before <code>!</code> is left untouched.
+</div>
+<div class="note" style="margin-top:12px">
+  <strong>Tip:</strong> Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly — no mode switch needed, in any mode, the same way <code>!</code> is. See §5.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>1. Plain Expressions</h2>
+<p>Just type the expression. PAE Bird expands and simplifies it.</p>
+<pre>(x + 1)(x + 2)
+2x^2y - 3xy^2
+(a - b)^3</pre>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>2. <code>@:</code> Mode Switch (affects all following lines)</h2>
+<p>Place a mode switch on its own line. Every line after it uses that mode until you switch again.</p>
+<table>
+  <tr><th>Command</th><th>Mode</th></tr>
+  <tr><td><code>@:expand</code></td><td>Expand (default)</td></tr>
+  <tr><td><code>@:expandc</code></td><td>Comprehensive expand</td></tr>
+  <tr><td><code>@:factor</code></td><td>Factor</td></tr>
+  <tr><td><code>@:solve</code></td><td>Solve algebraic equations</td></tr>
+  <tr><td><code>@:solveexp</code></td><td>Solve exponential equations</td></tr>
+  <tr><td><code>@:solvelog</code></td><td>Solve logarithmic equations</td></tr>
+  <tr><td><code>@:differentiate [var]</code></td><td>Differentiate (default variable: x)</td></tr>
+  <tr><td><code>@:integrate [var]</code></td><td>Integrate (default variable: x)</td></tr>
+  <tr><td><code>@:sci</code></td><td>Scientific notation</td></tr>
+  <tr><td><code>@:degtorad</code></td><td>Degrees → radians</td></tr>
+  <tr><td><code>@:balance</code></td><td>Balance chemical equations</td></tr>
+  <tr><td><code>@:logtoexp</code></td><td>Log → exponential form</td></tr>
+  <tr><td><code>@:exptolog</code></td><td>Exponential → log form</td></tr>
+  <tr><td><code>@:trigonometric</code></td><td>Trigonometric mode</td></tr>
+  <tr><td><code>@:conic</code></td><td>Conic sections</td></tr>
+  <tr><td><code>@:radical</code></td><td>Radical simplification</td></tr>
+  <tr><td><code>@:rational</code></td><td>Rational expressions</td></tr>
+  <tr><td><code>@:compose</code></td><td>Function composition</td></tr>
+  <tr><td><code>@:inverse</code></td><td>Inverse functions</td></tr>
+  <tr><td><code>@:domain</code></td><td>Domain</td></tr>
+  <tr><td><code>@:range</code></td><td>Range</td></tr>
+  <tr><td><code>@:system</code></td><td>Solve a system of linear equations (semicolon-separated)</td></tr>
+  <tr><td><code>@:inequality</code></td><td>Solve an inequality</td></tr>
+  <tr><td><code>@:canon</code></td><td>Canonical form — reorders terms by descending degree, then alphabetically</td></tr>
+  <tr><td><code>@:rotate</code></td><td>Swap the two sides of an equation</td></tr>
+  <tr><td><code>@:flip</code></td><td>Negate every term on both sides of an equation</td></tr>
+  <tr><td><code>@:sqrt</code></td><td>Simplify a square root expression</td></tr>
+  <tr><td><code>@:radtodeg</code></td><td>Radians → degrees</td></tr>
+  <tr><td><code>@:oxstate</code></td><td>Oxidation states of a chemical formula</td></tr>
+  <tr><td><code>@:setval &lt;var=val ...&gt;</code></td><td>Set one or more variable values, substituted into every following line until cleared or reassigned — e.g. <code>@:setval x=3 y=1/2</code>. Unassigned variables stay symbolic. See §6.</td></tr>
+  <tr><td><code>@:clearval</code></td><td>Clear all variable values set by <code>@:setval</code>.</td></tr>
+  <tr><td><code>@:csv2bracket</code></td><td>CSV cell → matrix bracket notation</td></tr>
+  <tr><td><code>@:bracket2csv</code></td><td>Matrix bracket notation → CSV cell</td></tr>
+  <tr><td><code>@:showwork on/off</code></td><td><em>Planned — not yet implemented.</em> Will show step-by-step work for whichever mode is active.</td></tr>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>3. <code>@@:</code> One-Line Override</h2>
+<p>Apply a mode to just one line without changing the current mode.</p>
+<table>
+  <tr><th>Command</th><th>Example</th></tr>
+  <tr><td><code>@@:&lt;mode&gt; &lt;expr&gt;</code></td><td><code>@@:factor x^2 + 5x + 6</code></td></tr>
+  <tr><td><code>@@:setval &lt;var=val ...&gt; &lt;expr&gt;</code></td><td><code>@@:setval x=3 x^2 + 1</code> → substitutes into just this one line, no persistence.</td></tr>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>4. Example Session</h2>
+<pre># Polynomial expansion (default — no prefix needed)
+(x + 1)(x + 2)
+(a - b)^3
+
+# Switch to factoring for a block
+@:factor
+x^2 - 9
+x^3 - 8
+
+# One-off factor without switching mode back
+@:expand
+(x - 2)(x + 5)
+@@:factor x^2 + 7x + 12
+
+# Calculus
+@:differentiate x
+x^3 + 2x^2 - 5x + 1
+
+@:integrate x
+x^4 - 3x^2
+
+# Equations
+@:solve
+3x - 7 = 11
+x^2 - 4 = 0
+
+# Exponential / log
+@:solveexp
+2^x = 16
+
+@:solvelog
+log_3(x) = 4
+
+# Chemistry
+@:balance
+Fe + O2 = Fe2O3
+
+# Scientific notation (integers only, under 1 billion)
+@:sci
+299792458
+
+# Matrices (recognized directly from bracket notation -- no mode switch needed)
+det([[1,2],[3,4]])
+inverse([[1,2],[3,4]])
+[[1,2],[3,4]]+[[5,6],[7,8]]
+
+# Factorial (works in any mode, not just expand)
+@:expand
+3! + 2
+
+# Variable substitution -- persists until cleared or reassigned
+@:setval x=3 y=1/2
+x^2 + y
+@:clearval
+
+# Next-line trigger -- answer goes on the line/cell below instead of alongside
+x + 5 = 12 ç</pre>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>5. Matrices</h2>
+<p>Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly from the input in any mode — no mode switch needed, the same way <code>!</code> (factorial) already works everywhere.</p>
+<table>
+  <tr><th>Op</th><th>Syntax</th><th>Example</th></tr>
+  <tr><td>Add</td><td><code>matrixA+matrixB</code></td><td><code>[[1,2],[3,4]]+[[5,6],[7,8]]</code></td></tr>
+  <tr><td>Subtract</td><td><code>matrixA-matrixB</code></td><td><code>[[5,6],[7,8]]-[[1,2],[3,4]]</code></td></tr>
+  <tr><td>Multiply</td><td><code>matrixA*matrixB</code></td><td><code>[[1,2],[3,4]]*[[5,6],[7,8]]</code></td></tr>
+  <tr><td>Scalar multiply</td><td><code>k*matrix</code> or <code>matrix*k</code></td><td><code>3*[[1,2],[3,4]]</code></td></tr>
+  <tr><td>Transpose</td><td><code>transpose(matrix)</code></td><td><code>transpose([[1,2,3],[4,5,6]])</code></td></tr>
+  <tr><td>Determinant</td><td><code>det(matrix)</code></td><td><code>det([[1,2],[3,4]])</code></td></tr>
+  <tr><td>Inverse</td><td><code>inverse(matrix)</code></td><td><code>inverse([[1,2],[3,4]])</code></td></tr>
+  <tr><td>Row reduce</td><td><code>rref(matrix)</code></td><td><code>rref([[1,2,3],[4,5,6]])</code></td></tr>
+</table>
+<p>A bare matrix on its own (just <code>[[1,2],[3,4]]</code>, no operator or function) is validated and reformatted. Cell values may be integers, decimals, or fractions (e.g. <code>3/4</code>), and always print back exactly — never rounded to a decimal. Dimension mismatches and non-square/singular inputs report a clear error rather than crashing.</p>
+<p>A matrix result isn't a plain number, so a whole-line matrix expression is returned directly, regardless of whatever <code>@:</code> mode happens to be active — but <code>det(...)</code>'s numeric result composes normally into a larger expression, exactly like <code>!</code>: <code>det([[1,2],[3,4]])+5</code> expands to <code>3</code>.</p>
+<div class="note">
+  <strong>Tip:</strong> <code>@:csv2bracket</code> / <code>@:bracket2csv</code> convert between bracket notation and a single quoted CSV cell, for pasting a matrix result into a spreadsheet row alongside other data. A dedicated matrix-only CSV or <code>.xlsx</code> file (a real Excel file — cells keep their exact values, e.g. <code>3/4</code>, rather than a decimal or a misread date) can be imported/exported directly from the command line.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>6. Variable Substitution — <code>@:setval</code> / <code>@:clearval</code></h2>
+<p><code>@:setval</code> takes one or more space-separated <code>var=val</code> pairs and substitutes those known values into every following line, leaving any variable without an assigned value symbolic. Values may be integers, decimals, or fractions (e.g. <code>1/2</code>). A later <code>@:setval</code> adds to or overwrites the current values rather than replacing the whole set; <code>@:clearval</code> resets it to empty. Values persist across a mode switch (<code>@:factor</code>, <code>@:solve</code>, etc.) — only <code>@:clearval</code> or reassigning the same variable changes them.</p>
+<pre>@:setval x=3 y=1/2
+x^2 + y        <span style="color:#718096"># -> 19/2</span>
+2x - 1         <span style="color:#718096"># -> 5</span>
+a + x          <span style="color:#718096"># -> a stays symbolic, only x substitutes -> a+3</span>
+@:clearval
+x^2 + y        <span style="color:#718096"># -> x^2 + y, unchanged</span></pre>
+<p>For a one-off substitution without switching the persistent set, use the <code>@@:setval</code> one-line override (§3) or, from the API/command line, the standalone <code>setval</code> command: <code>compute setval "x=3" "x^2+1"</code>.</p>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>7. Next-Line Trigger — <code>ç</code></h2>
+<p>Prefix or suffix any line with <code>ç</code> (c-cedilla, U+00E7) to place the computed answer on the next line/cell instead of alongside the problem — e.g. in a spreadsheet, the formula's own cell stays blank and the result spills into the cell below. Works in any mode, alongside any other feature (matrices, factorial, setval).</p>
+<pre>x + 5 = 12 ç      <span style="color:#718096"># -> this cell blank, "x = 7" appears one row below</span>
+ç 3! + 2          <span style="color:#718096"># leading or trailing -- both work</span></pre>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>8. Indexed Variables &amp; Superscript/Subscript Display</h2>
+<p>A lowercase letter followed by <code>_</code> and a digit, single letter, or parenthesized expression is a genuinely distinct indexed variable — <code>x_1</code> and <code>x_2</code> are different symbols, not just different-looking text, and combine/expand correctly like any other variable. Parenthesized subscripts are normalized, so <code>x_(1+x)</code> and <code>x_(x+1)</code> refer to the same variable.</p>
+<pre>x_1 + x_2 + x_1     <span style="color:#718096"># -> 2x_1 + x_2</span>
+(x_1)^2 * x_1        <span style="color:#718096"># -> x_1³</span></pre>
+<p>Results are displayed with real Unicode superscript/subscript characters — <code>^exponent</code> and <code>_subscript</code> notation in output is rendered as e.g. x², x_1 → x₁ — no special input needed, this happens automatically to every result.</p>
+
+</body>
+</html>
