@@ -29,7 +29,7 @@
 <p class="subtitle">One syntax, everywhere: the Mac app, Excel, Google Sheets, and LibreOffice all use the same command engine. Type expressions one per line, then apply a mode.</p>
 
 <div class="note">
-  <strong>Using Excel?</strong> A couple of things work differently there — <a href="#excel-differences">jump straight to §9</a>.
+  <strong>Using Excel?</strong> A couple of things work differently there — <a href="#excel-differences">jump straight to §10</a>.
 </div>
 <div class="note" style="margin-top:12px">
   <strong>Tip:</strong> Plain expressions are expanded by default. No prefix needed for basic polynomial multiplication and simplification.
@@ -210,14 +210,25 @@ x - 3 = 9          <span style="color:#718096"># -> still triggered, same mode</
 @:solve            <span style="color:#718096"># drop the ç to go back to normal (in-place) mode</span></pre>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>8. Indexed Variables &amp; Superscript/Subscript Display</h2>
+<h2>8. Answer Chaining — <code>;:command</code></h2>
+<p>Suffix an expression with <code>;:</code> followed by a mode name to run that expression under the active mode, then feed its result into another mode — chain as many as you like: <code>expr;:factor;:expand</code> runs <code>expr</code> under the current mode, factors that result, then re-expands it. Leave the expression off entirely (start the line with <code>;:</code>) to chain off the running Ans register instead — the last successful result, carried forward across lines in the Mac app and spreadsheet add-ins, or passed explicitly as a fifth argument from the API/command line.</p>
+<pre>@:expand
+(x+1)(x+2)          <span style="color:#718096"># -> x^2+3x+2</span>
+;:factor              <span style="color:#718096"># -> chains off the line above -> (x+1)(x+2)</span>
+
+x^2 - 9;:factor;:expand   <span style="color:#718096"># -> factor(x^2-9), then re-expand it -> x^2-9</span></pre>
+<p>Only the <em>final</em> step in a chain (or a plain expression with no <code>;:</code> at all) may return a multi-value result like <code>solve</code> or <code>system</code> — a mid-chain step that does reports <code>Error: cannot chain from a multi-value result</code>, since there's no single value left to feed forward. This applies to the line's own active mode too: under <code>@:solve</code>, <code>x+5=12;:expand</code> errors the same way <code>;:solve;:expand</code> would.</p>
+<p>From the API/command line, the standalone <code>compute</code> command takes the Ans value as an optional fifth argument, since each call is stateless and has no memory of a previous one: <code>compute expand "" "x^2-9;:factor" 0</code>.</p>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>9. Indexed Variables &amp; Superscript/Subscript Display</h2>
 <p>A lowercase letter followed by <code>_</code> and a digit, single letter, or parenthesized expression is a genuinely distinct indexed variable — <code>x_1</code> and <code>x_2</code> are different symbols, not just different-looking text, and combine/expand correctly like any other variable. Parenthesized subscripts are normalized, so <code>x_(1+x)</code> and <code>x_(x+1)</code> refer to the same variable.</p>
 <pre>x_1 + x_2 + x_1     <span style="color:#718096"># -> 2x_1 + x_2</span>
 (x_1)^2 * x_1        <span style="color:#718096"># -> x_1³</span></pre>
 <p>Results are displayed with real Unicode superscript/subscript characters — <code>^exponent</code> and <code>_subscript</code> notation in output is rendered as e.g. x², x_1 → x₁ — no special input needed, this happens automatically to every result. These characters are also accepted as <em>input</em> — copy a previous answer like <code>x²+1</code> straight back into a new line (or type <code>²</code>/<code>₁</code> directly) and it parses exactly like <code>x^2+1</code>.</p>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2 id="excel-differences">9. How Excel Differs</h2>
+<h2 id="excel-differences">10. How Excel Differs</h2>
 <p>Excel Custom Functions have two hard platform constraints the Mac app, Google Sheets, and LibreOffice don't: a function can never write to any cell besides its own, and a function's name can't change per call. Two things in this reference work differently in Excel as a result.</p>
 <table>
   <tr><th>Feature</th><th>Everywhere else</th><th>Excel</th></tr>
