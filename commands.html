@@ -89,6 +89,7 @@
   <tr><td><code>@:clearval</code></td><td>Clear all variable values set by <code>@:setval</code>.</td></tr>
   <tr><td><code>@:csv2bracket</code></td><td>CSV cell → matrix bracket notation</td></tr>
   <tr><td><code>@:bracket2csv</code></td><td>Matrix bracket notation → CSV cell</td></tr>
+  <tr><td><code>@:scmS &lt;code&gt;</code> / <code>@:scmL &lt;code&gt;</code></td><td>Run your own Chez Scheme code against each line's data. See §11.</td></tr>
   <tr><td><code>@:showwork on/off</code></td><td><em>Planned — not yet implemented.</em> Will show step-by-step work for whichever mode is active.</td></tr>
 </table>
 
@@ -165,7 +166,11 @@ x^2 + y
 # The ç lives on the mode switch itself, applying to every line under it.
 @:solveç
 x + 5 = 12
-@:solve</pre>
+@:solve
+
+# Your own Scheme code
+@:scmL (reverse data)
+x+1</pre>
 
 <!-- ─────────────────────────────────────────────────────── -->
 <h2>5. Matrices</h2>
@@ -219,6 +224,7 @@ x - 3 = 9          <span style="color:#718096"># -> still triggered, same mode</
 x^2 - 9;:factor;:expand   <span style="color:#718096"># -> factor(x^2-9), then re-expand it -> x^2-9</span></pre>
 <p>Only the <em>final</em> step in a chain (or a plain expression with no <code>;:</code> at all) may return a multi-value result like <code>solve</code> or <code>system</code> — a mid-chain step that does reports <code>Error: cannot chain from a multi-value result</code>, since there's no single value left to feed forward. This applies to the line's own active mode too: under <code>@:solve</code>, <code>x+5=12;:expand</code> errors the same way <code>;:solve;:expand</code> would.</p>
 <p>From the API/command line, the standalone <code>compute</code> command takes the Ans value as an optional fifth argument, since each call is stateless and has no memory of a previous one: <code>compute expand "" "x^2-9;:factor" 0</code>.</p>
+<p><code>;:scmS</code> and <code>;:scmL</code> (§11) are a special case: instead of applying a fixed built-in mode, they run whichever Scheme program you most recently set with <code>@:scmS &lt;code&gt;</code>/<code>@:scmL &lt;code&gt;</code> — that program stays available for chaining even after switching to a different <code>@:</code> mode in between.</p>
 
 <!-- ─────────────────────────────────────────────────────── -->
 <h2>9. Indexed Variables &amp; Superscript/Subscript Display</h2>
@@ -237,6 +243,21 @@ x^2 - 9;:factor;:expand   <span style="color:#718096"># -> factor(x^2-9), then r
 </table>
 <pre>=PAE.FACTOR_N("x^2-9")   <span style="color:#718096"># formula cell keeps this exact formula</span>
                           <span style="color:#718096"># cell below shows: (x-3)(x+3)</span></pre>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<h2>11. Run Your Own Scheme Code — <code>@:scmS</code> / <code>@:scmL</code></h2>
+<p>Write your own Chez Scheme program and run it against a line's data, converted to a plain symbol list bound to <code>data</code> — the same representation PAE Bird uses internally for a polynomial. PAE Bird's own commands (<code>expand</code>, <code>factor</code>, <code>solve</code>, etc.) are <em>not</em> available inside your program — it runs in a genuinely isolated Scheme environment operating purely on data, not a way to call PAE Bird's own operations by another name.</p>
+<table>
+  <tr><th>Command</th><th>Output</th></tr>
+  <tr><td><code>@:scmS &lt;code&gt;</code></td><td>Renders the result back like a normal solution, e.g. <code>3x^2/5+x</code></td></tr>
+  <tr><td><code>@:scmL &lt;code&gt;</code></td><td>Prints the raw Scheme value, e.g. <code>(x + 1 +)</code></td></tr>
+</table>
+<pre>@:scmL (reverse data)
+x+1                 <span style="color:#718096"># -> (+ 1 + x)</span></pre>
+<p>Set your program once with <code>@:scmS &lt;code&gt;</code>/<code>@:scmL &lt;code&gt;</code>, then every following line's data runs through it, exactly like any other mode switch. Every form you write runs in order — define a helper, then call it, and the last form's value becomes the result. <code>data</code> is a mix of numbers and symbols (operators, variables), so a helper that assumes every element is a number (e.g. doubling each one) needs to filter first:</p>
+<pre>@:scmL (define (numbers-only l) (filter number? l)) (numbers-only data)
+x+1                 <span style="color:#718096"># -> (1)</span></pre>
+<p>You can also chain a bare <code>;:scmS</code> or <code>;:scmL</code> onto any line (§8) to run the same program against that line's own result instead of its own data — the program most recently set with <code>@:scmS</code>/<code>@:scmL</code> stays available for chaining even after switching to a different <code>@:</code> mode in between.</p>
 
 </body>
 </html>
