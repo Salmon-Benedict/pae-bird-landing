@@ -249,6 +249,120 @@
                         </ol>
                         <p style="margin-top:0.6rem;">Official Microsoft instructions: <a href="https://learn.microsoft.com/en-us/office/dev/add-ins/testing/sideload-an-office-add-in-on-mac" target="_blank" rel="noopener">Mac</a> · <a href="https://learn.microsoft.com/en-us/office/dev/add-ins/testing/sideload-office-add-ins-for-testing" target="_blank" rel="noopener">Windows / web</a></p>
                     </details>
+                    <details style="text-align:left;max-width:520px;margin:1rem auto 0;font-size:0.85rem;color:var(--muted);">
+                        <summary style="cursor:pointer;font-weight:600;color:var(--text);text-align:center;">Download not working? Copy manifest.xml directly</summary>
+                        <p style="margin-top:0.8rem;">If the download button isn't cooperating (some security software blocks files named "manifest.xml"), copy the text below into a new file on your computer named exactly <code>manifest.xml</code>, then continue from step 2 above.</p>
+                        <textarea readonly onclick="this.select()" style="width:100%;height:160px;font-family:monospace;font-size:0.72rem;box-sizing:border-box;margin-top:0.5rem;padding:0.5rem;border:1px solid #d0d0d0;border-radius:6px;">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;OfficeApp xmlns=&quot;http://schemas.microsoft.com/office/appforoffice/1.1&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:bt=&quot;http://schemas.microsoft.com/office/officeappbasictypes/1.0&quot; xmlns:ov=&quot;http://schemas.microsoft.com/office/taskpaneappversionoverrides&quot; xsi:type=&quot;TaskPaneApp&quot;&gt;
+  &lt;Id&gt;fdb51574-8248-4be5-9f94-c24dc90252d2&lt;/Id&gt;
+  &lt;Version&gt;1.0.1.0&lt;/Version&gt;
+  &lt;ProviderName&gt;PAE Bird&lt;/ProviderName&gt;
+  &lt;DefaultLocale&gt;en-US&lt;/DefaultLocale&gt;
+  &lt;DisplayName DefaultValue=&quot;PAE Bird&quot;/&gt;
+  &lt;Description DefaultValue=&quot;Algebra and calculus inside Excel. Expand, factor, solve, differentiate, and integrate — plus generate printable Student and Teacher worksheets with one click.&quot;/&gt;
+  &lt;IconUrl DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/assets/icon-32.png&quot;/&gt;
+  &lt;HighResolutionIconUrl DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/assets/icon-64.png&quot;/&gt;
+  &lt;SupportUrl DefaultValue=&quot;https://docs.google.com/forms/d/e/1FAIpQLScfCBJ9KUIoRFe6I3hDlttwTaf2NClMnIoJM2iM3nuXJAm1dw/viewform&quot;/&gt;
+  &lt;AppDomains&gt;
+    &lt;AppDomain&gt;https://salmon-benedict.github.io&lt;/AppDomain&gt;
+  &lt;/AppDomains&gt;
+  &lt;Hosts&gt;
+    &lt;Host Name=&quot;Workbook&quot;/&gt;
+  &lt;/Hosts&gt;
+  &lt;Requirements&gt;
+    &lt;Sets DefaultMinVersion=&quot;1.1&quot;&gt;
+      &lt;Set Name=&quot;CustomFunctionsRuntime&quot; MinVersion=&quot;1.1&quot;/&gt;
+    &lt;/Sets&gt;
+  &lt;/Requirements&gt;
+  &lt;DefaultSettings&gt;
+    &lt;SourceLocation DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/taskpane.html&quot;/&gt;
+  &lt;/DefaultSettings&gt;
+  &lt;Permissions&gt;ReadWriteDocument&lt;/Permissions&gt;
+  &lt;VersionOverrides xmlns=&quot;http://schemas.microsoft.com/office/taskpaneappversionoverrides&quot; xsi:type=&quot;VersionOverridesV1_0&quot;&gt;
+    &lt;Hosts&gt;
+      &lt;Host xsi:type=&quot;Workbook&quot;&gt;
+        &lt;AllFormFactors&gt;
+          &lt;ExtensionPoint xsi:type=&quot;CustomFunctions&quot;&gt;
+            &lt;Script&gt;
+              &lt;SourceLocation resid=&quot;Functions.Script.Url&quot;/&gt;
+            &lt;/Script&gt;
+            &lt;Page&gt;
+              &lt;SourceLocation resid=&quot;Functions.Page.Url&quot;/&gt;
+            &lt;/Page&gt;
+            &lt;Metadata&gt;
+              &lt;SourceLocation resid=&quot;Functions.Metadata.Url&quot;/&gt;
+            &lt;/Metadata&gt;
+            &lt;Namespace resid=&quot;Functions.Namespace&quot;/&gt;
+          &lt;/ExtensionPoint&gt;
+        &lt;/AllFormFactors&gt;
+        &lt;DesktopFormFactor&gt;
+          &lt;GetStarted&gt;
+            &lt;Title resid=&quot;GetStarted.Title&quot;/&gt;
+            &lt;Description resid=&quot;GetStarted.Description&quot;/&gt;
+            &lt;LearnMoreUrl resid=&quot;GetStarted.LearnMoreUrl&quot;/&gt;
+          &lt;/GetStarted&gt;
+          &lt;FunctionFile resid=&quot;Commands.Url&quot;/&gt;
+          &lt;ExtensionPoint xsi:type=&quot;PrimaryCommandSurface&quot;&gt;
+            &lt;OfficeTab id=&quot;TabHome&quot;&gt;
+              &lt;Group id=&quot;CommandsGroup&quot;&gt;
+                &lt;Label resid=&quot;CommandsGroup.Label&quot;/&gt;
+                &lt;Icon&gt;
+                  &lt;bt:Image size=&quot;16&quot; resid=&quot;Icon.16x16&quot;/&gt;
+                  &lt;bt:Image size=&quot;32&quot; resid=&quot;Icon.32x32&quot;/&gt;
+                  &lt;bt:Image size=&quot;80&quot; resid=&quot;Icon.80x80&quot;/&gt;
+                &lt;/Icon&gt;
+                &lt;Control xsi:type=&quot;Button&quot; id=&quot;TaskpaneButton&quot;&gt;
+                  &lt;Label resid=&quot;TaskpaneButton.Label&quot;/&gt;
+                  &lt;Supertip&gt;
+                    &lt;Title resid=&quot;TaskpaneButton.Label&quot;/&gt;
+                    &lt;Description resid=&quot;TaskpaneButton.Tooltip&quot;/&gt;
+                  &lt;/Supertip&gt;
+                  &lt;Icon&gt;
+                    &lt;bt:Image size=&quot;16&quot; resid=&quot;Icon.16x16&quot;/&gt;
+                    &lt;bt:Image size=&quot;32&quot; resid=&quot;Icon.32x32&quot;/&gt;
+                    &lt;bt:Image size=&quot;80&quot; resid=&quot;Icon.80x80&quot;/&gt;
+                  &lt;/Icon&gt;
+                  &lt;Action xsi:type=&quot;ShowTaskpane&quot;&gt;
+                    &lt;TaskpaneId&gt;ButtonId1&lt;/TaskpaneId&gt;
+                    &lt;SourceLocation resid=&quot;Taskpane.Url&quot;/&gt;
+                  &lt;/Action&gt;
+                &lt;/Control&gt;
+              &lt;/Group&gt;
+            &lt;/OfficeTab&gt;
+          &lt;/ExtensionPoint&gt;
+        &lt;/DesktopFormFactor&gt;
+      &lt;/Host&gt;
+    &lt;/Hosts&gt;
+    &lt;Resources&gt;
+      &lt;bt:Images&gt;
+        &lt;bt:Image id=&quot;Icon.16x16&quot; DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/assets/icon-16.png&quot;/&gt;
+        &lt;bt:Image id=&quot;Icon.32x32&quot; DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/assets/icon-32.png&quot;/&gt;
+        &lt;bt:Image id=&quot;Icon.80x80&quot; DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/assets/icon-80.png&quot;/&gt;
+      &lt;/bt:Images&gt;
+      &lt;bt:Urls&gt;
+        &lt;bt:Url id=&quot;Functions.Script.Url&quot; DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/functions.js&quot;/&gt;
+        &lt;bt:Url id=&quot;Functions.Metadata.Url&quot; DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/functions.json&quot;/&gt;
+        &lt;bt:Url id=&quot;Functions.Page.Url&quot; DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/functions.html&quot;/&gt;
+        &lt;bt:Url id=&quot;GetStarted.LearnMoreUrl&quot; DefaultValue=&quot;https://docs.google.com/forms/d/e/1FAIpQLScfCBJ9KUIoRFe6I3hDlttwTaf2NClMnIoJM2iM3nuXJAm1dw/viewform&quot;/&gt;
+        &lt;bt:Url id=&quot;Commands.Url&quot; DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/commands.html&quot;/&gt;
+        &lt;bt:Url id=&quot;Taskpane.Url&quot; DefaultValue=&quot;https://salmon-benedict.github.io/Poly-Excel-Widget/taskpane.html&quot;/&gt;
+      &lt;/bt:Urls&gt;
+      &lt;bt:ShortStrings&gt;
+        &lt;bt:String id=&quot;Functions.Namespace&quot; DefaultValue=&quot;PAE&quot;/&gt;
+        &lt;bt:String id=&quot;GetStarted.Title&quot; DefaultValue=&quot;PAE Bird is ready&quot;/&gt;
+        &lt;bt:String id=&quot;CommandsGroup.Label&quot; DefaultValue=&quot;PAE Bird&quot;/&gt;
+        &lt;bt:String id=&quot;TaskpaneButton.Label&quot; DefaultValue=&quot;Worksheet Generator&quot;/&gt;
+      &lt;/bt:ShortStrings&gt;
+      &lt;bt:LongStrings&gt;
+        &lt;bt:String id=&quot;GetStarted.Description&quot; DefaultValue=&quot;PAE Bird loaded. Click &#x27;Worksheet Generator&#x27; on the Home tab to create Student and Teacher worksheets, or use PAE_ functions directly in any cell.&quot;/&gt;
+        &lt;bt:String id=&quot;TaskpaneButton.Tooltip&quot; DefaultValue=&quot;Open the PAE Bird worksheet generator&quot;/&gt;
+      &lt;/bt:LongStrings&gt;
+    &lt;/Resources&gt;
+  &lt;/VersionOverrides&gt;
+&lt;/OfficeApp&gt;
+</textarea>
+                        <button type="button" onclick="const t=this.previousElementSibling;t.select();navigator.clipboard.writeText(t.value).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy to clipboard',1500);});" style="margin-top:0.5rem;padding:0.4rem 0.9rem;border-radius:6px;border:1px solid #d0d0d0;background:#fff;cursor:pointer;font-size:0.82rem;">Copy to clipboard</button>
+                    </details>
                 </div>
                 <div class="excel-functions">
                     <span class="excel-fn">=PAE.SOLVE("x^2 - 5x + 6 = 0")</span>
