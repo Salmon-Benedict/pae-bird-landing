@@ -311,7 +311,7 @@
                     <span class="download-icon">📊</span>
                     <h3>Excel</h3>
                     <p class="download-status ready">Available here for download</p>
-                    <a href="https://salmon-benedict.github.io/Poly-Excel-Widget/manifest.xml" class="download-btn" rel="noopener" onclick="gtag('event','download',{file_name:'manifest.xml',product:'Excel'});downloadFile(this.href,'manifest.xml');return false;">⬇ Download manifest.xml</a>
+                    <a href="https://salmon-benedict.github.io/Poly-Excel-Widget/manifest.xml" class="download-btn" target="_blank" rel="noopener" onclick="gtag('event','download',{file_name:'manifest.xml',product:'Excel'});">⬇ Download manifest.xml</a>
                     <a href="https://salmon-benedict.github.io/Poly-Excel-Widget/PAEBird-Excel-Demo.xlsx" class="download-btn" target="_blank" rel="noopener" onclick="gtag('event','download',{file_name:'PAEBird-Excel-Demo.xlsx',product:'Excel'});">⬇ Download starter workbook</a>
                     <p class="download-note">Requires the PAE Bird Mac app open — runs fully offline. Sideload the manifest, then open the starter workbook — <a href="#excel">see how</a>.</p>
                 </div>
@@ -775,30 +775,6 @@
             <img src="parrot_web.jpg" alt="PAE Bird mascot" style="max-width:92vw;max-height:92vh;border-radius:16px;box-shadow:0 16px 64px rgba(0,0,0,0.8);pointer-events:none;">
         </div>
         <script>
-    // Forces a real download for cross-origin files (manifest.xml is hosted on
-    // GitHub Pages, a different origin than this site) -- the plain HTML
-    // `download` attribute is silently ignored by browsers for cross-origin
-    // links, so a plain <a href> just navigates to and displays the XML
-    // instead of downloading it. Fetching it into a blob first makes it
-    // same-origin (blob:), where `download` works normally. Falls back to a
-    // plain navigation if the fetch itself fails (e.g. a network hiccup).
-    async function downloadFile(url, filename) {
-      try {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        const objectUrl = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = objectUrl;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(objectUrl);
-      } catch (e) {
-        window.open(url, '_blank');
-      }
-    }
-
     const overlay = document.getElementById('lightbox');
     const lbImg = document.getElementById('lightbox-img');
 
