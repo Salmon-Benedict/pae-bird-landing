@@ -46,6 +46,9 @@
     "url": "https://paebird.com/",
     "offers": {
       "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Free to download, with a 1-month free trial, then $19.99/year for the full subscription.",
       "availability": "https://schema.org/InStock",
       "url": "https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12"
     }
@@ -1113,9 +1116,7 @@
       });
 
       const phiFonts = [
-        'serif', 'sans-serif', 'monospace',
-        "'Pinyon Script', cursive", "'DM Serif Display', serif",
-        'Georgia, serif', 'Palatino, serif', 'Impact, fantasy'
+        "'OptimusPrinceps', 'Pinyon Script', serif"
       ];
       const phiColors = ['#e8531a','#f5a623','#ffcc00','#5b3fa0','#e040fb','#00bcd4','#ff5252','#69f0ae'];
 
@@ -1139,8 +1140,8 @@
           const styleEl = document.createElement('style');
           styleEl.textContent = `@keyframes ${kid} {
             0%   { opacity:0; transform:translate(-50%,-50%) scale(0.3); }
-            40%  { opacity:1; transform:translate(calc(-50% + ${dx*0.3}px),calc(-50% + ${dy*0.3}px)) scale(1); }
-            75%  { opacity:1; transform:translate(calc(-50% + ${dx*0.85}px),calc(-50% + ${dy*0.85}px)) scale(5); }
+            40%  { opacity:0.8; transform:translate(calc(-50% + ${dx*0.3}px),calc(-50% + ${dy*0.3}px)) scale(1); }
+            75%  { opacity:0.8; transform:translate(calc(-50% + ${dx*0.85}px),calc(-50% + ${dy*0.85}px)) scale(5); }
             100% { opacity:0; transform:translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(5); }
           }`;
           document.head.appendChild(styleEl);
