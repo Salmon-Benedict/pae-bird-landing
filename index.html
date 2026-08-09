@@ -1115,10 +1115,7 @@
         track.appendChild(span);
       });
 
-      const phiFonts = [
-        "'OptimusPrinceps', 'Pinyon Script', serif"
-      ];
-      const phiColors = ['#e8531a','#f5a623','#ffcc00','#5b3fa0','#e040fb','#00bcd4','#ff5252','#69f0ae'];
+      const phiImages = ['phi blue.webp','phi red.webp','phi yellow.webp','phi green.webp','phi red2.webp','phi blue-red.webp','phi yellow-red.webp'];
 
       function launchSparkles() {
         const ticker = document.querySelector('.fib-ticker');
@@ -1126,7 +1123,7 @@
 
         ticker.style.transition = 'opacity 0.2s';
         ticker.style.opacity = '0';
-        setTimeout(() => { ticker.style.opacity = '1'; }, 5200);
+        setTimeout(() => { ticker.style.opacity = '1'; }, 12200);
 
         for (let i = 0; i < 40; i++) {
           const sx = rect.left + Math.random() * rect.width;
@@ -1135,32 +1132,42 @@
           const dist = 60 + Math.random() * 200;
           const dx = Math.cos(angle) * dist;
           const dy = Math.sin(angle) * dist;
+          // Perpendicular unit vector to the outward direction -- alternating
+          // offsets along this axis at each keyframe stop is what makes the
+          // path wander/wobble instead of flying out in a straight line.
+          const px = -Math.sin(angle);
+          const py = Math.cos(angle);
+          const wobble = 20 + Math.random() * 40;
+          const pos = (frac, perpSign) =>
+            `calc(-50% + ${dx * frac + px * wobble * perpSign}px),calc(-50% + ${dy * frac + py * wobble * perpSign}px)`;
           const kid = 'phi_' + Date.now() + '_' + i;
 
           const styleEl = document.createElement('style');
           styleEl.textContent = `@keyframes ${kid} {
             0%   { opacity:0; transform:translate(-50%,-50%) scale(0.3); }
-            40%  { opacity:0.8; transform:translate(calc(-50% + ${dx*0.3}px),calc(-50% + ${dy*0.3}px)) scale(1); }
-            75%  { opacity:0.8; transform:translate(calc(-50% + ${dx*0.85}px),calc(-50% + ${dy*0.85}px)) scale(5); }
-            100% { opacity:0; transform:translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(5); }
+            20%  { opacity:1; transform:translate(${pos(0.2, 1)}) scale(1); }
+            40%  { opacity:1; transform:translate(${pos(0.45, -1)}) scale(3); }
+            60%  { opacity:1; transform:translate(${pos(0.65, 0.8)}) scale(6); }
+            80%  { opacity:1; transform:translate(${pos(0.85, -0.6)}) scale(20); }
+            100% { opacity:0; transform:translate(calc(-50% + ${dx}px),calc(-50% + ${dy}px)) scale(20); }
           }`;
           document.head.appendChild(styleEl);
 
-          const el = document.createElement('span');
-          el.textContent = 'φ';
+          const el = document.createElement('img');
+          el.src = phiImages[Math.floor(Math.random() * phiImages.length)];
+          el.alt = '';
           el.style.cssText = `
             position:fixed;
             left:${sx}px;
             top:${sy}px;
-            font-family:${phiFonts[Math.floor(Math.random() * phiFonts.length)]};
-            font-size:${1.4 + Math.random() * 2.2}rem;
-            color:${phiColors[Math.floor(Math.random() * phiColors.length)]};
+            width:${1.4 + Math.random() * 2.2}rem;
+            height:auto;
             pointer-events:none;
             z-index:9999;
-            animation:${kid} 5s ease-out forwards;
+            animation:${kid} 12s ease-out forwards;
           `;
           document.body.appendChild(el);
-          setTimeout(() => { el.remove(); styleEl.remove(); }, 5200);
+          setTimeout(() => { el.remove(); styleEl.remove(); }, 12200);
         }
       }
 
