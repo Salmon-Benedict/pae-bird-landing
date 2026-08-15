@@ -10,9 +10,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="icons/icon_96.png">
   <link rel="apple-touch-icon" sizes="128x128" href="icons/icon_128.png">
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 0 auto; padding: 32px 24px 64px; color: #222; max-width: 860px; font-size: 16px; line-height: 1.6; }
-    a.back-link { display: inline-block; margin-bottom: 20px; color: #e8531a; text-decoration: none; font-size: 0.9em; font-weight: 600; }
-    a.back-link:hover { text-decoration: underline; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; margin: 32px; color: #222; max-width: 860px; font-size: 24px; }
     h1 { color: #2b6cb0; margin-bottom: 4px; }
     h2 { color: #2b6cb0; margin-top: 32px; border-bottom: 1px solid #bee3f8; padding-bottom: 4px; }
     p.subtitle { color: #555; margin-top: 4px; }
@@ -23,94 +21,371 @@
     code { background: #edf2f7; padding: 1px 5px; border-radius: 3px; font-family: "Courier New", Courier, monospace; font-size: 0.93em; }
     pre { background: #f7fafc; padding: 14px 16px; border: 1px solid #e2e8f0; border-radius: 4px; font-size: 0.91em; line-height: 1.6; overflow-x: auto; }
     .note { background: #fffbea; border: 1px solid #f6e05e; border-radius: 4px; padding: 10px 14px; margin-top: 16px; font-size: 0.9em; }
+    .page-index { position: fixed; top: 92px; right: 24px; width: 270px; max-height: calc(100vh - 116px); overflow-y: auto; background: #f7fafc; border: 1px solid #bee3f8; border-radius: 6px; padding: 12px 16px; font-size: 18px; line-height: 1.5; z-index: 10; }
+    .page-index strong { display: block; color: #2b6cb0; font-size: 19px; margin-bottom: 6px; }
+    .page-index ul { list-style: none; margin: 0; padding: 0; }
+    .page-index > ul > li { margin-top: 8px; }
+    .page-index > ul > li:first-child { margin-top: 0; }
+    .page-index a { color: #2b6cb0; text-decoration: none; }
+    .page-index a:hover { text-decoration: underline; }
+    .page-index ul ul { padding-left: 14px; margin-top: 2px; }
+    .page-index ul ul li { color: #555; }
+    @media (max-width: 1220px) { .page-index { display: none; } }
+
+    /* ---- Search bar ---- */
+    #cmdSearchBar { position: sticky; top: 0; z-index: 30; background: #fff; margin: -32px -32px 24px -32px; padding: 14px 32px; border-bottom: 1px solid #bee3f8; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    #cmdSearchWrap { max-width: 860px; position: relative; }
+    #cmdSearchInput { width: 100%; box-sizing: border-box; font: inherit; font-size: 20px; padding: 10px 14px; border: 1px solid #bee3f8; border-radius: 6px; color: #222; }
+    #cmdSearchInput:focus { outline: none; border-color: #2b6cb0; box-shadow: 0 0 0 3px rgba(43,108,176,0.15); }
+    #cmdSearchHint { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-size: 14px; color: #888; background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 4px; padding: 2px 7px; pointer-events: none; }
+    #cmdSearchInput:focus ~ #cmdSearchHint { display: none; }
+    #cmdSearchResults { display: none; position: absolute; top: calc(100% + 6px); left: 0; right: 0; max-height: 65vh; overflow-y: auto; background: #fff; border: 1px solid #bee3f8; border-radius: 6px; box-shadow: 0 10px 28px rgba(0,0,0,0.14); }
+    .cmdsearch-result { padding: 9px 14px; cursor: pointer; border-bottom: 1px solid #edf2f7; font-size: 17px; }
+    .cmdsearch-result:last-child { border-bottom: none; }
+    .cmdsearch-result:hover, .cmdsearch-result.active { background: #ebf8ff; }
+    .cmdsearch-snippet { display: block; color: #333; font-family: "Courier New", Courier, monospace; font-size: 0.85em; overflow-wrap: anywhere; }
+    .cmdsearch-snippet mark { background: #fef08a; color: inherit; border-radius: 2px; padding: 0 1px; }
+    .cmdsearch-section { display: block; color: #2b6cb0; font-size: 13px; margin-top: 2px; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+    .cmdsearch-empty { padding: 12px 14px; color: #888; font-size: 16px; }
+    @keyframes cmdsearch-flash-anim { from { background: #fef08a; } to { background: transparent; } }
+    .cmdsearch-flash { animation: cmdsearch-flash-anim 1.6s ease-out; }
+    tr.cmdsearch-flash td { animation: cmdsearch-flash-anim 1.6s ease-out; }
+
+    /* ---- Collapsible sections ---- */
+    details.cmdsection { margin-bottom: 4px; }
+    details.cmdsection > summary { cursor: pointer; list-style: none; }
+    details.cmdsection > summary::-webkit-details-marker { display: none; }
+    details.cmdsection > summary::marker { content: ""; }
+    details.cmdsection > summary h2 { display: flex; align-items: center; gap: 10px; }
+    details.cmdsection > summary h2::before { content: "▸"; display: inline-block; color: #2b6cb0; font-size: 0.7em; transition: transform 0.15s ease; flex-shrink: 0; }
+    details.cmdsection[open] > summary h2::before { transform: rotate(90deg); }
+    details.cmdsection > summary:hover h2 { color: #1a4e80; }
+
+    /* ---- Scrollspy (active section in the right-side TOC) ---- */
+    .page-index a.active { color: #1a4e80; font-weight: 600; }
+
+    /* ---- Copy button on every @:/@@:/  ;: command syntax cell ---- */
+    .copy-btn { position: absolute; top: 3px; right: 3px; font: inherit; font-size: 11px; line-height: 1; padding: 3px 6px; background: #fff; border: 1px solid #bee3f8; border-radius: 3px; cursor: pointer; color: #2b6cb0; opacity: 0.7; }
+    .copy-btn:hover { opacity: 1; background: #ebf8ff; }
+    .copy-btn.copied { background: #c6f6d5; border-color: #68d391; color: #22543d; opacity: 1; }
+    td.has-copy-btn { position: relative; padding-right: 46px; }
+    code.has-copy-btn { position: relative; display: inline-block; padding-right: 44px; }
+
+    /* ---- Print ---- */
+    @media print {
+        #cmdSearchBar, .page-index, .copy-btn { display: none !important; }
+        details.cmdsection > summary h2::before { display: none; }
+        details.cmdsection > summary { cursor: default; }
+        td.has-copy-btn { padding-right: 12px; }
+        code.has-copy-btn { padding-right: 5px; }
+        body { max-width: none; }
+    }
+
+    a.back-link { display: inline-block; margin-bottom: 20px; color: #e8531a; text-decoration: none; font-size: 0.9em; font-weight: 600; }
+    a.back-link:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
 <a class="back-link" href="index.html">← Back to PAE Bird</a>
+
+<div id="cmdSearchBar">
+  <div id="cmdSearchWrap">
+    <input id="cmdSearchInput" type="text" placeholder="Search commands (e.g. @:riemann) or any text…" autocomplete="off" spellcheck="false">
+    <span id="cmdSearchHint">/</span>
+    <div id="cmdSearchResults"></div>
+  </div>
+</div>
+
+<nav class="page-index">
+  <strong>Contents</strong>
+  <ul>
+    <li><a href="#command-index">Quick Command Index</a></li>
+    <li><a href="#plain-expressions">1. Plain Expressions</a></li>
+    <li><a href="#mode-switch">2. <code>@:</code> Mode Switch</a>
+      <ul>
+        <li><a href="#mode-general">2.1 General / Algebra</a></li>
+        <li><a href="#mode-calculus">2.2 Calculus</a></li>
+        <li><a href="#mode-physics">2.3 Physics</a></li>
+        <li><a href="#mode-chemistry">2.4 Chemistry</a></li>
+      </ul>
+    </li>
+    <li><a href="#oneline-override">3. <code>@@:</code> One-Line Override</a></li>
+    <li><a href="#chaining">4. <code>;:command</code> Chaining</a></li>
+    <li><a href="#example-session">5. Example Session</a></li>
+    <li><a href="#matrices">6. Matrices</a></li>
+    <li><a href="#scm-code">7. <code>@:scmS</code> / <code>@:scmL</code></a></li>
+    <li><a href="#calculus">8. Calculus</a>
+      <ul>
+        <li><a href="#calcnotation">8.1 Notation Without Commands</a></li>
+        <li><a href="#dcalc">8.2 Differentiate</a></li>
+        <li><a href="#limit">8.3 Limits</a></li>
+        <li><a href="#curve-analysis">8.4 Curve Analysis</a></li>
+        <li><a href="#implicit">8.5 Implicit Differentiation</a></li>
+        <li><a href="#integrate">8.6 Integrate</a></li>
+        <li><a href="#eval">8.7 Evaluate at a Point</a></li>
+        <li><a href="#continuity">8.8 Continuity</a></li>
+        <li><a href="#linapprox">8.9 Linear Approximation</a></li>
+        <li><a href="#mvt">8.10 Mean Value Theorem</a></li>
+        <li><a href="#areabetween">8.11 Area Between Curves</a></li>
+        <li><a href="#sumcalc">8.12 Finite Summation (Sigma Notation)</a></li>
+        <li><a href="#riemann">8.13 Riemann Sums</a></li>
+        <li><a href="#riemannlimit">8.14 Exact Definite Integral via the Limit Definition</a></li>
+      </ul>
+    </li>
+    <li><a href="#physics">9. Physics — Mechanics</a>
+      <ul>
+        <li><a href="#autophysics">9.1 <code>@:physics</code></a></li>
+        <li><a href="#velocity-acceleration">9.2 Velocity / Acceleration</a></li>
+        <li><a href="#physicstable">9.3 Relation reference</a></li>
+      </ul>
+    </li>
+    <li><a href="#chemistry">10. Chemistry</a>
+      <ul>
+        <li><a href="#balance">10.1 Balance Equations</a></li>
+        <li><a href="#oxstate">10.2 Oxidation States</a></li>
+      </ul>
+    </li>
+    <li><a href="#steps">11. Show Your Work</a>
+      <ul>
+        <li><a href="#showwork">11.1 <code>@:showwork on/off</code></a></li>
+        <li><a href="#steps-differentiate">11.2 Differentiate</a></li>
+        <li><a href="#steps-solve">11.3 Solve</a></li>
+        <li><a href="#steps-expand">11.4 Expand (FOIL)</a></li>
+      </ul>
+    </li>
+    <li><a href="#sets">12. Sets</a></li>
+    <li><a href="#trigger">13. <code>ç</code> Next-Line Trigger</a></li>
+    <li><a href="#indexed-vars">14. Indexed Variables &amp; Superscript/Subscript Display</a></li>
+    <li><a href="#excel-differences">15. How Excel Differs</a></li>
+  </ul>
+</nav>
+
 <h1>PAE Bird — Command Reference</h1>
-<p class="subtitle">One syntax, everywhere: the Mac app, Excel, Google Sheets, and LibreOffice all use the same command engine. Type expressions one per line, then apply a mode.</p>
+<p class="subtitle">Type expressions into the <strong>Input Problems</strong> box — one per line — then click <strong>Expand Polynomials</strong>.</p>
 
 <div class="note">
-  <strong>Using Excel?</strong> A couple of things work differently there — <a href="#excel-differences">jump straight to §10</a>.
+  <strong>Using Excel?</strong> A couple of things work differently there — <a href="#excel-differences">jump straight to §15</a>.
 </div>
 <div class="note" style="margin-top:12px">
   <strong>Tip:</strong> Plain expressions are expanded by default. No prefix needed for basic polynomial multiplication and simplification.
 </div>
 <div class="note" style="margin-top:12px">
-  <strong>Tip:</strong> To generate a practice worksheet, use the <strong>Worksheet</strong> button (Mac app toolbar) or the <strong>Generate Worksheet</strong> option (Excel/LibreOffice task pane).
+  <strong>Tip:</strong> To generate a practice worksheet, use the <strong>Worksheet</strong> button in the toolbar. Results appear in the Solutions box and can be saved with <strong>Save Solutions</strong>.
 </div>
 <div class="note" style="margin-top:12px">
   <strong>Tip:</strong> Append <code>!</code> to any whole number for its factorial, in any mode — e.g. <code>3!+2</code> expands to <code>8</code>, <code>5!=x</code> solves to <code>x = 120</code>. A decimal or a bare variable before <code>!</code> is left untouched.
 </div>
 <div class="note" style="margin-top:12px">
-  <strong>Tip:</strong> Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly — no mode switch needed, in any mode, the same way <code>!</code> is. See §5.
+  <strong>Tip:</strong> Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly — no mode switch needed, in any mode, the same way <code>!</code> is. See §6.
+</div>
+<div class="note" style="margin-top:12px">
+  <strong>Tip:</strong> Append <code>;:mode</code> to any line to feed its result into another command, e.g. <code>x^2-1;:factor</code> factors the expanded result. Chainable — <code>;:factor;:expand</code> runs both in turn. See §4.
 </div>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>1. Plain Expressions</h2>
+<details class="cmdsection" open>
+<summary><h2 id="command-index">Quick Command Index (Alphabetical)</h2></summary>
+<p>Every <code>@:</code> mode command in this reference, alphabetically, with a link to where it's documented in full. For syntax that isn't an <code>@:</code> command — the <code>@@:</code> one-line override (§3), <code>;:</code> answer chaining (§4), matrix bracket notation (§6), or differentiate/integrate without a command (§8.1) — see those sections directly. Use the search bar above for full-text search across the whole page.</p>
+<div class="note">
+  <strong>Tip:</strong> Most commands also have a short alias — the <strong>Short</strong> column below, when one exists. <code>@:t</code> works exactly like <code>@:trigonometric</code>, <code>@@:fa expr</code> like <code>@@:factor expr</code>, and mid-chain <code>;:dc</code> like <code>;:dcalc</code> — anywhere a command name is typed. A command whose short form would collide with another's (e.g. <code>concavity</code>/<code>conic</code>/<code>continuity</code> all start <code>con</code>) simply has no short form; its full name always still works.
+</div>
+<table>
+  <tr><th>Command</th><th>Short</th><th>Does</th><th>Section</th></tr>
+  <tr><td><code>@:acceleration &lt;var&gt;</code></td><td><code>ac</code></td><td>Differentiate a position function twice</td><td><a href="#velocity-acceleration">§9.2</a></td></tr>
+  <tr><td><code>@:areabetween &lt;var&gt; [a b]</code></td><td><code>ar</code></td><td>Area between two curves</td><td><a href="#areabetween">§8.11</a></td></tr>
+  <tr><td><code>@:balance</code></td><td><code>ba</code></td><td>Balance a chemical equation</td><td><a href="#balance">§10.1</a></td></tr>
+  <tr><td><code>@:bracket2csv</code></td><td><code>br</code></td><td>Matrix bracket notation → CSV cell</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:canon</code></td><td><code>ca</code></td><td>Sort a sum's terms by degree without expanding</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:clearval</code></td><td><code>cl</code></td><td>Clear values set by <code>@:setval</code></td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:compose</code></td><td><code>com</code></td><td>Function composition</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:concavity &lt;var&gt;</code></td><td>—</td><td>Concave-up/down intervals</td><td><a href="#curve-analysis">§8.4</a></td></tr>
+  <tr><td><code>@:conic</code> / <code>@:conics</code></td><td>—</td><td>Conic sections</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:continuity &lt;var&gt; &lt;point&gt;</code></td><td>—</td><td>Classify continuous/discontinuous at a point</td><td><a href="#continuity">§8.8</a></td></tr>
+  <tr><td><code>@:critpoints &lt;var&gt;</code></td><td><code>cr</code></td><td>Critical points, classified max/min</td><td><a href="#curve-analysis">§8.4</a></td></tr>
+  <tr><td><code>@:csv2bracket</code></td><td><code>cs</code></td><td>CSV cell → matrix bracket notation</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:dcalc &lt;var&gt;</code></td><td><code>dc</code></td><td>Differentiate (sin/cos/tan/exp/ln/log/sqrt too)</td><td><a href="#dcalc">§8.2</a></td></tr>
+  <tr><td><code>@:defint &lt;var&gt; &lt;lower&gt; &lt;upper&gt;</code></td><td><code>def</code></td><td>Definite integral (FTC)</td><td><a href="#integrate">§8.6</a></td></tr>
+  <tr><td><code>@:degtorad</code></td><td><code>deg</code></td><td>Degrees → radians (symbolic π)</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:differentiate [var]</code></td><td><code>di</code></td><td>Differentiate — polynomials only</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:domain</code></td><td><code>do</code></td><td>Domain</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:eval &lt;var&gt; &lt;value&gt;</code></td><td><code>ev</code></td><td>Evaluate an expression at a point</td><td><a href="#eval">§8.7</a></td></tr>
+  <tr><td><code>@:expand</code></td><td>—</td><td>Expand (the default mode)</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:exptolog</code></td><td>—</td><td>Exponential → log form</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:factor</code></td><td><code>fa</code></td><td>Factor</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:flip</code></td><td><code>fl</code></td><td>Negate every term on both sides of an equation</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:icalc &lt;var&gt;</code></td><td><code>ic</code></td><td>Integrate (sin/cos/tan/exp/sqrt/1/x, integration by parts too)</td><td><a href="#integrate">§8.6</a></td></tr>
+  <tr><td><code>@:implicit &lt;xVar&gt; &lt;yVar&gt;</code></td><td><code>im</code></td><td>Implicit differentiation, solve for dy/dx</td><td><a href="#implicit">§8.5</a></td></tr>
+  <tr><td><code>@:inflection &lt;var&gt;</code></td><td><code>inf</code></td><td>Inflection points</td><td><a href="#curve-analysis">§8.4</a></td></tr>
+  <tr><td><code>@:integrate [var]</code></td><td><code>int</code></td><td>Integrate — polynomials only</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:inverse</code></td><td><code>inv</code></td><td>Inverse functions</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:limit &lt;var&gt; &lt;point&gt; &lt;direction&gt;</code></td><td><code>lim</code></td><td>Evaluate a limit</td><td><a href="#limit">§8.3</a></td></tr>
+  <tr><td><code>@:linapprox &lt;var&gt; &lt;center&gt; &lt;target&gt;</code></td><td><code>lin</code></td><td>Tangent-line approximation</td><td><a href="#linapprox">§8.9</a></td></tr>
+  <tr><td><code>@:logtoexp</code></td><td><code>lo</code></td><td>Log → exponential form</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:monotonic &lt;var&gt;</code></td><td><code>mo</code></td><td>Increasing/decreasing intervals</td><td><a href="#curve-analysis">§8.4</a></td></tr>
+  <tr><td><code>@:mvt &lt;var&gt; &lt;a&gt; &lt;b&gt;</code></td><td><code>mv</code></td><td>Mean Value Theorem / Rolle's Theorem</td><td><a href="#mvt">§8.10</a></td></tr>
+  <tr><td><code>@:oxstate</code></td><td><code>o</code></td><td>Oxidation states of a formula</td><td><a href="#oxstate">§10.2</a></td></tr>
+  <tr><td><code>@:physics</code></td><td><code>p</code></td><td>Give known quantities, solve for the rest</td><td><a href="#autophysics">§9.1</a></td></tr>
+  <tr><td><code>@:radical</code></td><td>—</td><td>Solve a radical equation</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:radtodeg</code></td><td>—</td><td>Radians → degrees (numeric decimal)</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:range</code></td><td><code>ran</code></td><td>Range</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:rational</code></td><td><code>rat</code></td><td>Solve a rational equation</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:riemann &lt;f(x)&gt; &lt;a&gt; &lt;b&gt; &lt;n&gt; &lt;side&gt;</code></td><td>—</td><td>Riemann sum (left/right/midpoint)</td><td><a href="#riemann">§8.13</a></td></tr>
+  <tr><td><code>@:riemannlimit &lt;f(x)&gt; &lt;a&gt; &lt;b&gt;</code></td><td>—</td><td>Exact definite integral via the limit definition</td><td><a href="#riemannlimit">§8.14</a></td></tr>
+  <tr><td><code>@:rotate</code></td><td><code>ro</code></td><td>Swap an equation's two sides</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:sci</code></td><td>—</td><td>Scientific notation, and persists across later mode switches until <code>@:scioff</code></td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:scioff</code></td><td>—</td><td>Turn off the persistent scientific-notation formatting <code>@:sci</code> started</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:scmS &lt;code&gt;</code> / <code>@:scmL &lt;code&gt;</code></td><td>—</td><td>Run your own Chez Scheme code</td><td><a href="#scm-code">§7</a></td></tr>
+  <tr><td><code>@:set</code></td><td>—</td><td>Finite set operations</td><td><a href="#sets">§12</a></td></tr>
+  <tr><td><code>@:setval &lt;var&gt;=&lt;val&gt; ...</code></td><td>—</td><td>Set variable values for following lines</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:showwork on/off</code></td><td><code>sh</code></td><td>Show step-by-step work</td><td><a href="#showwork">§11.1</a></td></tr>
+  <tr><td><code>@:sketch &lt;var&gt;</code></td><td><code>sk</code></td><td>Critical points + monotonicity + inflection + concavity, together</td><td><a href="#curve-analysis">§8.4</a></td></tr>
+  <tr><td><code>@:solve [var]</code></td><td>—</td><td>Solve algebraic equations (also inequalities, exp/log)</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:sqrt</code></td><td><code>sq</code></td><td>Simplify a square root (largest perfect-square factor)</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:sumcalc</code></td><td><code>su</code></td><td>Evaluate finite summation (sigma notation)</td><td><a href="#sumcalc">§8.12</a></td></tr>
+  <tr><td><code>@:system</code></td><td><code>sy</code></td><td>Solve a system of linear equations</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:trigonometric</code> / <code>@:trig</code></td><td><code>t</code></td><td>Solve a trigonometric equation</td><td><a href="#mode-general">§2.1</a></td></tr>
+  <tr><td><code>@:velocity &lt;var&gt;</code></td><td><code>v</code></td><td>Differentiate a position function once</td><td><a href="#velocity-acceleration">§9.2</a></td></tr>
+</table>
+</details>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<details class="cmdsection" open>
+<summary><h2 id="plain-expressions">1. Plain Expressions</h2></summary>
 <p>Just type the expression. PAE Bird expands and simplifies it.</p>
 <pre>(x + 1)(x + 2)
 2x^2y - 3xy^2
 (a - b)^3</pre>
+</details>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>2. <code>@:</code> Mode Switch (affects all following lines)</h2>
+<details class="cmdsection" open>
+<summary><h2 id="mode-switch">2. <code>@:</code> Mode Switch (affects all following lines)</h2></summary>
 <p>Place a mode switch on its own line. Every line after it uses that mode until you switch again.</p>
+
+<h3 id="mode-general" style="margin-top:20px; color:#2b6cb0;">2.1 General / Algebra</h3>
 <table>
   <tr><th>Command</th><th>Mode</th></tr>
-  <tr><td><code>@:expand</code></td><td>Expand (default)</td></tr>
-  <tr><td><code>@:expandc</code></td><td>Comprehensive expand</td></tr>
+  <tr><td><code>@:expand</code></td><td>Expand (default) — also recognizes a bare <code>log(...)</code>/<code>ln(...)</code>/<code>log_N(...)</code> call and expands it via the product/quotient/power rules, e.g. <code>log(x*y)</code> → <code>log(x) + log(y)</code> — see the note below.</td></tr>
   <tr><td><code>@:factor</code></td><td>Factor</td></tr>
-  <tr><td><code>@:solve</code></td><td>Solve algebraic equations</td></tr>
-  <tr><td><code>@:solveexp</code></td><td>Solve exponential equations</td></tr>
-  <tr><td><code>@:solvelog</code></td><td>Solve logarithmic equations</td></tr>
-  <tr><td><code>@:differentiate [var]</code></td><td>Differentiate (default variable: x)</td></tr>
-  <tr><td><code>@:integrate [var]</code></td><td>Integrate (default variable: x)</td></tr>
-  <tr><td><code>@:sci</code></td><td>Scientific notation</td></tr>
-  <tr><td><code>@:degtorad</code></td><td>Degrees → radians</td></tr>
-  <tr><td><code>@:balance</code></td><td>Balance chemical equations</td></tr>
+  <tr><td><code>@:solve [var]</code></td><td>Solve algebraic equations — also recognizes <code>&lt;</code>/<code>&gt;</code>/<code>&lt;=</code>/<code>&gt;=</code> directly (a linear inequality, interval notation) instead of requiring an <code>=</code>, and an exponential (<code>2^x=16</code>) or logarithmic (<code>log_3(x)=4</code>) equation shape the same way — see the note below. Give <code>var</code> explicitly to solve a genuinely multivariable equation for it, e.g. <code>ax+b=c</code> solved for <code>x</code> gives <code>x = (c-b) / (a)</code>, treating every other variable symbolically.</td></tr>
+  <tr><td><code>@:differentiate [var]</code></td><td>Differentiate — polynomials only (default variable: x)</td></tr>
+  <tr><td><code>@:integrate [var]</code></td><td>Integrate — polynomials only (default variable: x)</td></tr>
+  <tr><td><code>@:sci</code></td><td>Scientific notation — converts a bare number directly under this mode, e.g. <code>299792458</code> → <code>2.99792458 × 10⁸</code>. Also persistent: once on, ANY later command's plain-number result keeps getting reformatted into scientific notation too, even after switching to a different <code>@:</code> mode or chaining with <code>;:</code> — until <code>@:scioff</code> turns it back off. A result that isn't a bare number (a polynomial, an equation, text with units, etc.) is left alone either way.</td></tr>
+  <tr><td><code>@:scioff</code></td><td>Turns off the persistent formatting <code>@:sci</code> started. Doesn't change whatever <code>@:</code> mode is currently active — only clears the flag.</td></tr>
+  <tr><td><code>@:degtorad</code></td><td>Degrees → radians, symbolic (e.g. <code>90</code> → <code>π/2 radians</code>)</td></tr>
+  <tr><td><code>@:radtodeg</code></td><td>Radians → degrees, numeric decimal — not the inverse of <code>@:degtorad</code>'s symbolic form (e.g. <code>1</code> → <code>57.29577951 degrees</code>)</td></tr>
   <tr><td><code>@:logtoexp</code></td><td>Log → exponential form</td></tr>
   <tr><td><code>@:exptolog</code></td><td>Exponential → log form</td></tr>
-  <tr><td><code>@:trigonometric</code></td><td>Trigonometric mode</td></tr>
-  <tr><td><code>@:conic</code></td><td>Conic sections</td></tr>
-  <tr><td><code>@:radical</code></td><td>Radical simplification</td></tr>
-  <tr><td><code>@:rational</code></td><td>Rational expressions</td></tr>
+  <tr><td><code>@:trigonometric</code> (alias <code>@:trig</code>)</td><td>Solve a trigonometric equation, e.g. <code>sin(x)=1/2</code> → <code>x = 30° + 360°n, x = 150° + 360°n</code></td></tr>
+  <tr><td><code>@:conic</code> (alias <code>@:conics</code>)</td><td>Conic sections</td></tr>
+  <tr><td><code>@:radical</code></td><td>Solve a radical equation for <code>x</code>, e.g. <code>√(x+1)=3</code> (or <code>sqrt(x+1)=3</code>) → <code>x = 8</code>. Isolates the radical, squares both sides, solves the resulting polynomial equation, then verifies each rational candidate root against the original equation's own domain (rejecting an extraneous root introduced by squaring).</td></tr>
+  <tr><td><code>@:rational</code></td><td>Solve a rational equation for <code>x</code>, e.g. <code>(x^2-4)/(x-2)=4</code> → <code>No solution (every candidate was extraneous)</code> (<code>x=2</code> solves the cross-multiplied polynomial but makes the original denominator zero). Cross-multiplies, solves the resulting polynomial equation, then filters out any candidate root that makes either original denominator zero.</td></tr>
   <tr><td><code>@:compose</code></td><td>Function composition</td></tr>
   <tr><td><code>@:inverse</code></td><td>Inverse functions</td></tr>
   <tr><td><code>@:domain</code></td><td>Domain</td></tr>
   <tr><td><code>@:range</code></td><td>Range</td></tr>
-  <tr><td><code>@:system</code></td><td>Solve a system of linear equations (semicolon-separated)</td></tr>
-  <tr><td><code>@:inequality</code></td><td>Solve an inequality</td></tr>
-  <tr><td><code>@:canon</code></td><td>Canonical form — reorders terms by descending degree, then alphabetically</td></tr>
-  <tr><td><code>@:rotate</code></td><td>Swap the two sides of an equation</td></tr>
-  <tr><td><code>@:flip</code></td><td>Negate every term on both sides of an equation</td></tr>
-  <tr><td><code>@:sqrt</code></td><td>Simplify a square root expression</td></tr>
-  <tr><td><code>@:radtodeg</code></td><td>Radians → degrees</td></tr>
-  <tr><td><code>@:oxstate</code></td><td>Oxidation states of a chemical formula</td></tr>
-  <tr><td><code>@:setval &lt;var=val ...&gt;</code></td><td>Set one or more variable values, substituted into every following line until cleared or reassigned — e.g. <code>@:setval x=3 y=1/2</code>. Unassigned variables stay symbolic. See §6.</td></tr>
-  <tr><td><code>@:clearval</code></td><td>Clear all variable values set by <code>@:setval</code>.</td></tr>
+  <tr><td><code>@:system</code></td><td>Solve a system of linear equations — one line, equations separated by <code>;</code>, same number of equations as unknowns, e.g. <code>x+y=5;x-y=1</code> → <code>x = 3, y = 2</code> (coefficients can use implicit multiplication, <code>2x</code>, or explicit <code>2*x</code> — both work)</td></tr>
+  <tr><td><code>@:sqrt</code></td><td>Simplify a square root by extracting its largest perfect-square factor, e.g. <code>12</code> → <code>2√3</code> — also accepts an outer coefficient, e.g. <code>2√12</code> → <code>4√3</code></td></tr>
+  <tr><td><code>@:rotate</code></td><td>Swap an equation's two sides, e.g. <code>x+2=3y-1</code> → <code>3y-1 = x+2</code></td></tr>
+  <tr><td><code>@:flip</code></td><td>Negate every term on both sides of an equation, e.g. <code>-2x-3=-7</code> → <code>+2x+3 = +7</code></td></tr>
+  <tr><td><code>@:canon</code></td><td>Sort a sum's top-level terms by degree WITHOUT expanding — reprints each term's own original text unchanged, unlike <code>@:expand</code> which fully multiplies through, e.g. <code>(x+1)(x-2)+3x^2</code> → <code>3x²+(x+1)(x-2)</code></td></tr>
+  <tr><td><code>@:set</code></td><td>Finite set operations (union/intersection/difference/subset/membership) — see §12</td></tr>
+  <tr><td><code>@:setval &lt;var&gt;=&lt;val&gt; ...</code></td><td>Sets one or more variable values (space-separated <code>var=val</code> pairs, e.g. <code>@:setval x=3 y=1/2</code>) — every following line has those values substituted in before evaluating, until <code>@:clearval</code>.</td></tr>
+  <tr><td><code>@:clearval</code></td><td>Clears every value set by <code>@:setval</code>.</td></tr>
   <tr><td><code>@:csv2bracket</code></td><td>CSV cell → matrix bracket notation</td></tr>
   <tr><td><code>@:bracket2csv</code></td><td>Matrix bracket notation → CSV cell</td></tr>
-  <tr><td><code>@:scmS &lt;code&gt;</code> / <code>@:scmL &lt;code&gt;</code></td><td>Run your own Chez Scheme code against each line's data. See §11.</td></tr>
-  <tr><td><code>@:showwork on/off</code></td><td><em>Planned — not yet implemented.</em> Will show step-by-step work for whichever mode is active.</td></tr>
+  <tr><td><code>@:scmS &lt;code&gt;</code> / <code>@:scmL &lt;code&gt;</code></td><td>Run your own Chez Scheme code against each line's data — see §7</td></tr>
+  <tr><td><code>@:showwork on/off</code></td><td>Shows step-by-step work for whichever mode is already active (<code>differentiate</code>/<code>dcalc</code>/<code>solve</code>/<code>expand</code>) — see §11.</td></tr>
+</table>
+<div class="note">
+  <strong>Tip:</strong> Under <code>@:expand</code>, a bare <code>log(...)</code>/<code>ln(...)</code>/<code>log_N(...)</code> call is expanded via the product rule (<code>log(xy)</code> → <code>log(x) + log(y)</code>), quotient rule (<code>log(x/y)</code> → <code>log(x) - log(y)</code>), and power rule (<code>log(x^3)</code> → <code>3*log(x)</code>), applied per factor so e.g. <code>log(x^2*y^3)</code> → <code>2*log(x) + 3*log(y)</code> in one pass — no separate mode needed. Only a call spanning the ENTIRE line expands this way; one embedded in a larger expression (e.g. <code>log(x*y)+1</code>) is left unchanged rather than guessed at.
+</div>
+<div class="note" style="margin-top:12px">
+  <strong>Tip:</strong> Under <code>@:solve</code>, typing a comparison instead of an equation — <code>2x+3&gt;7</code>, <code>3x&lt;=9</code> — solves it as a linear inequality and returns interval notation (<code>(2, ∞)</code>, <code>(-∞, 3]</code>), no separate mode needed. Only linear (degree ≤ 1) inequalities are supported; dividing by a negative coefficient correctly flips the direction (<code>-2x+3&gt;7</code> → <code>(-∞, -2)</code>), and strict vs. non-strict comparisons print the matching open/closed bracket.
+</div>
+<div class="note" style="margin-top:12px">
+  <strong>Tip:</strong> <code>@:solve x</code> (naming a variable) solves a genuinely multivariable equation for just that one, treating every other variable as a symbolic constant rather than requiring a number — e.g. <code>3xy+z=w</code> solved for <code>x</code> gives <code>x = (w-z) / (3y)</code>. Only linear-in-<code>x</code> equations are supported this way (<code>x</code> itself must appear to exactly the first power everywhere it appears) — a symbolic quadratic formula isn't implemented, so e.g. <code>x^2+y=1</code> reports a clear error rather than attempting one. An equation with only one variable still gets the full ordinary treatment (quadratic, higher-degree, etc.) even when that variable is named explicitly — the multivariable path only takes over once a second variable is genuinely present.
+</div>
+<div class="note" style="margin-top:12px">
+  <strong>Tip:</strong> <code>@:solve</code> also recognizes an exponential or logarithmic equation directly, no mode switch needed: <code>2^x=16</code> → <code>x = 4</code> (a numeric base with the variable in the exponent — an ordinary polynomial power like <code>x^2=16</code> is left alone, since there the base is the variable, not a number), and <code>log_3(x)=4</code> → <code>x = 81</code> (the base right after <code>log_</code>).
+</div>
+
+<h3 id="mode-calculus" style="margin-top:20px; color:#2b6cb0;">2.2 Calculus — see <a href="#calculus">§8</a></h3>
+<table>
+  <tr><th>Command</th><th>Mode</th></tr>
+  <tr><td><em>(no command)</em></td><td>Differentiate/integrate directly, in any mode — <code>d/dx(expr)</code>, <code>(expr)'</code>, <code>∫expr dx</code>, <code>∫(0,2)expr dx</code> — see §8.1.</td></tr>
+  <tr><td><code>@:dcalc &lt;var&gt;</code></td><td>Differentiate — adds sin/cos/tan/exp/ln/log/sqrt support; variable required, no default.</td></tr>
+  <tr><td><code>@:limit &lt;var&gt; &lt;point&gt; &lt;direction&gt;</code></td><td>Evaluate a limit.</td></tr>
+  <tr><td><code>@:critpoints &lt;var&gt;</code></td><td>Critical points, classified as local max/min.</td></tr>
+  <tr><td><code>@:monotonic &lt;var&gt;</code></td><td>Increasing/decreasing intervals.</td></tr>
+  <tr><td><code>@:inflection &lt;var&gt;</code></td><td>Inflection points.</td></tr>
+  <tr><td><code>@:concavity &lt;var&gt;</code></td><td>Concave up/down intervals.</td></tr>
+  <tr><td><code>@:sketch &lt;var&gt;</code></td><td>Full curve analysis in one call — critical points, monotonicity, inflection points, and concavity together.</td></tr>
+  <tr><td><code>@:implicit &lt;xVar&gt; &lt;yVar&gt;</code></td><td>Implicit differentiation — solves an equation for dy/dx.</td></tr>
+  <tr><td><code>@:icalc &lt;var&gt;</code></td><td>Integrate — adds sin/cos/tan/exp/sqrt/1/x, linear-argument substitution (e.g. sin(3x)), and integration by parts for a top-level product (e.g. x*sin(x), x^2*exp(x)); variable required, no default.</td></tr>
+  <tr><td><code>@:defint &lt;var&gt; &lt;lower&gt; &lt;upper&gt;</code></td><td>Definite integral (Fundamental Theorem of Calculus).</td></tr>
+  <tr><td><code>@:eval &lt;var&gt; &lt;value&gt;</code></td><td>Evaluate an expression at a point (works for sin/cos/tan/exp/ln/log/sqrt too, unlike <code>@:setval</code>).</td></tr>
+  <tr><td><code>@:continuity &lt;var&gt; &lt;point&gt;</code></td><td>Classify continuous/discontinuous at a point.</td></tr>
+  <tr><td><code>@:linapprox &lt;var&gt; &lt;center&gt; &lt;target&gt;</code></td><td>Tangent-line (linear) approximation.</td></tr>
+  <tr><td><code>@:mvt &lt;var&gt; &lt;a&gt; &lt;b&gt;</code></td><td>Mean Value Theorem (Rolle's Theorem is the <code>f(a)=f(b)</code> special case). Polynomials only.</td></tr>
+  <tr><td><code>@:areabetween &lt;var&gt; [a b]</code></td><td>Area between two curves (given as <code>expr1;expr2</code> on one line). Polynomials only.</td></tr>
+  <tr><td><code>sum(term,index,lower,upper)</code> / <code>@:sumcalc</code></td><td>Finite summation (sigma notation) — parses anywhere, evaluates only under <code>@:sumcalc</code>; see §8.12.</td></tr>
+  <tr><td><code>@:riemann &lt;f(x)&gt; &lt;a&gt; &lt;b&gt; &lt;n&gt; &lt;side&gt;</code></td><td>Left/right/midpoint Riemann sum approximating a definite integral — self-contained on one line, variable inferred automatically; see §8.13.</td></tr>
+  <tr><td><code>@:riemannlimit &lt;f(x)&gt; &lt;a&gt; &lt;b&gt;</code></td><td>Exact definite integral via the limit-of-Riemann-sums definition (degree ≤3 polynomials only); see §8.14.</td></tr>
 </table>
 
+<h3 id="mode-physics" style="margin-top:20px; color:#2b6cb0;">2.3 Physics — see <a href="#physics">§9</a></h3>
+<table>
+  <tr><th>Command</th><th>Mode</th></tr>
+  <tr><td><code>@:physics</code></td><td>Give some known quantities (with units), it detects which relation applies and solves for the rest — covers everything from SUVAT kinematics through gravitation. See §9.1.</td></tr>
+  <tr><td><code>@:velocity &lt;var&gt;</code></td><td>Differentiate a position function once.</td></tr>
+  <tr><td><code>@:acceleration &lt;var&gt;</code></td><td>Differentiate a position function twice.</td></tr>
+</table>
+
+<h3 id="mode-chemistry" style="margin-top:20px; color:#2b6cb0;">2.4 Chemistry — see <a href="#chemistry">§10</a></h3>
+<table>
+  <tr><th>Command</th><th>Mode</th></tr>
+  <tr><td><code>@:balance</code></td><td>Balance a chemical equation.</td></tr>
+  <tr><td><code>@:oxstate</code></td><td>Oxidation states of each element in a formula.</td></tr>
+</table>
+</details>
+
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>3. <code>@@:</code> One-Line Override</h2>
-<p>Apply a mode to just one line without changing the current mode. <code>@@:setval</code> is the one exception that takes a leading <code>var=val ...</code> list before its expression — every other mode takes just the expression, no separate variable argument (e.g. an inline differentiate/integrate variable isn't supported this way; use the persistent <code>@:differentiate y</code> form for that).</p>
+<details class="cmdsection" open>
+<summary><h2 id="oneline-override">3. <code>@@:</code> One-Line Override</h2></summary>
+<p>Apply a mode to just one line without changing the current mode.</p>
 <table>
   <tr><th>Command</th><th>Example</th></tr>
   <tr><td><code>@@:&lt;mode&gt; &lt;expr&gt;</code></td><td><code>@@:factor x^2 + 5x + 6</code></td></tr>
-  <tr><td><code>@@:setval &lt;var=val ...&gt; &lt;expr&gt;</code></td><td><code>@@:setval x=3 x^2 + 1</code> → substitutes into just this one line, no persistence.</td></tr>
-  <tr><td><code>@@:&lt;mode&gt;ç &lt;expr&gt;</code></td><td><code>@@:factorç x^2 - 9</code> → the next-line trigger (§7) works here too, for just this one line.</td></tr>
+  <tr><td><code>@@:setval &lt;var&gt;=&lt;val&gt; ... &lt;expr&gt;</code></td><td><code>@@:setval x=3 x^2+1</code> → <code>10</code>. Applies to this line only — doesn't persist the value the way <code>@:setval</code> does.</td></tr>
 </table>
+</details>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>4. Example Session</h2>
+<details class="cmdsection" open>
+<summary><h2 id="chaining">4. <code>;:command</code> Answer Chaining</h2></summary>
+<p>Feeds the previous solution into a new command — a running "Ans" that persists across lines, not just within one. Suffix any line with <code>;:&lt;mode&gt;</code> to run that command on the line's own result, or start a line with <code>;:&lt;mode&gt;</code> on its own to run it on the PREVIOUS line's result instead. Chain further by suffixing another <code>;:&lt;mode&gt;</code>.</p>
+<table>
+  <tr><th>Command</th><th>Example</th><th>Result</th></tr>
+  <tr><td><code>&lt;expr&gt;;:&lt;mode&gt;</code></td><td><code>x^2-1;:factor</code></td><td>Expands <code>x^2-1</code>, then factors it: <code>(x-1)(x+1)</code></td></tr>
+  <tr><td><code>;:&lt;mode&gt;</code> (own line)</td><td><code>x^2-1</code> then, on the next line, <code>;:factor</code></td><td>Same result — the second line has no expression of its own, so it factors the first line's answer</td></tr>
+  <tr><td><code>;:mode1;:mode2</code></td><td><code>x^2-1;:factor;:expand</code></td><td>Factors, then re-expands: back to <code>x²-1</code></td></tr>
+</table>
+<p>If nothing has been computed yet, the fed-in value defaults to <code>0</code>. A command that returns multiple values (<code>solve</code>, <code>system</code>, <code>critpoints</code>, <code>monotonic</code>, <code>inflection</code>, <code>concavity</code>, <code>sketch</code>, etc.) can only appear as the LAST step in a chain — using one earlier reports a clear error rather than a confusing one, since there's no single answer to hand to the next step.</p>
+<p><code>;:scmS</code> and <code>;:scmL</code> (see §7) are a special case: instead of applying a fixed built-in command, they run whichever Scheme program you most recently set with <code>@:scmS &lt;code&gt;</code>/<code>@:scmL &lt;code&gt;</code> — that program stays available for chaining even after switching to a different <code>@:</code> mode in between. <code>;:dcalc</code>, <code>;:critpoints</code>, <code>;:monotonic</code>, <code>;:inflection</code>, <code>;:concavity</code>, <code>;:sketch</code>, and <code>;:icalc</code> work the same way with their own variable, most recently set by <code>@:dcalc &lt;var&gt;</code> or any of the others — see §8. <code>;:implicit</code> works the same way too, with its own <code>&lt;xVar&gt; &lt;yVar&gt;</code> pair, most recently set by <code>@:implicit &lt;xVar&gt; &lt;yVar&gt;</code> — but since its input must be an equation (<code>expr=expr</code>), not a plain expression, it can only usefully chain off another equation-shaped result, not off <code>dcalc</code>/<code>expand</code>/etc. <code>;:defint</code> works the same way with its own <code>&lt;var&gt; &lt;lower&gt; &lt;upper&gt;</code> triple, most recently set by <code>@:defint &lt;var&gt; &lt;lower&gt; &lt;upper&gt;</code>. <code>;:eval</code> works the same way with its own <code>&lt;var&gt; &lt;value&gt;</code> pair, most recently set by <code>@:eval &lt;var&gt; &lt;value&gt;</code> — note that setting <code>@:eval</code> also switches the ambient mode to <code>eval</code>, so to chain <code>expr;:dcalc;:eval</code> (differentiate, then evaluate the derivative at a point, in one line), set <code>@:eval &lt;var&gt; &lt;value&gt;</code> <em>before</em> switching to <code>@:dcalc &lt;var&gt;</code> — the later <code>@:dcalc</code> directive only replaces the ambient mode, it leaves the already-set eval point alone. A nice trick: <code>expr;:icalc</code> chained off <code>@:dcalc</code> differentiates then re-integrates, useful as a sanity check that both sides agree.</p>
+</details>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<details class="cmdsection" open>
+<summary><h2 id="example-session">5. Example Session</h2></summary>
 <pre># Polynomial expansion (default — no prefix needed)
 (x + 1)(x + 2)
 (a - b)^3
+
+# Logarithm expansion -- recognized directly under @:expand too
+log(x*y)
+log(x^3/y)
 
 # Switch to factoring for a block
 @:factor
@@ -122,145 +397,814 @@ x^3 - 8
 (x - 2)(x + 5)
 @@:factor x^2 + 7x + 12
 
-# Calculus
+# Calculus (polynomials only)
 @:differentiate x
 x^3 + 2x^2 - 5x + 1
 
 @:integrate x
 x^4 - 3x^2
 
+# Calculus (sin/cos/tan/exp/ln/log/sqrt, limits, curve analysis)
+@:dcalc x
+sin(x^2)
+
+@:limit x 0 two-sided
+sin(x)/x
+
+@:sketch x
+x^3 - 3x
+
 # Equations
 @:solve
 3x - 7 = 11
 x^2 - 4 = 0
-
-# Exponential / log
-@:solveexp
+2x+3 > 7
 2^x = 16
-
-@:solvelog
 log_3(x) = 4
+
+# Multivariable -- name the variable to solve for; every other
+# variable is treated symbolically
+@:solve x
+ax + b = c
 
 # Chemistry
 @:balance
-Fe + O2 = Fe2O3
+Fe + O2 -> Fe2O3
 
-# Scientific notation (integers only, under 1 billion)
+# Scientific notation (integers only, under 1 billion) -- persists
+# across a later mode switch, until @:scioff
 @:sci
 299792458
+@:eval x 3
+x^2+1
+@:scioff
+x^2+1
 
 # Matrices (recognized directly from bracket notation -- no mode switch needed)
 det([[1,2],[3,4]])
 inverse([[1,2],[3,4]])
 [[1,2],[3,4]]+[[5,6],[7,8]]
-3x*[[1,2],[3,4]]
-det([[x,1],[2,y]])
 
 # Factorial (works in any mode, not just expand)
 @:expand
 3! + 2
 
-# Variable substitution -- persists until cleared or reassigned
-@:setval x=3 y=1/2
-x^2 + y
-@:clearval
+# Answer chaining -- feed one result into another command
+x^2-1;:factor
+;:expand
 
-# Next-line trigger -- answer goes on the line/cell below instead of alongside.
-# The ç lives on the mode switch itself, applying to every line under it.
-@:solveç
-x + 5 = 12
-@:solve
+# Set variable values -- substituted into every following line
+# until @:clearval
+@:setval x=3 y=1/2
+x^2+y
+@:clearval
 
 # Your own Scheme code
 @:scmL (reverse data)
 x+1</pre>
+</details>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>5. Matrices</h2>
-<p>Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly from the input in any mode — no mode switch needed, the same way <code>!</code> (factorial) already works everywhere. A matrix is a full citizen of ordinary algebra now: cells may hold variables and expressions (not just numbers), a matrix can be scaled by a whole polynomial expression rather than just a bare number, and matrices nest freely inside parentheses alongside everything else.</p>
+<details class="cmdsection" open>
+<summary><h2 id="matrices">6. Matrices</h2></summary>
+<p>Matrices use bracket notation, e.g. <code>[[1,2],[3,4]]</code>, and are recognized directly from the input in any mode — no mode switch needed, the same way <code>!</code> (factorial) already works everywhere.</p>
 <table>
   <tr><th>Op</th><th>Syntax</th><th>Example</th></tr>
   <tr><td>Add</td><td><code>matrixA+matrixB</code></td><td><code>[[1,2],[3,4]]+[[5,6],[7,8]]</code></td></tr>
   <tr><td>Subtract</td><td><code>matrixA-matrixB</code></td><td><code>[[5,6],[7,8]]-[[1,2],[3,4]]</code></td></tr>
   <tr><td>Multiply</td><td><code>matrixA*matrixB</code></td><td><code>[[1,2],[3,4]]*[[5,6],[7,8]]</code></td></tr>
-  <tr><td>Scalar multiply</td><td><code>k*matrix</code> or <code>matrix*k</code> — <code>k</code> can be a full expression, not just a number</td><td><code>3*[[1,2],[3,4]]</code>, or <code>3x*[[1,2],[3,4]]</code> → <code>[[3x,6x],[9x,12x]]</code></td></tr>
-  <tr><td>Power</td><td><code>matrix^n</code> (square matrices only)</td><td><code>[[1,2],[3,4]]^2</code> → <code>[[7,10],[15,22]]</code></td></tr>
+  <tr><td>Scalar multiply</td><td><code>k*matrix</code> or <code>matrix*k</code></td><td><code>3*[[1,2],[3,4]]</code></td></tr>
   <tr><td>Transpose</td><td><code>transpose(matrix)</code></td><td><code>transpose([[1,2,3],[4,5,6]])</code></td></tr>
-  <tr><td>Determinant</td><td><code>det(matrix)</code> — works symbolically too</td><td><code>det([[1,2],[3,4]])</code>, or <code>det([[x,1],[2,y]])</code> → <code>xy-2</code></td></tr>
-  <tr><td>Inverse</td><td><code>inverse(matrix)</code> — works symbolically too</td><td><code>inverse([[1,2],[3,4]])</code></td></tr>
-  <tr><td>Row reduce</td><td><code>rref(matrix)</code> — works symbolically too</td><td><code>rref([[1,2,3],[4,5,6]])</code></td></tr>
+  <tr><td>Determinant</td><td><code>det(matrix)</code></td><td><code>det([[1,2],[3,4]])</code></td></tr>
+  <tr><td>Inverse</td><td><code>inverse(matrix)</code></td><td><code>inverse([[1,2],[3,4]])</code></td></tr>
+  <tr><td>Row reduce</td><td><code>rref(matrix)</code></td><td><code>rref([[1,2,3],[4,5,6]])</code></td></tr>
 </table>
-<p>A bare matrix on its own (just <code>[[1,2],[3,4]]</code>, no operator or function) is validated and reformatted. Cell values may be integers, decimals, fractions (e.g. <code>3/4</code>), or genuine algebraic expressions — a variable, a sum, even a rational expression like <code>1/(x-2)</code> — and always print back exactly, never rounded to a decimal. Dimension mismatches, non-square/singular inputs, and invalid combinations (e.g. adding a matrix to a plain number) all report a clear error rather than crashing.</p>
+<p>A bare matrix on its own (just <code>[[1,2],[3,4]]</code>, no operator or function) is validated and reformatted. Cell values may be integers, decimals, or fractions (e.g. <code>3/4</code>), and always print back exactly — never rounded to a decimal. Dimension mismatches and non-square/singular inputs report a clear error rather than crashing.</p>
 <p>A matrix result isn't a plain number, so a whole-line matrix expression is returned directly, regardless of whatever <code>@:</code> mode happens to be active — but <code>det(...)</code>'s numeric result composes normally into a larger expression, exactly like <code>!</code>: <code>det([[1,2],[3,4]])+5</code> expands to <code>3</code>.</p>
-<p>Matrices nest anywhere an ordinary expression does, not just at the top level — e.g. <code>(x+1)*([[x,0],[0,4]])</code> expands to <code>[[x^2+x,0],[0,4x+4]]</code>.</p>
-<p><code>det</code>/<code>inverse</code>/<code>rref</code> on a matrix with variable entries always produce an exact symbolic result — determinant via cofactor expansion, inverse/row-reduction by picking pivots the way a first linear-algebra course would for a matrix with a parameter: a cell only counts as zero if it's zero for <em>every</em> value of its variables, so e.g. a cell like <code>x-2</code> (zero at just one point) is still treated as a usable pivot.</p>
 <div class="note">
   <strong>Tip:</strong> <code>@:csv2bracket</code> / <code>@:bracket2csv</code> convert between bracket notation and a single quoted CSV cell, for pasting a matrix result into a spreadsheet row alongside other data. A dedicated matrix-only CSV or <code>.xlsx</code> file (a real Excel file — cells keep their exact values, e.g. <code>3/4</code>, rather than a decimal or a misread date) can be imported/exported directly from the command line.
 </div>
+</details>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>6. Variable Substitution — <code>@:setval</code> / <code>@:clearval</code></h2>
-<p><code>@:setval</code> takes one or more space-separated <code>var=val</code> pairs and substitutes those known values into every following line, leaving any variable without an assigned value symbolic. Values may be integers, decimals, or fractions (e.g. <code>1/2</code>). A later <code>@:setval</code> adds to or overwrites the current values rather than replacing the whole set; <code>@:clearval</code> resets it to empty. Values persist across a mode switch (<code>@:factor</code>, <code>@:solve</code>, etc.) — only <code>@:clearval</code> or reassigning the same variable changes them.</p>
-<pre>@:setval x=3 y=1/2
-x^2 + y        <span style="color:#718096"># -> 19/2</span>
-2x - 1         <span style="color:#718096"># -> 5</span>
-a + x          <span style="color:#718096"># -> a stays symbolic, only x substitutes -> a+3</span>
-@:clearval
-x^2 + y        <span style="color:#718096"># -> x^2 + y, unchanged</span></pre>
-<p>For a one-off substitution without switching the persistent set, use the <code>@@:setval</code> one-line override (§3) or, from the API/command line, the standalone <code>setval</code> command: <code>compute setval "x=3" "x^2+1"</code>.</p>
+<details class="cmdsection" open>
+<summary><h2 id="scm-code">7. <code>@:scmS</code> / <code>@:scmL</code> — Run Your Own Scheme Code</h2></summary>
+<p>Write your own Chez Scheme program and run it against a line's data, converted to a plain symbol list bound to <code>data</code> — the same representation PAE Bird uses internally for a polynomial. PAE Bird's own commands (<code>expand</code>, <code>factor</code>, <code>solve</code>, etc.) are <em>not</em> available inside your program — this runs your code in a plain Scheme sandbox operating on data, not a way to call PAE Bird's own operations by another name.</p>
+<table>
+  <tr><th>Command</th><th>Output</th></tr>
+  <tr><td><code>@:scmS &lt;code&gt;</code></td><td>Renders the result back like a normal solution (e.g. <code>3x^2/5+x</code>)</td></tr>
+  <tr><td><code>@:scmL &lt;code&gt;</code></td><td>Prints the raw Scheme value (e.g. <code>(x + 1 +)</code>)</td></tr>
+</table>
+<pre>@:scmL (reverse data)
+x+1</pre>
+<p>Set your program once with <code>@:scmS &lt;code&gt;</code>/<code>@:scmL &lt;code&gt;</code>, then every following line's data runs through it. You can also chain a bare <code>;:scmS</code> or <code>;:scmL</code> onto any line (see §4) to run the same program against that line's own result instead of the current line's data.</p>
+<div class="note">
+  <strong>Tip:</strong> Define a helper first, then use it — every form you write runs in order, and the last one's value is the result. <code>data</code> mixes numbers and symbols (operators, variables), so a numbers-only helper needs to filter first: <code>@:scmL (define (numbers-only l) (filter number? l)) (numbers-only data)</code>
+</div>
+</details>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>7. Next-Line Trigger — <code>ç</code></h2>
-<p>Prefix or suffix a mode-switch command with <code>ç</code> (c-cedilla, U+00E7) to place every following line's computed answer on the next line/cell instead of alongside the problem — e.g. in a spreadsheet, the formula's own cell shows the problem text and the result spills into the cell below. The marker lives on the <em>command</em>, not the expression — so it applies to every line under that mode switch, not just one, and never has to be stripped back out of an expression before it's parsed.</p>
+<details class="cmdsection" open>
+<summary><h2 id="calculus">8. Calculus: Derivatives, Limits, and Curve Analysis</h2></summary>
+<p>Two ways to reach the same engine: no-command notation (§8.1) for differentiation/integration directly in the input, or the <code>@:</code> commands below for everything else in this section (limits, curve analysis, implicit differentiation, evaluation) plus <code>@:dcalc</code>/<code>@:icalc</code> themselves. <code>@:dcalc</code> and everything below it in this section run on a newer engine than plain <code>@:differentiate</code>/<code>@:integrate</code> — it understands <code>sin</code>, <code>cos</code>, <code>tan</code>, <code>exp</code>, <code>ln</code>, <code>log</code>, and <code>sqrt</code> as well as polynomials. It's a separate command family rather than a replacement: <code>@:differentiate</code>/<code>@:integrate</code> still work exactly as before, polynomials only. Every command in this section requires its variable explicitly — there's no default the way <code>@:differentiate</code> defaults to <code>x</code> — with one exception, <code>@:sumcalc</code> (§8.12), whose variable (the summation index) lives inside its <code>sum(...)</code> input syntax instead of as a separate command argument.</p>
+
+<h3 id="calcnotation" style="margin-top:20px; color:#2b6cb0;">8.1 Differentiate/integrate without a command</h3>
+<p>Three notations, recognized directly in the input — no <code>@:</code> mode switch needed at all, in <strong>any</strong> active mode, the same way matrix bracket notation and <code>!</code> factorial already are (§6, §2.1). Built on the same engine as <code>@:dcalc</code>/<code>@:icalc</code>/<code>@:defint</code> above — sin/cos/tan/exp/ln/log/sqrt all work.</p>
+<table>
+  <tr><th>Notation</th><th>Meaning</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>d/d&lt;var&gt;(expr)</code></td><td>Differentiate, variable explicit</td><td><code>d/dt(5cos(2t))</code></td><td><code>-5*sin(2*t)*2</code></td></tr>
+  <tr><td><code>(expr)'</code></td><td>Differentiate, variable inferred</td><td><code>(x^2+3x)'</code></td><td><code>2*x+3</code></td></tr>
+  <tr><td><code>expr'</code> (chained)</td><td>Repeated differentiation</td><td><code>(x^3)''</code></td><td><code>6*x</code></td></tr>
+  <tr><td><code>∫expr dx</code></td><td>Indefinite integral (no <code>+C</code>, same as <code>@:icalc</code>)</td><td><code>∫x^2dx</code></td><td><code>x³/3</code></td></tr>
+  <tr><td><code>∫(a,b)expr dx</code></td><td>Definite integral, bounds in parens</td><td><code>∫(0,2)x^2dx</code></td><td><code>8/3</code></td></tr>
+  <tr><td><code>∫ₐᵇexpr dx</code></td><td>Definite integral, textbook subscript/superscript bounds</td><td><code>∫₀²x^2dx</code></td><td><code>8/3</code></td></tr>
+</table>
+<p>The prime form (<code>'</code>) infers which variable to differentiate with respect to — unambiguous whenever the expression has exactly one; a bare constant (e.g. <code>5'</code>) trivially differentiates to <code>0</code>. A genuinely multivariable expression (e.g. <code>(x*y)'</code>) reports a clear error asking for the explicit <code>d/d&lt;var&gt;(...)</code> form instead of guessing which variable was meant. The integral notation never needs inference at all — the trailing <code>d&lt;var&gt;</code> always supplies it, exactly like ordinary calculus notation on paper. Both bound-syntax forms above mean the same thing; the subscript/superscript form is also what you get back if you paste a previous definite-integral answer in as new input.</p>
+
+<h3 id="dcalc" style="margin-top:20px; color:#2b6cb0;">8.2 <code>@:dcalc &lt;var&gt;</code> — Differentiate</h3>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>sin(x^2)</code></td><td><code>cos(x²)*2*x</code></td></tr>
+  <tr><td><code>x^2*exp(x)</code></td><td><code>2*x*exp(x)+x²*exp(x)</code></td></tr>
+</table>
+
+<h3 id="limit" style="margin-top:20px; color:#2b6cb0;">8.3 <code>@:limit &lt;var&gt; &lt;point&gt; &lt;direction&gt;</code> — Evaluate a Limit</h3>
+<p><code>&lt;point&gt;</code> is a number (<code>2</code>, <code>-1</code>, <code>1/2</code>) or <code>+infinity</code>/<code>-infinity</code>. <code>&lt;direction&gt;</code> is <code>two-sided</code>, <code>left</code>, or <code>right</code>.</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:limit x 0 two-sided</code></td><td><code>sin(x)/x</code></td><td><code>1</code></td></tr>
+  <tr><td><code>@:limit x 2 two-sided</code></td><td><code>(x²-4)/(x-2)</code></td><td><code>4</code></td></tr>
+  <tr><td><code>@:limit x +infinity two-sided</code></td><td><code>(2x²+3x)/(x²-1)</code></td><td><code>2</code></td></tr>
+  <tr><td><code>@:limit x 0 right</code></td><td><code>1/x</code></td><td><code>+infinity</code></td></tr>
+  <tr><td><code>@:limit x 0 left</code></td><td><code>1/x</code></td><td><code>-infinity</code></td></tr>
+</table>
+<p>A result of <code>undefined</code> means the two one-sided limits disagree (a genuine vertical asymptote with no single two-sided value) — try <code>left</code> or <code>right</code> instead.</p>
+
+<h3 id="curve-analysis" style="margin-top:20px; color:#2b6cb0;">8.4 Curve Analysis — <code>@:critpoints</code>, <code>@:monotonic</code>, <code>@:inflection</code>, <code>@:concavity</code>, <code>@:sketch</code></h3>
+<p><strong>Polynomials only</strong> — these four all solve an equation internally to locate critical/inflection points, and equation-solving in PAE Bird doesn't yet understand <code>sin</code>/<code>cos</code>/<code>exp</code>/<code>ln</code>/etc. A function like <code>x + sin(x)</code> reports a clear error here rather than a wrong answer.</p>
+<table>
+  <tr><th>Command</th><th>Returns</th></tr>
+  <tr><td><code>@:critpoints &lt;var&gt;</code></td><td>Each critical point, classified as a local maximum or minimum</td></tr>
+  <tr><td><code>@:monotonic &lt;var&gt;</code></td><td>Increasing/decreasing intervals</td></tr>
+  <tr><td><code>@:inflection &lt;var&gt;</code></td><td>Inflection points (only genuine ones — a flat spot where concavity doesn't actually change, like <code>x⁴</code> at <code>x=0</code>, isn't included)</td></tr>
+  <tr><td><code>@:concavity &lt;var&gt;</code></td><td>Concave-up/concave-down intervals</td></tr>
+  <tr><td><code>@:sketch &lt;var&gt;</code></td><td>All four of the above together, in one call</td></tr>
+</table>
+<p>Example — <code>@:sketch x</code> on <code>x^3-3x</code> (one comma-separated line; wrapped here for readability):</p>
+<pre>x = -1: local maximum, x = 1: local minimum,
+increasing on (-infinity, -1), decreasing on (-1, 1), increasing on (1, infinity),
+x = 0: inflection point,
+concave down on (-infinity, 0), concave up on (0, infinity)</pre>
+<p>Irrational boundary points print symbolically (e.g. <code>x = √2</code>), the same convention <code>@:solve</code> already uses.</p>
+
+<h3 id="implicit" style="margin-top:20px; color:#2b6cb0;">8.5 <code>@:implicit &lt;xVar&gt; &lt;yVar&gt;</code> — Implicit Differentiation</h3>
+<p>Input is a full equation (<code>expr=expr</code>), not a bare expression — e.g. a circle, <code>x^2+y^2=25</code>, doesn't define <code>y</code> as an explicit function of <code>x</code> the way <code>@:dcalc</code> needs, but <code>dy/dx</code> can still be found by differentiating both sides. Works with <code>sin</code>/<code>cos</code>/<code>tan</code>/<code>exp</code>/<code>ln</code>/<code>log</code>/<code>sqrt</code> as well as polynomials, same as <code>@:dcalc</code>.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>x^2+y^2=25</code></td><td><code>-x/y</code></td></tr>
+  <tr><td><code>xy=1</code></td><td><code>-y/x</code></td></tr>
+  <tr><td><code>sin(y)=x</code></td><td><code>1/cos(y)</code></td></tr>
+</table>
+<p>The result may involve both <code>x</code> and <code>y</code> — that's normal for implicit differentiation, not a sign something went wrong. An equation where <code>y</code> doesn't actually appear (e.g. <code>x^2=25</code>) reports a clear error rather than a meaningless result.</p>
+
+<h3 id="integrate" style="margin-top:20px; color:#2b6cb0;">8.6 <code>@:icalc &lt;var&gt;</code> / <code>@:defint &lt;var&gt; &lt;lower&gt; &lt;upper&gt;</code> — Integrate</h3>
+<p><code>@:icalc</code> covers the basic integral table (the reverse of <code>@:dcalc</code>'s derivative table), sum/difference/constant-multiple rules, one curated substitution case (a <strong>linear</strong> argument, e.g. <code>sin(3x)</code> or <code>exp(2x+1)</code> or <code>1/(2x+3)</code>), and <strong>integration by parts</strong> for a top-level product of two var-dependent factors, e.g. <code>x*sin(x)</code>, <code>x^2*exp(x)</code>, <code>x*ln(x)</code>. Which factor plays <code>u</code> vs. <code>dv</code> is picked automatically (LIATE: Log, Inverse trig, Algebraic, Trig, Exponential — this engine has no inverse-trig functions, so in practice it's L-A-T-E), and a case needing more than one pass (e.g. <code>x^3*exp(x)</code>) recurses on its own rather than stopping after the first round.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>x^2</code></td><td><code>x³/3</code></td></tr>
+  <tr><td><code>sin(x)</code></td><td><code>-cos(x)</code></td></tr>
+  <tr><td><code>1/x</code></td><td><code>ln(abs(x))</code></td></tr>
+  <tr><td><code>sin(3x)</code></td><td><code>-1/3*cos(3*x)</code></td></tr>
+  <tr><td><code>(2x+1)^5</code></td><td><code>1/2*(2*x+1)⁶/6</code></td></tr>
+  <tr><td><code>x*sin(x)</code></td><td><code>-x*cos(x)+sin(x)</code></td></tr>
+  <tr><td><code>x*exp(x)</code></td><td><code>x*exp(x)-exp(x)</code></td></tr>
+  <tr><td><code>x*ln(x)</code></td><td><code>ln(x)*1/2*x²-1/4*x²</code></td></tr>
+  <tr><td><code>x^3*exp(x)</code></td><td><code>x³*exp(x)-(3*x²*exp(x)-(6*x*exp(x)-exp(x)*6))</code></td></tr>
+</table>
+<p><code>1/x</code> integrates to <code>ln(abs(x))</code>, not <code>ln(x)</code> — <code>ln</code> is undefined for a negative number, and the antiderivative needs to stay valid on the whole domain the original expression was, not just where <code>x</code> happens to be positive.</p>
+<p>Still out of scope: <code>ln(x)</code> alone (not literally a product — a bare <code>dv=dx</code> factor isn't handled), substitution beyond a linear argument (<code>sin(x^2)</code>), and a self-referential case like <code>exp(x)*sin(x)</code> (integration by parts cycles between <code>sin</code>/<code>cos</code> without ever bottoming out at something directly integrable — needs solving algebraically for the integral, which isn't attempted; reports a clear error after a bounded number of passes, not a silently wrong answer or a hang).</p>
+<p><code>@:defint</code> evaluates the same antiderivative at two bounds and subtracts (the Fundamental Theorem of Calculus) — bounds are plain numbers, not <code>+infinity</code>/<code>-infinity</code> (an improper integral isn't supported).</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:defint x 0 2</code></td><td><code>x^2</code></td><td><code>8/3</code></td></tr>
+  <tr><td><code>@:defint x 1 2</code></td><td><code>1/x</code></td><td><code>.693147...</code></td></tr>
+</table>
+
+<h3 id="eval" style="margin-top:20px; color:#2b6cb0;">8.7 <code>@:eval &lt;var&gt; &lt;value&gt;</code> — Evaluate at a point</h3>
+<p>Reports the expression's actual value at <code>&lt;var&gt;=&lt;value&gt;</code>. Unlike <code>@:setval</code> (which only understands plain polynomials), <code>@:eval</code> works on any expression this calculus engine understands, including <code>sin</code>/<code>cos</code>/<code>tan</code>/<code>exp</code>/<code>ln</code>/<code>log</code>/<code>sqrt</code> — this is what makes it possible to evaluate a <code>@:dcalc</code>/<code>@:icalc</code> result (which can be transcendental) at a specific point. A value that isn't exactly computable rounds to 6 significant figures, matching <code>@:limit</code>'s own convention. A genuine domain violation at that exact point (e.g. dividing by zero) reports <code>undefined</code> — this is deliberately different from <code>@:limit</code>, which can still resolve a value there via indeterminate-form analysis even though the expression itself is undefined at that point.</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:eval x 3</code></td><td><code>x^2+1</code></td><td><code>10</code></td></tr>
+  <tr><td><code>@:eval t 2</code></td><td><code>5cos(2t)</code></td><td><code>-3.26822</code></td></tr>
+  <tr><td><code>@:eval x 0</code></td><td><code>1/x</code></td><td><code>undefined</code></td></tr>
+</table>
+<p>A common combination: <code>@:eval t 2</code> then, on a separate line, <code>@:dcalc t</code>, then <code>5cos(2t);:eval</code> — differentiates <code>5cos(2t)</code> under the ambient <code>dcalc</code> mode, then evaluates that derivative at <code>t=2</code> in the same line (<code>7.56802</code>). See §4's chaining notes for why the <code>@:eval</code> directive has to come first.</p>
+
+<h3 id="continuity" style="margin-top:20px; color:#2b6cb0;">8.8 <code>@:continuity &lt;var&gt; &lt;point&gt;</code> — Continuity</h3>
+<p>Classifies the expression's behavior at <code>&lt;var&gt;=&lt;point&gt;</code>: continuous, or one of the three standard discontinuity types. Built entirely on <code>@:limit</code>/<code>@:eval</code>'s own machinery (two-sided and one-sided limits, plus the value at the point) — no separate resolution logic of its own.</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:continuity x 2</code></td><td><code>x^2+3x</code></td><td><code>continuous at x = 2</code></td></tr>
+  <tr><td><code>@:continuity x 0</code></td><td><code>1/x</code></td><td><code>infinite discontinuity at x = 0 (vertical asymptote)</code></td></tr>
+  <tr><td><code>@:continuity x 2</code></td><td><code>(x^2-4)/(x-2)</code></td><td><code>removable discontinuity at x = 2 (the limit is 4, but x=2 is not in the domain)</code></td></tr>
+</table>
+<p>The fourth standard type, a <em>jump</em> discontinuity, needs a genuinely different one-sided limit on each side of the point — the classic textbook examples all involve either a piecewise definition or an absolute value, neither of which this engine's grammar supports at all, so it isn't reachable yet in practice; it falls back to <code>discontinuous at ... (limit does not exist)</code> instead.</p>
+
+<h3 id="linapprox" style="margin-top:20px; color:#2b6cb0;">8.9 <code>@:linapprox &lt;var&gt; &lt;center&gt; &lt;target&gt;</code> — Linear Approximation</h3>
+<p>Estimates the expression's value at <code>&lt;target&gt;</code> using the tangent line at <code>&lt;var&gt;=&lt;center&gt;</code>: <code>L(x) = f(center) + f'(center)*(x - center)</code>. <code>&lt;target&gt;</code> can be a fraction (there's no decimal-literal support anywhere in this engine, matching <code>@:eval</code>/every other numeric input) — e.g. estimate <code>sqrt(4.02)</code> by writing the target as <code>201/50</code>.</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:linapprox x 4 201/50</code></td><td><code>sqrt(x)</code></td><td><code>401/200</code></td></tr>
+  <tr><td><code>@:linapprox x 2 21/10</code></td><td><code>x^3</code></td><td><code>46/5</code></td></tr>
+</table>
+
+<h3 id="mvt" style="margin-top:20px; color:#2b6cb0;">8.10 <code>@:mvt &lt;var&gt; &lt;a&gt; &lt;b&gt;</code> — Mean Value Theorem</h3>
+<p>Finds every <code>c</code> in the open interval <code>(a, b)</code> with <code>f'(c) = (f(b)-f(a))/(b-a)</code> — there can be more than one. Rolle's Theorem isn't a separate command: it's exactly the case where <code>f(a)=f(b)</code>, which makes the target slope <code>0</code> automatically: the result is labeled <code>(Rolle's Theorem)</code> instead of <code>(the Mean Value Theorem)</code> when that happens, but the underlying computation is identical either way. <strong>Polynomials only</strong> — same restriction as <a href="#curve-analysis">§8.4's curve analysis</a>, for the same reason (<code>solve()</code> has no concept of a transcendental function).</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:mvt x 1 3</code></td><td><code>x^2</code></td><td><code>x = 2 (the Mean Value Theorem)</code></td></tr>
+  <tr><td><code>@:mvt x 1 3</code></td><td><code>x^2-4x+3</code></td><td><code>x = 2 (Rolle's Theorem)</code></td></tr>
+</table>
+
+<h3 id="areabetween" style="margin-top:20px; color:#2b6cb0;">8.11 <code>@:areabetween &lt;var&gt; [a b]</code> — Area Between Curves</h3>
+<p>Needs <strong>two</strong> expressions on one line — write them separated by <code>;</code>, e.g. <code>x;x^2</code> for the region between <code>y=x</code> and <code>y=x^2</code> — the only command in this reference with that shape. Give explicit bounds (<code>@:areabetween x 0 1</code>) or leave them off to use the two curves' own intersection points as the region's boundary (<code>@:areabetween x</code>, needs at least two intersections to enclose anything). Either way, the result is sign-aware around any point where the curves cross inside the interval — the naive "just take <code>|one definite integral|</code>" approach silently undercounts whenever which curve is on top flips partway through, since a positive and a negative region can cancel each other out before the absolute value is ever applied. <strong>Polynomials only</strong>, same reason as <code>@:mvt</code> above (finding where the curves cross reuses <code>solve()</code>).</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:areabetween x 0 1</code></td><td><code>x;x^2</code></td><td><code>1/6</code></td></tr>
+  <tr><td><code>@:areabetween x</code></td><td><code>x;x^2</code></td><td><code>1/6</code> (same answer — 0 and 1 are exactly where these two curves cross)</td></tr>
+  <tr><td><code>@:areabetween x -1 1</code></td><td><code>x;0</code></td><td><code>1</code> (not <code>0</code> — <code>y=x</code> crosses the x-axis at <code>x=0</code>, right in the middle of the given interval)</td></tr>
+</table>
+
+<h3 id="sumcalc" style="margin-top:20px; color:#2b6cb0;">8.12 <code>sum(term,index,lower,upper)</code> / <code>@:sumcalc</code> — Finite Summation (Sigma Notation)</h3>
+<p><code>sum(...)</code> is ordinary notation, parseable anywhere an expression is (like any other function call), but it only actually <strong>evaluates</strong> under <code>@:sumcalc</code> mode — feeding it to <code>@:dcalc</code>/<code>@:icalc</code>/<code>@:limit</code>/<code>@:eval</code> etc. parses fine but reports a clear "not supported" error, since differentiating/integrating/limit-taking through a summation is a different, larger problem this doesn't attempt. Unlike <code>@:dcalc</code>/<code>@:icalc</code>, <code>@:sumcalc</code> takes no variable argument at all — a line is expected to already be a closed, fully numeric expression once every <code>sum(...)</code> in it is evaluated (composition is fine, e.g. <code>2*sum(n,n,1,5)+3</code>). <code>lower</code>/<code>upper</code> must be literal integers (or a constant expression that reduces to one, like <code>1+2</code>) — a symbolic bound isn't supported. <code>sigma(...)</code> (word form) and <code>∑(...)</code> (the U+2211 summation glyph, not the Greek letter Σ) are interchangeable spellings of <code>sum(...)</code> — all three parse to the exact same thing and always render back as <code>sum(...)</code>.</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:sumcalc</code></td><td><code>sum(n^2,n,1,10)</code></td><td><code>385</code></td></tr>
+  <tr><td><code>@:sumcalc</code></td><td><code>2*sum(n,n,1,5)+3</code></td><td><code>33</code></td></tr>
+  <tr><td><code>@:sumcalc</code></td><td><code>∑(2^n,n,0,10)</code></td><td><code>2047</code> (geometric series, closed-form)</td></tr>
+  <tr><td><code>@:sumcalc</code></td><td><code>sigma(sqrt(n),n,1,4)</code></td><td><code>6.14626</code> (no closed form for this shape — direct term-by-term sum)</td></tr>
+  <tr><td><code>@:sumcalc</code></td><td><code>sum(1/n!,n,0,10)</code></td><td><code>9864101/3628800</code> (≈ <code>2.71828</code> — a Taylor-series partial sum for <code>e</code>)</td></tr>
+</table>
+<p>A curated closed-form table (constant/linear/quadratic/cubic/geometric terms, extended through linearity) is tried first, so a huge range like <code>sum(n,n,1,10000000)</code> resolves instantly; anything else falls back to a direct term-by-term sum. A direct sum that's still running after 10 seconds starts printing progress and accepts <code>sumc</code> (typed on its own, in a live session) to abort — this only does anything in an interactive session, not a batch worksheet run. <code>term</code> can also use factorial (<code>n!</code>, postfix, tighter-binding than <code>^</code>) — this is what makes a Taylor-series-shaped sum like <code>1/n!</code> expressible at all; it's only defined for a nonnegative integer, and <code>n!!</code> isn't double-factorial notation here, just a clear parse error. <strong>Not supported:</strong> a symbolic/variable bound (<code>sum(n,n,1,N)</code>), a term depending on any variable besides its own index (<code>sum(x*n,n,1,5)</code>), and a nested sum as another sum's term (parses and round-trips fine, errors on evaluation) — all report a clear error rather than a wrong answer.</p>
+
+<h3 id="riemann" style="margin-top:20px; color:#2b6cb0;">8.13 <code>@:riemann &lt;f(x)&gt; &lt;a&gt; &lt;b&gt; &lt;n&gt; &lt;side&gt;</code> — Riemann Sums</h3>
+<p>Approximates <code>∫[a,b] f(x) dx</code> by <code>n</code> equal-width rectangles, sampled at each subinterval's left endpoint, right endpoint, or midpoint (<code>&lt;side&gt;</code> is the literal word <code>left</code>, <code>right</code>, or <code>midpoint</code>). Self-contained on one line, unlike every other calculus command in this section — there's no separate header line followed by a data line; the function goes directly in the command line itself. The variable is inferred automatically (there's nowhere to name one explicitly in this syntax) — unambiguous whenever <code>f(x)</code> has exactly one. Built entirely on <code>@:sumcalc</code>'s own sigma-notation machinery above, not a separate evaluator — it's exactly the sum <code>Δx·Σf(sample)</code>, constructed as a real <code>sum(...)</code> expression internally (Δx=(b-a)/n; sample index <code>i</code> ranges <code>0..n-1</code> for <code>left</code>, <code>1..n</code> for <code>right</code> and <code>midpoint</code>; <code>midpoint</code> samples the CENTER of each subinterval, <code>a+(i-½)·Δx</code>, rather than an endpoint). Works with <code>sin</code>/<code>cos</code>/<code>tan</code>/<code>exp</code>/<code>ln</code>/<code>log</code>/<code>sqrt</code> as well as polynomials, same vocabulary as <code>@:dcalc</code>/<code>@:icalc</code> — not restricted to polynomials the way <code>@:mvt</code>/<code>@:areabetween</code>/curve analysis are.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:riemann x^2 0 4 4 left</code></td><td><code>14</code></td></tr>
+  <tr><td><code>@:riemann x^2 0 4 4 right</code></td><td><code>30</code> (exact integral is <code>64/3 ≈ 21.3</code>, between the two, as expected)</td></tr>
+  <tr><td><code>@:riemann x^2 0 4 4 midpoint</code></td><td><code>21</code> (closer to the exact <code>64/3 ≈ 21.3</code> than either endpoint sum, as is typical)</td></tr>
+  <tr><td><code>@:riemann x^2 0 1 1000 left</code></td><td><code>665667/2000000 = .332834</code> (exact integral <code>1/3=.333333</code> — the underestimate has closed most of the gap by <code>n=1000</code>)</td></tr>
+  <tr><td><code>@:riemann sin(x) 0 1 4 left</code></td><td><code>.352117</code> (transcendental <code>f</code> works too, not just polynomials)</td></tr>
+</table>
+<p>As <code>n</code> grows, all three converge to the same exact value <code>@:defint</code> (§8.6) or <code>@:riemannlimit</code> (§8.14) would give directly. For an increasing function, the left sum stays an underestimate and the right sum stays an overestimate (or vice versa for a decreasing one, e.g. <code>-x^2</code>) — a good way to sanity-check a result by eye: running both <code>left</code> and <code>right</code> at the same <code>n</code> should always bracket the true integral, narrowing as <code>n</code> grows. <code>midpoint</code> doesn't bracket this way (it can land on either side of the true value), but typically converges faster than either endpoint sum at the same <code>n</code>.</p>
+<p><code>&lt;n&gt;</code> must be a positive whole number of subintervals — <code>0</code> or a fraction is a clear error, not an empty/zero result. <code>f</code> may only depend on one variable (same one-variable convention <code>sum(...)</code>/<code>@:dcalc</code>/<code>@:icalc</code> already have) — a second free variable in <code>f</code> is also a clear error rather than a guess. <strong>Not built:</strong> trapezoidal rule and Simpson's rule aren't true Riemann sums (no single per-subinterval sample point) and aren't here.</p>
+
+<h3 id="riemannlimit" style="margin-top:20px; color:#2b6cb0;">8.14 <code>@:riemannlimit &lt;f(x)&gt; &lt;a&gt; &lt;b&gt;</code> — Exact Definite Integral via the Limit Definition</h3>
+<p>Evaluates <code>∫[a,b] f(x) dx</code> <strong>exactly</strong>, not by approximation — the same limit-of-Riemann-sums definition §8.13's right-endpoint sum is built on, but carried all the way to <code>n→∞</code> in closed form: binomial-expand <code>f(a+i·Δx)</code>, replace each <code>Σiᵏ</code> with its closed-form power-sum formula, then take the limit termwise. Self-contained on one line, same as <code>@:riemann</code> — no <code>&lt;n&gt;</code> or <code>&lt;side&gt;</code> to give, since the underlying definition always uses right endpoints and always takes <code>n→∞</code>. <strong>Polynomials of degree ≤3 only</strong> — the closed-form power-sum formulas this relies on stop at <code>Σi³</code>, and there's no shortcut past that (squaring <code>Σi²</code> does <em>not</em> give <code>Σi⁴</code>); a degree-4-or-higher <code>f</code> reports a clear error rather than a wrong answer. Always agrees exactly with <code>@:defint</code> (§8.6, the Fundamental-Theorem-of-Calculus method) on anything both can handle — two structurally unrelated methods computing the same quantity.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:riemannlimit x^3-6x 0 3</code></td><td><code>-27/4</code> (<code>-6.75</code>)</td></tr>
+  <tr><td><code>@:riemannlimit x^2 0 4</code></td><td><code>64/3</code></td></tr>
+  <tr><td><code>@:riemannlimit x^4 0 1</code></td><td>clear error — degree 4 is out of scope</td></tr>
+</table>
+</details>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<details class="cmdsection" open>
+<summary><h2 id="physics">9. Physics — Mechanics</h2></summary>
+<p>Two modes: <strong>quantity-based</strong> (<code>@:physics</code>, unit-aware — give some known quantities, it figures out which relation applies and solves for the rest) and <strong>function-based</strong> (<code>@:velocity</code>/<code>@:acceleration</code>, unitless, just <code>@:dcalc</code> with physics vocabulary).</p>
+
+<h3 id="autophysics" style="margin-top:20px; color:#2b6cb0;">9.1 <code>@:physics</code> — Give some quantities, it detects which relation applies</h3>
+<p>One mode covers every quantity-based relation in this reference (kinematics through gravitation, §9.3's table below) — no need to know or type a specific command name for "Newton's second law" vs. "circular motion" vs. "orbital velocity", etc. Switch to it once, then just give <code>role=value+unit</code> pairs, space-separated, same convention every one of these relations has always used:</p>
+<pre>@:physics
+u=0m/s a=9.8m/s^2 t=2s
+f=10N m=2kg</pre>
+<pre>v = 98/5m/s, s = 98/5m
+a = 5m/s²</pre>
+<p>The first line's variables (<code>u</code>, <code>a</code>, <code>t</code>) only belong to the SUVAT kinematic equations, so that's what runs; the second line's (<code>f</code>, <code>m</code>) only belong to Newton's second law. Most inputs are this unambiguous — every variable letter means the same physical quantity everywhere in this reference (<code>m</code> is always mass, <code>v</code> is always velocity, etc.), so which relation applies is usually obvious from the letters alone.</p>
+
+<h4 style="margin-top:16px; color:#2b6cb0;">Naming the target with "?"</h4>
+<p>Sometimes the SAME given variables are genuinely shared by two different relations — e.g. <code>m</code> and <code>v</code> alone are consistent with both kinetic energy (<code>k=½mv²</code>) and momentum (<code>q=mv</code>). Mark whichever variable you actually want solved for with <code>?</code> instead of a value to disambiguate:</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>k=? m=2kg v=3m/s</code></td><td><code>k = 9J</code> (kinetic energy)</td></tr>
+  <tr><td><code>q=? m=2kg v=3m/s</code></td><td><code>q = 6kg*m/s</code> (momentum)</td></tr>
+</table>
+<p><code>?</code> can mark more than one variable at once for a relation that solves for two unknowns from three-plus knowns (e.g. SUVAT, circular motion, power) — it's just a hint about which variable(s) you want, not a hard requirement; the relation still solves for whatever's genuinely missing either way.</p>
+
+<h4 style="margin-top:16px; color:#2b6cb0;">When it's still ambiguous: every matching answer, labeled</h4>
+<p>If <code>?</code> is omitted and more than one relation matches, or a target IS named but two relations still tie on it (see <code>orbitalvelocity</code>/<code>escapevelocity</code> below — they use the exact same four variables, so naming <code>v</code> doesn't help), <code>@:physics</code> shows every matching relation's answer rather than silently guessing or erroring — each labeled by name, separated with <code>|</code>:</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>m=2kg v=3m/s</code></td><td><code>kinetic: k = 9J | momentum: q = 6kg*m/s</code></td></tr>
+  <tr><td><code>v=? r=2m g_c=3N*m^2/kg^2 n=6kg</code></td><td><code>orbitalvelocity: v = 3m/s; v = -3m/s | escapevelocity: v = 3√2m/s; v = -3√2m/s</code></td></tr>
+</table>
+<p>(The <code>;</code> inside one relation's own answer above separates that SAME relation's multiple roots — e.g. a ± pair — from each other; <code>|</code> always separates two DIFFERENT relations.) A variable set matching no known relation at all, or an unrecognized variable name, reports a clear error instead of either of the above.</p>
+
+<h3 id="velocity-acceleration" style="margin-top:20px; color:#2b6cb0;">9.2 <code>@:velocity &lt;var&gt;</code> / <code>@:acceleration &lt;var&gt;</code> — Function-based kinematics</h3>
+<p>Give a position function <code>s(t)</code>; <code>@:velocity</code> differentiates it once, <code>@:acceleration</code> twice. Deliberately unitless — these are thin wrappers over <code>@:dcalc</code> (§8.2), so they support the same sin/cos/tan/exp/ln/log/sqrt functions dcalc does (useful for an SHM position function like <code>5cos(2t)</code>). Chain with <code>;:eval</code> (§8.7) to get a numeric value at a specific time in one line.</p>
+<table>
+  <tr><th>Command</th><th>Input</th><th>Result</th></tr>
+  <tr><td><code>@:velocity t</code></td><td><code>t^3-2t+5</code></td><td><code>3*t²-2</code></td></tr>
+  <tr><td><code>@:acceleration t</code></td><td><code>t^3-2t+5</code></td><td><code>6*t</code></td></tr>
+</table>
+<p>Drag/terminal-velocity problems don't need a dedicated command either: given a candidate velocity function like <code>v(t) = (m·g/b)·(1-exp(-b·t/m))</code>, differentiate it with <code>@:dcalc t</code> to check it against the drag equation by hand, and use <code>@:limit t +infinity two-sided</code> directly on the whole expression for terminal velocity.</p>
+
+<h3 id="physicstable" style="margin-top:20px; color:#2b6cb0;">9.3 Relation reference</h3>
+<p>Every relation <code>@:physics</code> knows, for reference — give however many variables a row needs (all but the ones you want solved for, or use <code>?</code> to say so explicitly).</p>
+<table>
+  <tr><th>Relation</th><th>Variables</th><th>Formula</th><th>Notes</th></tr>
+  <tr><td>SUVAT (constant acceleration)</td><td><code>s</code> displacement, <code>u</code> initial velocity, <code>v</code> final velocity, <code>a</code> acceleration, <code>t</code> time</td><td>the 4 standard kinematic equations</td><td>Give 3, solves for the other 2 — branches over paired real solutions when a step is quadratic.</td></tr>
+  <tr><td>Newton's second law</td><td><code>f</code> force, <code>m</code> mass, <code>a</code> acceleration</td><td><code>f=ma</code></td><td></td></tr>
+  <tr><td>Circular motion</td><td><code>a</code> centripetal accel., <code>v</code> speed, <code>r</code> radius, <code>f</code> centripetal force, <code>m</code> mass</td><td><code>a·r=v²</code>, <code>f=m·a</code></td><td>Period/frequency and banking-angle scenarios aren't covered.</td></tr>
+  <tr><td>Work</td><td><code>w</code> work, <code>f</code> force, <code>d</code> distance</td><td><code>w=f·d</code></td><td>Force along the direction of motion only (no angled-force <code>cos(θ)</code> case).</td></tr>
+  <tr><td>Kinetic energy</td><td><code>k</code> energy, <code>m</code> mass, <code>v</code> speed</td><td><code>k=½mv²</code></td><td></td></tr>
+  <tr><td>Gravitational PE (near-surface)</td><td><code>e</code> energy, <code>m</code> mass, <code>g</code> grav. accel., <code>h</code> height</td><td><code>e=mgh</code></td><td>The near-surface approximation — see the general form below for arbitrary distance.</td></tr>
+  <tr><td>Power</td><td><code>p</code> power, <code>w</code> work, <code>t</code> time, <code>f</code> force, <code>v</code> speed</td><td><code>p=w/t</code>, <code>p=f·v</code></td><td>Not every combination of 3 is solvable — <code>p</code> is the only variable shared by both equations, so e.g. <code>{p,f,v}</code> alone (missing <code>w,t</code>) is genuinely underdetermined.</td></tr>
+  <tr><td>Work-energy theorem</td><td><code>w</code> work, <code>m</code> mass, <code>u</code> initial speed, <code>v</code> final speed</td><td><code>w=½mv²-½mu²</code></td><td></td></tr>
+  <tr><td>Momentum</td><td><code>q</code> momentum, <code>m</code> mass, <code>v</code> velocity</td><td><code>q=mv</code></td><td></td></tr>
+  <tr><td>Impulse</td><td><code>j</code> impulse, <code>f</code> force, <code>t</code> time</td><td><code>j=ft</code></td><td>Same dimension/unit as momentum.</td></tr>
+  <tr><td>Impulse-momentum theorem</td><td><code>j</code> impulse, <code>m</code> mass, <code>u</code> initial speed, <code>v</code> final speed</td><td><code>j=mv-mu</code></td><td></td></tr>
+  <tr><td>Two-body collision</td><td><code>m</code>/<code>n</code> masses, <code>u</code>/<code>v</code> object 1's initial/final velocity, <code>x</code>/<code>y</code> object 2's initial/final velocity</td><td><code>mu+nx=mv+ny</code></td><td>Momentum conservation only — deriving both final velocities from scratch for an elastic collision isn't supported.</td></tr>
+  <tr><td>Perfectly inelastic collision</td><td><code>m</code>/<code>n</code> masses, <code>u</code>/<code>x</code> initial velocities, <code>v</code> shared final velocity</td><td><code>mu+nx=(m+n)v</code></td><td></td></tr>
+  <tr><td>Torque</td><td><code>c</code> torque, <code>f</code> force, <code>r</code> lever-arm length</td><td><code>c=fr</code></td><td>Force perpendicular to the lever arm only.</td></tr>
+  <tr><td>Rotational Newton's second law</td><td><code>c</code> torque, <code>z</code> moment of inertia, <code>b</code> angular accel.</td><td><code>c=zb</code></td><td></td></tr>
+  <tr><td>Angular momentum</td><td><code>l</code> angular momentum, <code>z</code> moment of inertia, <code>o</code> angular velocity</td><td><code>l=zo</code></td><td></td></tr>
+  <tr><td>Rotational kinetic energy</td><td><code>k</code> energy, <code>z</code> moment of inertia, <code>o</code> angular velocity</td><td><code>k=½zo²</code></td><td></td></tr>
+  <tr><td>Period-frequency</td><td><code>t</code> period, <code>f_s</code> frequency</td><td><code>t=1/f_s</code></td><td><code>T=2π/ω</code>-style formulas aren't supported (no symbolic π).</td></tr>
+  <tr><td>Hooke's law</td><td><code>f</code> spring force, <code>k_s</code> spring constant, <code>d</code> displacement</td><td><code>f=k_s·d</code></td><td></td></tr>
+  <tr><td>Spring potential energy</td><td><code>e</code> energy, <code>k_s</code> spring constant, <code>d</code> displacement</td><td><code>e=½k_s·d²</code></td><td></td></tr>
+  <tr><td>Maximum SHM velocity</td><td><code>v</code> max velocity, <code>s</code> amplitude, <code>o</code> angular frequency</td><td><code>v=sω</code></td><td></td></tr>
+  <tr><td>Maximum SHM acceleration</td><td><code>a</code> max accel., <code>s</code> amplitude, <code>o</code> angular frequency</td><td><code>a=sω²</code></td><td></td></tr>
+  <tr><td>Newton's law of universal gravitation</td><td><code>f</code> grav. force, <code>g_c</code> constant G, <code>m</code>/<code>n</code> masses, <code>r</code> distance</td><td><code>f=Gmn/r²</code></td><td></td></tr>
+  <tr><td>Gravitational field/acceleration</td><td><code>g</code> field strength, <code>g_c</code> constant G, <code>n</code> source mass, <code>r</code> distance</td><td><code>g=Gn/r²</code></td><td></td></tr>
+  <tr><td>Orbital velocity</td><td><code>v</code> speed, <code>r</code> radius, <code>g_c</code> constant G, <code>n</code> mass</td><td><code>v²r=Gn</code></td><td>Identical variable set to escape velocity below — always a tie (§9.1).</td></tr>
+  <tr><td>Escape velocity</td><td><code>v</code> speed, <code>r</code> radius, <code>g_c</code> constant G, <code>n</code> mass</td><td><code>v²r=2Gn</code></td><td>Identical variable set to orbital velocity above — always a tie (§9.1).</td></tr>
+  <tr><td>Gravitational PE (general form)</td><td><code>e</code> energy, <code>g_c</code> constant G, <code>m</code>/<code>n</code> masses, <code>r</code> distance</td><td><code>e=-Gmn/r</code></td><td>Negative by convention (zero at infinite separation) — distinct from the near-surface form above.</td></tr>
+</table>
+<p>Units: <code>m</code>/<code>km</code>/<code>cm</code>/<code>ft</code>/<code>mi</code> (length), <code>s</code>/<code>min</code>/<code>hr</code> (time), <code>m/s</code>/<code>km/hr</code>/<code>mph</code>/<code>ft/s</code> (velocity), <code>m/s^2</code>/<code>ft/s^2</code> (acceleration), <code>kg</code>/<code>g</code> (mass), <code>N</code> (force), <code>J</code> (energy/work), <code>W</code> (power), <code>kg*m/s</code> (momentum/impulse), <code>N*m</code> (torque), <code>kg*m^2</code> (moment of inertia), <code>rad/s</code>/<code>rad/s^2</code> (angular velocity/acceleration), <code>kg*m^2/s</code> (angular momentum), <code>Hz</code> (frequency), <code>N/m</code> (spring constant), <code>N*m^2/kg^2</code> (gravitational constant G — also accepts scientific notation, e.g. <code>g_c=6.674e-11N*m^2/kg^2</code>). Results are always shown in SI base units. This completes the Mechanics curriculum (kinematics through gravitation) — a full first-semester, calculus-based physics course.</p>
+</details>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<details class="cmdsection" open>
+<summary><h2 id="chemistry">10. Chemistry</h2></summary>
+<p>Two commands, independent of the algebra/calculus/physics engine above — chemical formulas and equations, not polynomial expressions.</p>
+
+<h3 id="balance" style="margin-top:20px; color:#2b6cb0;">10.1 <code>@:balance</code> — Balance a chemical equation</h3>
+<p>Write reactants and products separated by <code>+</code>, with <code>-></code> between the two sides — standard chemical formula notation (element symbols with a plain-digit count, no spaces needed inside a formula). Returns the same equation with the smallest whole-number coefficients that balance every element, rendered with a real <code>→</code> arrow and each formula's own element counts as real Unicode subscript digits — only the leading stoichiometric coefficient (e.g. the <code>2</code> in <code>2H₂O</code>) stays a plain, non-subscript number, exactly like a textbook prints it. Input accepts either form — a plain digit (<code>H2O</code>) or a real subscript digit (<code>H₂O</code>) — so a previous result can be pasted straight back in as new input.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>H2 + O2 -> H2O</code></td><td><code>2H₂ + O₂ → 2H₂O</code></td></tr>
+  <tr><td><code>Fe + O2 -> Fe2O3</code></td><td><code>4Fe + 3O₂ → 2Fe₂O₃</code></td></tr>
+</table>
+
+<h3 id="oxstate" style="margin-top:20px; color:#2b6cb0;">10.2 <code>@:oxstate</code> — Oxidation states</h3>
+<p>Give a single chemical formula; reports the oxidation state of every element in it. An element appearing with a count is reported grouped under that same count (e.g. <code>H₂</code>, not two separate <code>H</code> entries) — matching the formula's own notation, not a per-atom breakdown. Both the echoed formula and every element's count print as real Unicode subscript digits, same convention as <code>@:balance</code> — including accepting either digit form back as input.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>H2O</code></td><td><code>H₂O: H₂: +1, O: -2</code></td></tr>
+  <tr><td><code>KMnO4</code></td><td><code>KMnO₄: O₄: -2, K: +1, Mn: +7</code></td></tr>
+  <tr><td><code>Fe2O3</code></td><td><code>Fe₂O₃: O₃: -2, Fe₂: +3</code></td></tr>
+</table>
+</details>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<details class="cmdsection" open>
+<summary><h2 id="steps">11. Show Your Work</h2></summary>
+
+<h3 id="showwork" style="margin-top:20px; color:#2b6cb0;">11.1 <code>@:showwork on/off</code> — Show step-by-step work for the active mode</h3>
+<p>A persistent toggle, same convention as <code>@:setval</code>/<code>@:clearval</code> (§2.1) — set it once, every following line gets steps until you turn it back off. There's no separate command to remember for each operation: <code>@:showwork</code> detects what kind of problem to solve by looking at whichever <code>@:</code> mode is already active — <code>differentiate</code>, <code>dcalc</code>, <code>solve</code>, or <code>expand</code> — and shows that operation's own step-by-step derivation automatically. Any OTHER active mode (<code>factor</code>, the physics/chemistry commands, <code>radical</code>/<code>rational</code>/<code>trig</code>, etc.) has no step-by-step version built, so a line under one of those modes is completely unaffected by <code>@:showwork on</code> — same result as if it were off. Unlike every other command in this reference, a steps result is a single line of JSON — <code>{"result": ..., "steps": [{"rule": ..., "narration": ..., "expr": ...}, ...]}</code> — rather than a rendered expression; typing it into the Solutions box isn't pretty (a friendlier in-app rendering is a planned follow-up, not yet built), but the JSON itself is real and fully wired today. <code>rule</code> is a stable symbol (e.g. <code>power-rule</code>, <code>chain-rule</code>) a future UI/icon choice can key off; <code>narration</code> is a free-text sentence; <code>expr</code> is that step's resulting expression. The LAST step's <code>expr</code> always exactly equals what the plain (non-steps) command would return for the same input. <code>@:showwork</code> is purely additive — turning it on never changes what answer a line produces, only whether the steps behind it are also shown, and it never turns an otherwise-working line into an error (see the fallback examples below).</p>
+<pre>@:showwork on
+@:solve
+x^2-5x+6=0
+
+@:expand
+(x+1)*(x+2)
+3x^2+5x+7
+
+@:dcalc x
+sin(x^2)
+
+@:solve
+@:showwork off
+x^2-5x+6=0</pre>
+<p>Produces exactly (blank lines above are just for readability, not part of the real input; note the mode is switched back to <code>@:solve</code> before the final line -- <code>@:showwork off</code> only toggles the steps flag, it leaves the ambient mode at whatever it was last set to, which would otherwise still be <code>dcalc</code> from the line above):</p>
+<pre>{"result":"x = 3, x = 2","steps":[{"rule":"quadratic-formula",...},{"rule":"quadratic-formula",...}]}
+{"result":"x^2+3x+2","steps":[...4 "foil" steps, then "combine-like-terms"...]}
+3x²+5x+7
+{"result":"cos(x^2)*2*x","steps":[{"rule":"power-rule",...},{"rule":"chain-rule",...}]}
+x = 3, x = 2</pre>
+<p>The third line (<code>3x^2+5x+7</code> under <code>@:expand</code>) is the graceful-fallback case: it's already fully expanded, not a product-of-groups or group-raised-to-a-power shape, so there's no FOIL step to show — it just prints the plain answer, not an error.</p>
+
+<h3 id="steps-differentiate" style="margin-top:20px; color:#2b6cb0;">11.2 Differentiate (<code>@:differentiate</code> / <code>@:dcalc</code>)</h3>
+<p>Built on <code>@:dcalc</code>'s own AST-based engine (§8.2), so it understands the same sin/cos/tan/exp/ln/log/sqrt vocabulary, chain rule included. Under <code>@:differentiate</code> (polynomial-only), a missing variable is inferred the same way <code>@:differentiate</code> itself already does; under <code>@:dcalc</code>, the variable is required, same as always. Logs one step per product rule, quotient rule, power rule, exponential rule (a^u), or chain-rule/table lookup actually applied along the way. Sum/difference and a constant multiple (e.g. the "3" in <code>3*x</code>) are deliberately NOT narrated on their own — too trivial to count as a taught "rule", the same way a textbook wouldn't call out "now apply the sum rule" either — so a purely linear input like <code>3x+5</code> gets a single fallback step covering the whole thing rather than zero steps. <code>rule</code> is one of <code>power-rule</code>, <code>chain-rule</code>, <code>product-rule</code>, <code>quotient-rule</code>, <code>exponential-rule</code>, or (only when needed) a trailing <code>simplify</code> step.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>sin(x^2)</code></td><td><code>{"result":"cos(x^2)*2*x","steps":[{"rule":"power-rule","narration":"Differentiate x^2 using the power rule: d/dx[u^n] = n*u^(n-1)*u', with n = 2","expr":"2*x"},{"rule":"chain-rule","narration":"Differentiate sin(x^2) using the derivative of sin and the chain rule (u = x^2)","expr":"cos(x^2)*2*x"}]}</code></td></tr>
+</table>
+
+<h3 id="steps-solve" style="margin-top:20px; color:#2b6cb0;">11.3 Solve (<code>@:solve</code>)</h3>
+<p>For a quadratic, logs the discriminant, which branch it falls into (rational/irrational/complex), and the radical simplification (<code>simplify-radical</code>) when the discriminant isn't a perfect square. For degree 3 and up, logs each rational-root-theorem division as its own <code>rational-root-divide</code> step until the remaining factor is degree <= 2, then hands off to the quadratic/linear steps above — since only ONE root gets peeled per step logged there (degree drops by exactly 1 each time, not straight to the final answer), a higher-degree equation's own last logged step only covers its own final branch's roots, so one tidy-up step restating the FULL solution set is appended automatically to preserve the "last step matches the real answer" guarantee.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>x^2-5x+6=0</code></td><td><code>{"result":"x = 3, x = 2","steps":[{"rule":"quadratic-formula","narration":"Apply the quadratic formula to x^2-5x+6 = 0 (a=1, b=-5, c=6): the discriminant is b^2-4ac = 1","expr":"1"},{"rule":"quadratic-formula","narration":"The discriminant 1 is a perfect square (√1 = 1), so the roots are rational","expr":"x = 3, x = 2"}]}</code></td></tr>
+</table>
+
+<h3 id="steps-expand" style="margin-top:20px; color:#2b6cb0;">11.4 Expand (<code>@:expand</code>) — FOIL</h3>
+<p>Only shows steps for a plain product of parenthesized groups — <code>(x+1)*(x+2)</code>, the implicit-multiplication <code>(x+1)(x+2)</code>, or three-or-more distinct factors like <code>(x+1)*(x+2)*(x+3)</code> — or a single group raised to an integer power from 2 to 10, e.g. <code>(x+1)^3</code>, which rewrites to repeated multiplication first (logged as its own <code>rewrite-power</code> step) since <code>(A)^n</code> literally means <code>A*A*...*A</code> (n times). Anything outside that scope — a multi-term sum, a negated product, division, a bare (non-parenthesized) factor like the <code>x</code> in <code>x*(x+1)</code>, or a power above 10 — just falls back to the ordinary plain <code>@:expand</code> answer (see §11.1's fallback note), not an error. Logs one <code>foil</code> step per pairwise product, then one <code>combine-like-terms</code> step; three or more factors fold left, so e.g. a cube runs TWO full FOIL+combine rounds — the second round multiplies the FIRST round's already-combined (3-term) result by the third factor, so it logs more FOIL pairs than the first round did (6, not 4). The power cap exists because a step-by-step trace has no realistic classroom use past <code>^10</code>, and each additional factor at least doubles the FOIL step count of the round before it — <code>(x+1)^11</code> still expands correctly, it just quietly skips the steps.</p>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>(x+1)*(x+2)</code></td><td><code>{"result":"x^2+3x+2","steps":[{"rule":"foil","narration":"Multiply x by x","expr":"x^2"},{"rule":"foil","narration":"Multiply x by 2","expr":"2x"},{"rule":"foil","narration":"Multiply 1 by x","expr":"x"},{"rule":"foil","narration":"Multiply 1 by 2","expr":"2"},{"rule":"combine-like-terms","narration":"Combine like terms","expr":"x^2+3x+2"}]}</code></td></tr>
+  <tr><td><code>(x+1)^2</code></td><td><code>{"result":"x^2+2x+1","steps":[{"rule":"rewrite-power","narration":"Rewrite (x+1)^2 as repeated multiplication: (x+1)*(x+1)","expr":"(x+1)*(x+1)"}, …same 4 foil steps as above, then combine-like-terms → "x^2+2x+1"…]}</code></td></tr>
+  <tr><td><code>(x+1)^11</code></td><td><code>x¹¹+11x¹⁰+55x⁹+165x⁸+330x⁷+462x⁶+462x⁵+330x⁴+165x³+55x²+11x+1</code> (plain answer, no steps — past the ^10 cap)</td></tr>
+</table>
+</details>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<details class="cmdsection" open>
+<summary><h2 id="sets">12. Sets</h2></summary>
+<p>Finite sets of atomic elements — a plain number or a bare word, not a nested set or an algebraic expression. A set literal is <code>{e1,e2,...}</code>, or <code>{}</code>/<code>∅</code> for the empty set; results print with numbers sorted ascending before symbols sorted alphabetically, regardless of input order, and with duplicates always collapsed. Under <code>@:set</code>, every following line is a single self-contained set expression — <code>&lt;left&gt; &lt;op&gt; &lt;right&gt;</code> — with no separate variable or parameter the way <code>@:dcalc</code>/<code>@:limit</code> need one.</p>
+<p>Each operator accepts either its glyph or one of these ASCII spellings (no space required around either form):</p>
+<table>
+  <tr><th>Operator</th><th>Meaning</th><th>Both sides</th></tr>
+  <tr><td><code>∪</code> / <code>union</code></td><td>Union</td><td>set literals</td></tr>
+  <tr><td><code>∩</code> / <code>intersect</code> / <code>intersection</code></td><td>Intersection</td><td>set literals</td></tr>
+  <tr><td><code>\</code> / <code>difference</code> / <code>diff</code> / <code>minus</code></td><td>Difference (left minus right)</td><td>set literals</td></tr>
+  <tr><td><code>⊆</code> / <code>subset</code></td><td>Is left a subset of right? (<code>true</code>/<code>false</code>)</td><td>set literals</td></tr>
+  <tr><td><code>∈</code> / <code>member</code> / <code>element</code></td><td>Is left an element of right? (<code>true</code>/<code>false</code>)</td><td>left is a bare element, right is a set literal</td></tr>
+</table>
+<table>
+  <tr><th>Input</th><th>Result</th></tr>
+  <tr><td><code>{1,2,3}∪{2,3,4}</code></td><td><code>{1,2,3,4}</code></td></tr>
+  <tr><td><code>{1,2,3}∩{2,3,4}</code></td><td><code>{2,3}</code></td></tr>
+  <tr><td><code>{1,2,3}\{2,3,4}</code></td><td><code>{1}</code></td></tr>
+  <tr><td><code>{1,2}⊆{1,2,3}</code></td><td><code>true</code></td></tr>
+  <tr><td><code>2∈{1,2,3}</code></td><td><code>true</code></td></tr>
+  <tr><td><code>{a,b} union {b,c}</code></td><td><code>{a,b,c}</code></td></tr>
+  <tr><td><code>{1,2,3}∩{4,5}</code></td><td><code>∅</code></td></tr>
+</table>
+</details>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<details class="cmdsection" open>
+<summary><h2 id="trigger">13. Next-Line Trigger — <code>ç</code></h2></summary>
+<p>Prefix or suffix a mode-switch command with <code>ç</code> (c-cedilla, U+00E7) to place every following line's computed answer on the next line/cell instead of alongside the problem — e.g. in a spreadsheet, the formula's own cell shows the problem text and the result spills into the cell below. The marker lives on the <em>command</em>, not the expression — so it applies to every line under that mode switch, not just one, and never has to be stripped back out of an expression before it's parsed. The <code>@@:</code> one-line override (§3) also supports it: <code>@@:&lt;mode&gt;ç &lt;expr&gt;</code> triggers for just that single line.</p>
 <pre>@:solveç
-x + 5 = 12        <span style="color:#718096"># -> this cell shows "x + 5 = 12", "x = 7" appears one row below</span>
-x - 3 = 9          <span style="color:#718096"># -> still triggered, same mode</span>
-@:solve            <span style="color:#718096"># drop the ç to go back to normal (in-place) mode</span></pre>
+x + 5 = 12        # this cell shows "x + 5 = 12", "x = 7" appears one row below
+x - 3 = 9          # still triggered, same mode
+@:solve            # drop the ç to go back to normal (in-place) mode</pre>
+</details>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2>8. Answer Chaining — <code>;:command</code></h2>
-<p>Suffix an expression with <code>;:</code> followed by a mode name to run that expression under the active mode, then feed its result into another mode — chain as many as you like: <code>expr;:factor;:expand</code> runs <code>expr</code> under the current mode, factors that result, then re-expands it. Leave the expression off entirely (start the line with <code>;:</code>) to chain off the running Ans register instead — the last successful result, carried forward across lines in the Mac app and spreadsheet add-ins, or passed explicitly as a fifth argument from the API/command line.</p>
-<pre>@:expand
-(x+1)(x+2)          <span style="color:#718096"># -> x^2+3x+2</span>
-;:factor              <span style="color:#718096"># -> chains off the line above -> (x+1)(x+2)</span>
-
-x^2 - 9;:factor;:expand   <span style="color:#718096"># -> factor(x^2-9), then re-expand it -> x^2-9</span></pre>
-<p>Only the <em>final</em> step in a chain (or a plain expression with no <code>;:</code> at all) may return a multi-value result like <code>solve</code> or <code>system</code> — a mid-chain step that does reports <code>Error: cannot chain from a multi-value result</code>, since there's no single value left to feed forward. This applies to the line's own active mode too: under <code>@:solve</code>, <code>x+5=12;:expand</code> errors the same way <code>;:solve;:expand</code> would.</p>
-<p>From the API/command line, the standalone <code>compute</code> command takes the Ans value as an optional fifth argument, since each call is stateless and has no memory of a previous one: <code>compute expand "" "x^2-9;:factor" 0</code>.</p>
-<p><code>;:scmS</code> and <code>;:scmL</code> (§11) are a special case: instead of applying a fixed built-in mode, they run whichever Scheme program you most recently set with <code>@:scmS &lt;code&gt;</code>/<code>@:scmL &lt;code&gt;</code> — that program stays available for chaining even after switching to a different <code>@:</code> mode in between.</p>
-
-<!-- ─────────────────────────────────────────────────────── -->
-<h2>9. Indexed Variables &amp; Superscript/Subscript Display</h2>
+<details class="cmdsection" open>
+<summary><h2 id="indexed-vars">14. Indexed Variables &amp; Superscript/Subscript Display</h2></summary>
 <p>A lowercase letter followed by <code>_</code> and a digit, single letter, or parenthesized expression is a genuinely distinct indexed variable — <code>x_1</code> and <code>x_2</code> are different symbols, not just different-looking text, and combine/expand correctly like any other variable. Parenthesized subscripts are normalized, so <code>x_(1+x)</code> and <code>x_(x+1)</code> refer to the same variable.</p>
-<pre>x_1 + x_2 + x_1     <span style="color:#718096"># -> 2x_1 + x_2</span>
-(x_1)^2 * x_1        <span style="color:#718096"># -> x_1³</span></pre>
+<pre>x_1 + x_2 + x_1     # -> 2x_1 + x_2
+(x_1)^2 * x_1        # -> x_1³</pre>
 <p>Results are displayed with real Unicode superscript/subscript characters — <code>^exponent</code> and <code>_subscript</code> notation in output is rendered as e.g. x², x_1 → x₁ — no special input needed, this happens automatically to every result. These characters are also accepted as <em>input</em> — copy a previous answer like <code>x²+1</code> straight back into a new line (or type <code>²</code>/<code>₁</code> directly) and it parses exactly like <code>x^2+1</code>.</p>
+</details>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<h2 id="excel-differences">10. How Excel Differs</h2>
+<details class="cmdsection" open>
+<summary><h2 id="excel-differences">15. How Excel Differs</h2></summary>
 <p>Excel Custom Functions have two hard platform constraints the Mac app, Google Sheets, and LibreOffice don't: a function can never write to any cell besides its own, and a function's name can't change per call. Two things in this reference work differently in Excel as a result.</p>
 <table>
   <tr><th>Feature</th><th>Everywhere else</th><th>Excel</th></tr>
-  <tr><td>Next-line trigger</td><td><code>ç</code> on a mode switch (§7): <code>@:factorç</code></td><td>A separate function name per scalar op: <code>PAE.FACTOR_N(...)</code> instead of <code>PAE.FACTOR(...)</code> — one <code>_N</code> variant exists for every scalar function. Matrix functions (<code>PAE.MATRIXADD</code> and friends) don't have <code>_N</code> variants — they take cell ranges, not typed expressions, so ç has no meaning there.</td></tr>
+  <tr><td>Next-line trigger</td><td><code>ç</code> on a mode switch (§13): <code>@:factorç</code></td><td>A separate function name per scalar op: <code>PAE.FACTOR_N(...)</code> instead of <code>PAE.FACTOR(...)</code> — one <code>_N</code> variant exists for every scalar function. Matrix functions (<code>PAE.MATRIXADD</code> and friends) don't have <code>_N</code> variants — they take cell ranges, not typed expressions, so ç has no meaning there.</td></tr>
   <tr><td>Where the answer lands</td><td>The next line/cell, as a plain value immediately</td><td><code>PAE.FACTOR_N(...)</code> spills the answer into the cell below via Excel's own dynamic-array mechanism. While the PAE Bird task pane is open, that spilled cell is automatically converted to a plain, independently-editable value shortly after — matching Copy → Paste Special → Values — since Excel otherwise always shows a spilled cell's formula grayed out and non-editable. The formula cell itself keeps its live formula either way. If the task pane is closed, the spilled cell just stays as a live spill result until it's reopened.</td></tr>
 </table>
-<pre>=PAE.FACTOR_N("x^2-9")   <span style="color:#718096"># formula cell keeps this exact formula</span>
-                          <span style="color:#718096"># cell below shows: (x-3)(x+3)</span></pre>
+<pre>=PAE.FACTOR_N("x^2-9")   # formula cell keeps this exact formula
+                          # cell below shows: (x-3)(x+3)</pre>
+</details>
 
-<!-- ─────────────────────────────────────────────────────── -->
-<h2>11. Run Your Own Scheme Code — <code>@:scmS</code> / <code>@:scmL</code></h2>
-<p>Write your own Chez Scheme program and run it against a line's data, converted to a plain symbol list bound to <code>data</code> — the same representation PAE Bird uses internally for a polynomial. PAE Bird's own commands (<code>expand</code>, <code>factor</code>, <code>solve</code>, etc.) are <em>not</em> available inside your program — it runs in a genuinely isolated Scheme environment operating purely on data, not a way to call PAE Bird's own operations by another name.</p>
-<table>
-  <tr><th>Command</th><th>Output</th></tr>
-  <tr><td><code>@:scmS &lt;code&gt;</code></td><td>Renders the result back like a normal solution, e.g. <code>3x^2/5+x</code></td></tr>
-  <tr><td><code>@:scmL &lt;code&gt;</code></td><td>Prints the raw Scheme value, e.g. <code>(x + 1 +)</code></td></tr>
-</table>
-<pre>@:scmL (reverse data)
-x+1                 <span style="color:#718096"># -> (+ 1 + x)</span></pre>
-<p>Set your program once with <code>@:scmS &lt;code&gt;</code>/<code>@:scmL &lt;code&gt;</code>, then every following line's data runs through it, exactly like any other mode switch. Every form you write runs in order — define a helper, then call it, and the last form's value becomes the result. <code>data</code> is a mix of numbers and symbols (operators, variables), so a helper that assumes every element is a number (e.g. doubling each one) needs to filter first:</p>
-<pre>@:scmL (define (numbers-only l) (filter number? l)) (numbers-only data)
-x+1                 <span style="color:#718096"># -> (1)</span></pre>
-<p>You can also chain a bare <code>;:scmS</code> or <code>;:scmL</code> onto any line (§8) to run the same program against that line's own result instead of its own data — the program most recently set with <code>@:scmS</code>/<code>@:scmL</code> stays available for chaining even after switching to a different <code>@:</code> mode in between.</p>
+
+<script>
+(function() {
+    "use strict";
+
+    var input = document.getElementById("cmdSearchInput");
+    var resultsBox = document.getElementById("cmdSearchResults");
+    var entries = [];       // built once from the DOM
+    var results = [];       // current match list
+    var activeIdx = -1;     // keyboard-selected result
+
+    // Indexes every <code> element (commands/syntax -- searched with
+    // priority) plus every <td>/<p>/<li> (plain text -- the fallback),
+    // in document order, tagging each with the nearest preceding
+    // h2/h3 so results can show which section they're from. A single
+    // querySelectorAll across all these tag names still returns
+    // document order regardless of the mixed selector, so one linear
+    // pass is enough to track "current section" correctly.
+    function buildIndex() {
+        var currentSection = "";
+        var nodes = document.querySelectorAll("h2, h3, code, td, p, li");
+        for (var i = 0; i < nodes.length; i++) {
+            var el = nodes[i];
+            if (el.tagName === "H2" || el.tagName === "H3") {
+                currentSection = el.textContent.replace(/^[0-9]+(\.[0-9]+)*\s*/, "").trim();
+                continue;
+            }
+            if (el.closest("#cmdSearchBar") || el.closest(".page-index")) continue;
+            var text = el.textContent.trim();
+            if (!text) continue;
+            entries.push({ el: el, text: text, isCode: el.tagName === "CODE", section: currentSection });
+        }
+    }
+
+    // The element a match should actually scroll to / flash -- a whole
+    // table row (not just the cell), a whole list item, or the element
+    // itself otherwise.
+    function jumpAnchor(el) {
+        return el.closest("tr") || el.closest("li") || el;
+    }
+
+    function escapeHtml(s) {
+        var d = document.createElement("div");
+        d.textContent = s;
+        return d.innerHTML;
+    }
+
+    function highlightSnippet(text, query) {
+        var idx = text.toLowerCase().indexOf(query.toLowerCase());
+        if (idx === -1) return escapeHtml(text.slice(0, 140));
+        var start = Math.max(0, idx - 40);
+        var end = Math.min(text.length, idx + query.length + 70);
+        var prefix = (start > 0 ? "…" : "") + text.slice(start, idx);
+        var match = text.slice(idx, idx + query.length);
+        var suffix = text.slice(idx + query.length, end) + (end < text.length ? "…" : "");
+        return escapeHtml(prefix) + "<mark>" + escapeHtml(match) + "</mark>" + escapeHtml(suffix);
+    }
+
+    // Commands first (code matches, exact-prefix ahead of substring),
+    // then plain text -- and deduped by jump target, so a table row
+    // whose <code> AND whose <td> both match the query only produces
+    // ONE result (the higher-priority one).
+    function search(query) {
+        var q = query.trim().toLowerCase();
+        if (!q) return [];
+        var byAnchor = new Map();
+        for (var i = 0; i < entries.length; i++) {
+            var entry = entries[i];
+            var lower = entry.text.toLowerCase();
+            if (lower.indexOf(q) === -1) continue;
+            var priority = entry.isCode ? (lower.indexOf("@:" + q) === 0 || lower.indexOf(q) === 0 ? 0 : 1) : 2;
+            var anchor = jumpAnchor(entry.el);
+            var existing = byAnchor.get(anchor);
+            if (!existing || priority < existing.priority) {
+                byAnchor.set(anchor, { anchor: anchor, target: entry.el, text: entry.text, section: entry.section, priority: priority });
+            }
+        }
+        var out = Array.from(byAnchor.values());
+        out.sort(function(a, b) { return a.priority - b.priority || a.text.length - b.text.length; });
+        return out.slice(0, 25);
+    }
+
+    function render(query) {
+        activeIdx = -1;
+        if (!results.length) {
+            resultsBox.innerHTML = query ? '<div class="cmdsearch-empty">No matches</div>' : "";
+            resultsBox.style.display = query ? "block" : "none";
+            return;
+        }
+        var html = "";
+        for (var i = 0; i < results.length; i++) {
+            var r = results[i];
+            html += '<div class="cmdsearch-result" data-idx="' + i + '">' +
+                '<span class="cmdsearch-snippet">' + highlightSnippet(r.text, query) + "</span>" +
+                (r.section ? '<span class="cmdsearch-section">' + escapeHtml(r.section) + "</span>" : "") +
+                "</div>";
+        }
+        resultsBox.innerHTML = html;
+        resultsBox.style.display = "block";
+    }
+
+    function setActive(idx) {
+        var items = resultsBox.querySelectorAll(".cmdsearch-result");
+        if (activeIdx >= 0 && items[activeIdx]) items[activeIdx].classList.remove("active");
+        activeIdx = idx;
+        if (activeIdx >= 0 && items[activeIdx]) {
+            items[activeIdx].classList.add("active");
+            items[activeIdx].scrollIntoView({ block: "nearest" });
+        }
+    }
+
+    // Opens every ancestor <details> (a collapsed section otherwise
+    // hides its own content, including from native browser fragment-
+    // navigation in some engines) before scrolling to el. Shared by
+    // search-result jumps and ordinary in-page hash-link clicks (the
+    // TOC included) below.
+    function revealAndScrollTo(el, block) {
+        var node = el;
+        while (node) {
+            if (node.tagName === "DETAILS" && !node.open) node.open = true;
+            node = node.parentElement;
+        }
+        el.scrollIntoView({ behavior: "smooth", block: block || "start" });
+    }
+
+    function jumpTo(result) {
+        if (!result) return;
+        var anchor = result.anchor;
+        revealAndScrollTo(anchor, "center");
+        anchor.classList.remove("cmdsearch-flash");
+        // Force reflow so re-triggering the animation on the same
+        // element (e.g. clicking the same result twice) restarts it.
+        void anchor.offsetWidth;
+        anchor.classList.add("cmdsearch-flash");
+        resultsBox.style.display = "none";
+        input.blur();
+    }
+
+    input.addEventListener("input", function() {
+        results = search(input.value);
+        render(input.value);
+    });
+
+    input.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+            input.value = "";
+            results = [];
+            resultsBox.style.display = "none";
+            input.blur();
+        } else if (e.key === "ArrowDown") {
+            if (results.length) { e.preventDefault(); setActive(Math.min(activeIdx + 1, results.length - 1)); }
+        } else if (e.key === "ArrowUp") {
+            if (results.length) { e.preventDefault(); setActive(Math.max(activeIdx - 1, 0)); }
+        } else if (e.key === "Enter") {
+            if (results.length) { e.preventDefault(); jumpTo(results[activeIdx >= 0 ? activeIdx : 0]); }
+        }
+    });
+
+    resultsBox.addEventListener("click", function(e) {
+        var row = e.target.closest(".cmdsearch-result");
+        if (!row) return;
+        jumpTo(results[Number(row.dataset.idx)]);
+    });
+
+    document.addEventListener("click", function(e) {
+        if (!e.target.closest("#cmdSearchBar")) resultsBox.style.display = "none";
+    });
+
+    // "/" focuses search from anywhere on the page, standard find-in-
+    // page convention -- guarded so it doesn't hijack typing "/" into
+    // the search box itself (there's no other input on this page).
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "/" && document.activeElement !== input) {
+            e.preventDefault();
+            input.focus();
+        }
+    });
+
+    // ---- In-page hash links (the TOC, and any other "#id" link) --
+    // open whatever collapsed <details> the target is inside before
+    // scrolling, same as a search-result jump, rather than relying on
+    // (inconsistently supported) native fragment-navigation auto-
+    // expand behavior.
+    document.addEventListener("click", function(e) {
+        var a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        var id = a.getAttribute("href").slice(1);
+        var target = document.getElementById(id);
+        if (!target) return;
+        e.preventDefault();
+        revealAndScrollTo(target);
+        history.pushState(null, "", "#" + id);
+    });
+
+    // ---- Scrollspy: highlight the current section in the right-side
+    // TOC as you scroll. rootMargin carves out a thin band just below
+    // the sticky search bar; whichever tracked heading is nearest the
+    // top of that band is "current". A heading inside a collapsed
+    // <details> never intersects (it has no box), so it's naturally
+    // skipped without any extra bookkeeping.
+    function initScrollspy() {
+        var tocLinks = {};
+        document.querySelectorAll('.page-index a[href^="#"]').forEach(function(a) {
+            tocLinks[a.getAttribute("href").slice(1)] = a;
+        });
+        var headings = Object.keys(tocLinks).map(function(id) { return document.getElementById(id); }).filter(Boolean);
+        var activeLink = null;
+        function setActiveLink(id) {
+            if (activeLink) activeLink.classList.remove("active");
+            activeLink = tocLinks[id] || null;
+            if (activeLink) activeLink.classList.add("active");
+        }
+        if (!("IntersectionObserver" in window) || !headings.length) return;
+        var observer = new IntersectionObserver(function(entries) {
+            var visible = entries.filter(function(en) { return en.isIntersecting; });
+            if (!visible.length) return;
+            visible.sort(function(a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+            setActiveLink(visible[0].target.id);
+        }, { rootMargin: "-96px 0px -70% 0px", threshold: 0 });
+        headings.forEach(function(h) { observer.observe(h); });
+    }
+
+    // ---- Copy button on every <pre> example block ----
+    function copyText(text) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            return navigator.clipboard.writeText(text);
+        }
+        return new Promise(function(resolve, reject) {
+            var ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            try {
+                document.execCommand("copy");
+                resolve();
+            } catch (err) {
+                reject(err);
+            } finally {
+                document.body.removeChild(ta);
+            }
+        });
+    }
+
+    function makeCopyButton(text) {
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "copy-btn";
+        btn.textContent = "Copy";
+        btn.addEventListener("click", function(e) {
+            e.stopPropagation();
+            copyText(text).then(function() {
+                btn.textContent = "Copied!";
+                btn.classList.add("copied");
+                setTimeout(function() {
+                    btn.textContent = "Copy";
+                    btn.classList.remove("copied");
+                }, 1400);
+            }).catch(function() {
+                btn.textContent = "Copy failed";
+                setTimeout(function() { btn.textContent = "Copy"; }, 1400);
+            });
+        });
+        return btn;
+    }
+
+    // A copy button on every <code> that IS a command -- its own text
+    // starts with "@:", "@@:", or ";:" -- rather than one per <pre>
+    // example block (moved per the user's own request). Anchored to
+    // the containing <td> when there is one (the vast majority of
+    // these live in reference tables), so the button sits in that
+    // cell's own top-right corner rather than fighting inline text
+    // flow; a bare inline <code> not inside a table (rare) becomes its
+    // own positioning context instead. At most one button per anchor
+    // -- a cell like "@:conic / @:conics" has two matching <code>
+    // elements but only needs one button, copying the first.
+    // A copy button on every table's own "Command" column -- not on
+    // any <code> that merely MENTIONS "@:"/"@@:"/";:" (that matched
+    // hundreds of false positives the first time this was tried: bare
+    // "<code>@:</code>" labels in the TOC/section headings, and every
+    // casual inline "type @:foo to..." mention in running prose). A
+    // table is a target exactly when its own first header cell reads
+    // "Command" (17 tables do: the Quick Command Index, every §2/§8/
+    // §9/§10 command table); its data rows' own first <td> gets the
+    // button, copying that cell's first <code> (a cell like "@:conic
+    // / @:conics" has two, only the first/primary one is copied).
+    function initCopyButtons() {
+        document.querySelectorAll("table").forEach(function(table) {
+            var firstHeader = table.querySelector("tr th");
+            if (!firstHeader || firstHeader.textContent.trim() !== "Command") return;
+            var rows = table.querySelectorAll("tr");
+            for (var i = 1; i < rows.length; i++) {
+                var cell = rows[i].querySelector("td");
+                if (!cell) continue;
+                var code = cell.querySelector("code");
+                var text = (code || cell).textContent.trim();
+                if (!text) continue;
+                cell.classList.add("has-copy-btn");
+                cell.appendChild(makeCopyButton(text));
+            }
+        });
+    }
+
+    // ---- Print: force every section open so nothing's missing from
+    // a printout, then restore whatever was collapsed before.
+    (function initPrintHandling() {
+        var openBefore = null;
+        window.addEventListener("beforeprint", function() {
+            var all = document.querySelectorAll("details.cmdsection");
+            openBefore = Array.prototype.map.call(all, function(d) { return d.open; });
+            all.forEach(function(d) { d.open = true; });
+        });
+        window.addEventListener("afterprint", function() {
+            if (!openBefore) return;
+            var all = document.querySelectorAll("details.cmdsection");
+            all.forEach(function(d, i) { d.open = openBefore[i]; });
+            openBefore = null;
+        });
+    })();
+
+    buildIndex();
+    initScrollspy();
+    initCopyButtons();
+})();
+</script>
 
 </body>
 </html>
