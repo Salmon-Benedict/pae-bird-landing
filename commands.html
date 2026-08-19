@@ -214,7 +214,7 @@
   <tr><td><code>@:exptolog</code></td><td>—</td><td>Exponential → log form</td><td><a href="#mode-general">§2.1</a></td></tr>
   <tr><td><code>@:factor</code></td><td><code>fa</code></td><td>Factor</td><td><a href="#mode-general">§2.1</a></td></tr>
   <tr><td><code>@:flip</code></td><td><code>fl</code></td><td>Negate every term on both sides of an equation</td><td><a href="#mode-general">§2.1</a></td></tr>
-  <tr><td><code>@:icalc &lt;var&gt;</code></td><td><code>ic</code></td><td>Integrate (sin/cos/tan/exp/sqrt/1/x, integration by parts too)</td><td><a href="#integrate">§8.6</a></td></tr>
+  <tr><td><code>@:icalc &lt;var&gt;</code></td><td><code>ic</code></td><td>Integrate (sin/cos/tan/sec/csc/cot/exp/sqrt/1/x, trig powers/products, integration by parts including cyclic/3+-factor cases)</td><td><a href="#integrate">§8.6</a></td></tr>
   <tr><td><code>@:implicit &lt;xVar&gt; &lt;yVar&gt;</code></td><td><code>im</code></td><td>Implicit differentiation, solve for dy/dx</td><td><a href="#implicit">§8.5</a></td></tr>
   <tr><td><code>@:inflection &lt;var&gt;</code></td><td><code>inf</code></td><td>Inflection points</td><td><a href="#curve-analysis">§8.4</a></td></tr>
   <tr><td><code>@:integrate [var]</code></td><td><code>int</code></td><td>Integrate — polynomials only</td><td><a href="#mode-general">§2.1</a></td></tr>
@@ -323,7 +323,7 @@
   <tr><td><code>@:concavity &lt;var&gt;</code></td><td>Concave up/down intervals.</td></tr>
   <tr><td><code>@:sketch &lt;var&gt;</code></td><td>Full curve analysis in one call — critical points, monotonicity, inflection points, and concavity together.</td></tr>
   <tr><td><code>@:implicit &lt;xVar&gt; &lt;yVar&gt;</code></td><td>Implicit differentiation — solves an equation for dy/dx.</td></tr>
-  <tr><td><code>@:icalc &lt;var&gt;</code></td><td>Integrate — adds sin/cos/tan/exp/sqrt/1/x, linear-argument substitution (e.g. sin(3x)), and integration by parts for a top-level product (e.g. x*sin(x), x^2*exp(x)); variable required, no default.</td></tr>
+  <tr><td><code>@:icalc &lt;var&gt;</code></td><td>Integrate — adds sin/cos/tan/sec/csc/cot/exp/sqrt/1/x, linear-argument substitution (e.g. sin(3x)), trig power/product integrals (e.g. sin(x)^3, tan(x)^3*sec(x)^3), and integration by parts for a product of factors — including 3+-factor products (e.g. x^2*sin(x)*cos(x)) and cyclic cases (e.g. exp(x)*sin(x)); variable required, no default.</td></tr>
   <tr><td><code>@:defint &lt;var&gt; &lt;lower&gt; &lt;upper&gt;</code></td><td>Definite integral (Fundamental Theorem of Calculus).</td></tr>
   <tr><td><code>@:eval &lt;var&gt; &lt;value&gt;</code></td><td>Evaluate an expression at a point (works for sin/cos/tan/exp/ln/log/sqrt too, unlike <code>@:setval</code>).</td></tr>
   <tr><td><code>@:continuity &lt;var&gt; &lt;point&gt;</code></td><td>Classify continuous/discontinuous at a point.</td></tr>
@@ -568,7 +568,7 @@ concave down on (-infinity, 0), concave up on (0, infinity)</pre>
 <p>The result may involve both <code>x</code> and <code>y</code> — that's normal for implicit differentiation, not a sign something went wrong. An equation where <code>y</code> doesn't actually appear (e.g. <code>x^2=25</code>) reports a clear error rather than a meaningless result.</p>
 
 <h3 id="integrate" style="margin-top:20px; color:#2b6cb0;">8.6 <code>@:icalc &lt;var&gt;</code> / <code>@:defint &lt;var&gt; &lt;lower&gt; &lt;upper&gt;</code> — Integrate</h3>
-<p><code>@:icalc</code> covers the basic integral table (the reverse of <code>@:dcalc</code>'s derivative table), sum/difference/constant-multiple rules, one curated substitution case (a <strong>linear</strong> argument, e.g. <code>sin(3x)</code> or <code>exp(2x+1)</code> or <code>1/(2x+3)</code>), and <strong>integration by parts</strong> for a top-level product of two var-dependent factors, e.g. <code>x*sin(x)</code>, <code>x^2*exp(x)</code>, <code>x*ln(x)</code>. Which factor plays <code>u</code> vs. <code>dv</code> is picked automatically (LIATE: Log, Inverse trig, Algebraic, Trig, Exponential — this engine has no inverse-trig functions, so in practice it's L-A-T-E), and a case needing more than one pass (e.g. <code>x^3*exp(x)</code>) recurses on its own rather than stopping after the first round.</p>
+<p><code>@:icalc</code> covers the basic integral table (the reverse of <code>@:dcalc</code>'s derivative table, including <code>sec</code>/<code>csc</code>/<code>cot</code>), sum/difference/constant-multiple rules, one curated substitution case (a <strong>linear</strong> argument, e.g. <code>sin(3x)</code> or <code>exp(2x+1)</code> or <code>1/(2x+3)</code>), <strong>trig power and product integrals</strong> (any nonnegative integer powers of <code>sin</code>/<code>cos</code>, <code>tan</code>/<code>sec</code>, or <code>cot</code>/<code>csc</code>, e.g. <code>sin(x)^3</code>, <code>sec(x)^4</code>, <code>tan(x)^3*sec(x)^3</code>), and <strong>integration by parts</strong> for a product of var-dependent factors, e.g. <code>x*sin(x)</code>, <code>x^2*exp(x)</code>, <code>x*ln(x)</code> — including a product of <strong>three or more</strong> factors (e.g. <code>x^2*sin(x)*cos(x)</code>) and a <strong>cyclic</strong> case like <code>exp(x)*sin(x)</code>, where integration by parts alone would otherwise loop forever — solved algebraically instead. Which factor plays <code>u</code> vs. <code>dv</code> is picked automatically (LIATE: Log, Inverse trig, Algebraic, Trig, Exponential — this engine has no inverse-trig functions, so in practice it's L-A-T-E), and a case needing more than one pass (e.g. <code>x^3*exp(x)</code>) recurses on its own rather than stopping after the first round. A hard 3-second time limit guards against a pathological case (e.g. a very high odd trig power) running away instead of reporting a clean error.</p>
 <table>
   <tr><th>Input</th><th>Result</th></tr>
   <tr><td><code>x^2</code></td><td><code>x³/3</code></td></tr>
@@ -580,9 +580,14 @@ concave down on (-infinity, 0), concave up on (0, infinity)</pre>
   <tr><td><code>x*exp(x)</code></td><td><code>x*exp(x)-exp(x)</code></td></tr>
   <tr><td><code>x*ln(x)</code></td><td><code>ln(x)*1/2*x²-1/4*x²</code></td></tr>
   <tr><td><code>x^3*exp(x)</code></td><td><code>x³*exp(x)-(3*x²*exp(x)-(6*x*exp(x)-exp(x)*6))</code></td></tr>
+  <tr><td><code>sin(x)^3</code></td><td><code>-cos(x)+cos(x)³/3</code></td></tr>
+  <tr><td><code>sec(x)^3</code></td><td><code>sec(x)*tan(x)/2+1/2*ln(abs(sec(x)+tan(x)))</code></td></tr>
+  <tr><td><code>tan(x)^3*sec(x)^3</code></td><td><code>sec(x)⁵/5-sec(x)³/3</code></td></tr>
+  <tr><td><code>x^2*sin(x)*cos(x)</code></td><td><code>-x²*cos(x)²/2+x*(1/2*x+1/2*1/2*sin(2*x))-(1/4*x²-1/2*1/2*1/2*cos(2*x))</code></td></tr>
+  <tr><td><code>exp(x)*sin(x)</code></td><td><code>(sin(x)*exp(x)-cos(x)*exp(x))/2</code></td></tr>
 </table>
 <p><code>1/x</code> integrates to <code>ln(abs(x))</code>, not <code>ln(x)</code> — <code>ln</code> is undefined for a negative number, and the antiderivative needs to stay valid on the whole domain the original expression was, not just where <code>x</code> happens to be positive.</p>
-<p>Still out of scope: <code>ln(x)</code> alone (not literally a product — a bare <code>dv=dx</code> factor isn't handled), substitution beyond a linear argument (<code>sin(x^2)</code>), and a self-referential case like <code>exp(x)*sin(x)</code> (integration by parts cycles between <code>sin</code>/<code>cos</code> without ever bottoming out at something directly integrable — needs solving algebraically for the integral, which isn't attempted; reports a clear error after a bounded number of passes, not a silently wrong answer or a hang).</p>
+<p>Still out of scope: <code>ln(x)</code> alone (not literally a product — a bare <code>dv=dx</code> factor isn't handled), substitution beyond a linear argument (<code>sin(x^2)</code>), trig <strong>substitution</strong> (e.g. <code>x=2tanθ</code> — a different technique from trig <em>integrals</em> above despite the similar name), and partial fractions. A genuinely mixed, unsolvable case (e.g. <code>sin(x)*cos(x)*tan(x)</code>, mixing trig families with no common reduction) reports a clear error rather than a silently wrong answer or a hang.</p>
 <p><code>@:defint</code> evaluates the same antiderivative at two bounds and subtracts (the Fundamental Theorem of Calculus) — bounds are plain numbers, not <code>+infinity</code>/<code>-infinity</code> (an improper integral isn't supported).</p>
 <table>
   <tr><th>Command</th><th>Input</th><th>Result</th></tr>
