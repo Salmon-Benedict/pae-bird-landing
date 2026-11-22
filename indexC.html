@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PAE Bird — 面向 Mac 的多项式代数工具，即将登陆 Windows</title>
+        <title>PAE Bird — 面向 Mac 和 Windows 的多项式代数工具</title>
         <!-- SEO -->
-        <meta name="description" content="PAE Bird 是一款快速的离线 Mac 多项式代数应用。展开、因式分解、求解、求导并生成练习题——批量瞬间处理数百个表达式。">
+        <meta name="description" content="PAE Bird 是一款快速的离线多项式代数应用，支持 Mac 和 Windows。展开、因式分解、求解、求导并生成练习题——批量瞬间处理数百个表达式。">
         <meta name="keywords" content="多项式代数, 因式分解计算器, 数学练习题生成器, 符号数学, 微积分工具, mac 应用, 代数引擎, 多项式展开, 解方程">
         <link rel="canonical" href="https://paebird.com/">
         <link rel="icon" type="image/png" sizes="32x32" href="icons/icon_32.png">
@@ -18,12 +18,12 @@
         <!-- Open Graph (LinkedIn, Facebook) -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://paebird.com/">
-        <meta property="og:title" content="PAE Bird — 面向 Mac 的多项式代数工具，即将登陆 Windows">
-        <meta property="og:description" content="展开、因式分解、求解、求导并生成练习题——批量瞬间处理数百个多项式表达式。免费的离线 Mac 应用。">
+        <meta property="og:title" content="PAE Bird — 面向 Mac 和 Windows 的多项式代数工具">
+        <meta property="og:description" content="展开、因式分解、求解、求导并生成练习题——批量瞬间处理数百个多项式表达式。免费的离线 Mac 和 Windows 应用。">
         <meta property="og:image" content="https://paebird.com/parrot_web.jpg">
         <!-- Twitter / X Card -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="PAE Bird — 面向 Mac 的多项式代数工具，即将登陆 Windows">
+        <meta name="twitter:title" content="PAE Bird — 面向 Mac 和 Windows 的多项式代数工具">
         <meta name="twitter:description" content="展开、因式分解、求解、求导并生成练习题——批量瞬间处理数百个多项式表达式。">
         <meta name="twitter:image" content="https://paebird.com/parrot_web.jpg">
         <!-- Google Analytics -->
@@ -40,18 +40,28 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "PAE Bird",
-    "operatingSystem": "macOS",
+    "operatingSystem": "macOS, Windows",
     "applicationCategory": "EducationalApplication",
-    "description": "一款面向 macOS 的高速多项式代数引擎。展开、因式分解、求解、求导并生成数学练习题——离线、即时、批量处理。",
+    "description": "一款面向 Mac 和 Windows 的高速多项式代数引擎。展开、因式分解、求解、求导并生成数学练习题——离线、即时、批量处理。",
     "url": "https://paebird.com/",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD",
-      "description": "免费下载，享 1 个月免费试用，之后完整订阅为每年 $19.99。",
-      "availability": "https://schema.org/InStock",
-      "url": "https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12"
-    }
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "免费下载，完全免费使用——无需订阅。",
+        "availability": "https://schema.org/InStock",
+        "url": "https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12"
+      },
+      {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "免费下载，完全免费使用——无需订阅。",
+        "availability": "https://schema.org/InStock",
+        "url": "https://github.com/Salmon-Benedict/PAEBird-Windows/releases/download/v1.2.0/PAE.Bird_1.2.0_x64-setup.exe"
+      }
+    ]
   }
   </script>
         <style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } :root { --orange: #e8531a; --yellow: #f5a623; --purple: #5b3fa0; --dark: #1a1a2e; --mid: #2d2d44; --light-bg: #f5f5f7; --text: #1d1d1f; --muted: #6e6e73; } body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; color: var(--text); background: #fff; } /* ── NAV ── */nav { position: sticky; top: 0; z-index: 100; background: rgba(26, 26, 46, 0.96); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 2.5rem; min-height: 56px; } .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; } .nav-caretouch-pane { width: 110px; height: 46px; border-radius: 8px; overflow: hidden; background: #fff; border: 1px solid rgba(255,255,255,0.25); box-shadow: 0 2px 8px rgba(0,0,0,0.25); } .nav-caretouch-pane img { width: 100%; height: 100%; object-fit: cover; display: block; } .nav-logo-icon { width: 32px; height: 32px; border-radius: 7px; background: linear-gradient(135deg, var(--orange), var(--yellow)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: #fff; } .nav-logo-text { font-size: 1rem; font-weight: 600; color: #fff; } .nav-links { display: flex; gap: 1.5rem; list-style: none; } .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; } .nav-links a:hover { color: #fff; } .lang-bar { text-align: right; padding: 0.4rem 2.5rem; background: var(--dark); } .nav-lang { white-space: nowrap; } .nav-lang a, .nav-lang-current { font-size: 1.64rem; } .nav-lang a { color: #22d3ee; text-decoration: none; } .nav-lang-current { color: #22d3ee; font-weight: 600; opacity: 0.55; } .nav-lang-sep { color: #22d3ee; opacity: 0.4; } /* ── HERO ── */.hero { background: linear-gradient(140deg, rgba(192,57,15,0.75) 0%, rgba(232,83,26,0.75) 35%, rgba(245,166,35,0.65) 70%, rgba(247,208,96,0.8) 100%),
@@ -158,8 +168,8 @@
             <div class="hero-badge">Mac · Excel · LibreOffice</div>
             <h1>PAE Bird ™</h1>
             <p class="hero-byline">创建自定义代数练习题。</p>
-            <p>一款面向 macOS 的高速多项式代数引擎。展开、因式分解、求解、求导并生成练习题——即时、离线、批量处理。</p>
-            <a class="hero-cta" href="#downloads">🎁 获取一年免费使用 — 兑换兑换码</a>
+            <p>一款面向 Mac 和 Windows 的高速多项式代数引擎。展开、因式分解、求解、求导并生成练习题——即时、离线、批量处理。</p>
+            <a class="hero-cta" href="#downloads">⬇ 免费下载</a>
         </section>
         <!-- FEATURES STRIP -->
         <section class="features-strip" id="features">
@@ -430,16 +440,21 @@
         <section class="downloads-section" id="downloads">
             <p class="section-label">获取 PAE Bird</p>
             <h2 class="section-title">下载</h2>
-            <p class="section-sub">现已在 Mac App Store 上线，并提供离线 Excel 和 LibreOffice Calc 加载项。</p>
+            <p class="section-sub">现已在 Mac App Store 和 Windows 上线，并提供离线 Excel 和 LibreOffice Calc 加载项。</p>
             <div class="downloads-grid">
                 <div class="download-card">
                     <span class="download-icon">🖥️</span>
                     <h3>Mac 应用</h3>
                     <p class="download-status ready">现已上线</p>
                     <a class="download-btn" href="https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12" target="_blank" rel="noopener">⬇ Mac App Store®</a>
-                    <p class="download-note">需要 macOS。免费下载，提供年度订阅和免费试用。</p>
-                    <button class="download-btn" id="promoCodeBtn" onclick="claimPromoCode()" style="margin-top:0.6rem;border:none;cursor:pointer;">🎁 获取一年免费使用</button>
-                    <p class="download-note" id="promoCodeNote">兑换一个兑换码，即可免费使用 PAE Bird 一年。名额有限，先到先得。</p>
+                    <p class="download-note">需要 macOS。完全免费——无需订阅，无需试用。</p>
+                </div>
+                <div class="download-card">
+                    <span class="download-icon">🪟</span>
+                    <h3>Windows 应用</h3>
+                    <p class="download-status ready">现已上线</p>
+                    <a class="download-btn" href="https://github.com/Salmon-Benedict/PAEBird-Windows/releases/download/v1.2.0/PAE.Bird_1.2.0_x64-setup.exe" download>⬇ 下载 Windows 版</a>
+                    <p class="download-note">需要 Windows 10/11（64 位）。完全免费——无需订阅，无需试用。也提供 <a href="https://github.com/Salmon-Benedict/PAEBird-Windows/releases/download/v1.2.0/PAE.Bird_1.2.0_x64_en-US.msi">MSI 安装包</a>。</p>
                 </div>
                 <div class="download-card">
                     <span class="download-icon">📊</span>
@@ -880,9 +895,9 @@
         </section>
         <!-- CTA -->
         <section class="cta-section">
-            <h2>获取适用于 Mac 的 PAE Bird，即将登陆 Windows</h2>
-            <p>完全离线运行，轻量、快速。现已在 Mac App Store® 上线。</p>
-            <a class="btn-appstore" href="https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12" target="_blank" rel="noopener">⬇ 在 Mac App Store 下载</a>
+            <h2>获取适用于 Mac 和 Windows 的 PAE Bird</h2>
+            <p>完全离线运行，轻量、快速。现已支持 Mac 和 Windows。</p>
+            <a class="btn-appstore" href="#downloads">⬇ 获取 PAE Bird</a>
         </section>
         <!-- ANALYTICS NOTICE -->
         <div id="analytics-notice" class="analytics-notice">
@@ -1136,48 +1151,6 @@
         localStorage.setItem(KEY, '1');
       });
     })();
-  </script>
-        <script>
-    // TODO: paste the Apps Script Web App URL here after deploying (see apps-script/promo-codes.gs)
-    const PROMO_CODE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyMSqWnyg3SNd29IFhGAnz-rJDaT5zwxix5W-Z7KgKU1M8xw1g0wNZCd01vXyb5VeY2/exec';
-
-    async function claimPromoCode() {
-      const btn = document.getElementById('promoCodeBtn');
-      const note = document.getElementById('promoCodeNote');
-      btn.disabled = true;
-      btn.textContent = '正在获取代码…';
-      try {
-        const res = await fetch(PROMO_CODE_ENDPOINT);
-        const data = await res.json();
-        if (!data.code) {
-          note.textContent = '所有优惠码均已被领取。';
-          btn.remove();
-          return;
-        }
-        const blob = new Blob([data.code], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'pae-bird-promo-code.txt';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-
-        if (data.remaining > 0) {
-          note.textContent = '代码已下载。';
-          btn.disabled = false;
-          btn.textContent = '🎁 获取一年免费使用';
-        } else {
-          note.textContent = '代码已下载，这是最后一个。';
-          btn.remove();
-        }
-      } catch (err) {
-        btn.disabled = false;
-        btn.textContent = '🎁 获取一年免费使用';
-        note.textContent = '出现错误——请重试。';
-      }
-    }
   </script>
   <script>
     function openHashDetails() {

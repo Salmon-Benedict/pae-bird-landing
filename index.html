@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>PAE Bird — Polynomial Algebra for Mac, coming to Windows</title>
+        <title>PAE Bird — Polynomial Algebra for Mac and Windows</title>
         <!-- SEO -->
-        <meta name="description" content="PAE Bird is a fast, offline Mac app for polynomial algebra. Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of expressions instantly.">
+        <meta name="description" content="PAE Bird is a fast, offline polynomial algebra app for Mac and Windows. Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of expressions instantly.">
         <meta name="keywords" content="polynomial algebra, factoring calculator, math worksheet generator, symbolic math, calculus tool, mac app, algebra engine, expand polynomials, solve equations">
         <link rel="canonical" href="https://paebird.com/">
         <link rel="icon" type="image/png" sizes="32x32" href="icons/icon_32.png">
@@ -18,12 +18,12 @@
         <!-- Open Graph (LinkedIn, Facebook) -->
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://paebird.com/">
-        <meta property="og:title" content="PAE Bird — Polynomial Algebra for Mac, coming to Windows">
-        <meta property="og:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly. Free offline Mac app.">
+        <meta property="og:title" content="PAE Bird — Polynomial Algebra for Mac and Windows">
+        <meta property="og:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly. Free offline Mac and Windows app.">
         <meta property="og:image" content="https://paebird.com/parrot_web.jpg">
         <!-- Twitter / X Card -->
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="PAE Bird — Polynomial Algebra for Mac, coming to Windows">
+        <meta name="twitter:title" content="PAE Bird — Polynomial Algebra for Mac and Windows">
         <meta name="twitter:description" content="Expand, factor, solve, differentiate, and generate worksheets — batch process hundreds of polynomial expressions instantly.">
         <meta name="twitter:image" content="https://paebird.com/parrot_web.jpg">
         <!-- Google Analytics -->
@@ -40,18 +40,28 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "PAE Bird",
-    "operatingSystem": "macOS",
+    "operatingSystem": "macOS, Windows",
     "applicationCategory": "EducationalApplication",
-    "description": "A high-speed polynomial algebra engine for macOS. Expand, factor, solve, differentiate, and generate math worksheets — offline, instantly, in bulk.",
+    "description": "A high-speed polynomial algebra engine for Mac and Windows. Expand, factor, solve, differentiate, and generate math worksheets — offline, instantly, in bulk.",
     "url": "https://paebird.com/",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD",
-      "description": "Free to download, with a 1-month free trial, then $19.99/year for the full subscription.",
-      "availability": "https://schema.org/InStock",
-      "url": "https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12"
-    }
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free to download and free to use — no subscription required.",
+        "availability": "https://schema.org/InStock",
+        "url": "https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12"
+      },
+      {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "description": "Free to download and free to use — no subscription required.",
+        "availability": "https://schema.org/InStock",
+        "url": "https://github.com/Salmon-Benedict/PAEBird-Windows/releases/download/v1.2.0/PAE.Bird_1.2.0_x64-setup.exe"
+      }
+    ]
   }
   </script>
         <style>*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; } :root { --orange: #e8531a; --yellow: #f5a623; --purple: #5b3fa0; --dark: #1a1a2e; --mid: #2d2d44; --light-bg: #f5f5f7; --text: #1d1d1f; --muted: #6e6e73; } body { font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; color: var(--text); background: #fff; } /* ── NAV ── */nav { position: sticky; top: 0; z-index: 100; background: rgba(26, 26, 46, 0.96); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: space-between; padding: 0.6rem 2.5rem; min-height: 56px; } .nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; } .nav-caretouch-pane { width: 110px; height: 46px; border-radius: 8px; overflow: hidden; background: #fff; border: 1px solid rgba(255,255,255,0.25); box-shadow: 0 2px 8px rgba(0,0,0,0.25); } .nav-caretouch-pane img { width: 100%; height: 100%; object-fit: cover; display: block; } .nav-logo-icon { width: 32px; height: 32px; border-radius: 7px; background: linear-gradient(135deg, var(--orange), var(--yellow)); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: #fff; } .nav-logo-text { font-size: 1rem; font-weight: 600; color: #fff; } .nav-links { display: flex; gap: 1.5rem; list-style: none; } .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; } .nav-links a:hover { color: #fff; } .lang-bar { text-align: right; padding: 0.4rem 2.5rem; background: var(--dark); } .nav-lang { white-space: nowrap; } .nav-lang a, .nav-lang-current { font-size: 1.64rem; } .nav-lang a { color: #22d3ee; text-decoration: none; } .nav-lang-current { color: #22d3ee; font-weight: 600; opacity: 0.55; } .nav-lang-sep { color: #22d3ee; opacity: 0.4; } /* ── HERO ── */.hero { background: linear-gradient(140deg, rgba(192,57,15,0.75) 0%, rgba(232,83,26,0.75) 35%, rgba(245,166,35,0.65) 70%, rgba(247,208,96,0.8) 100%),
@@ -158,8 +168,8 @@
             <div class="hero-badge">Mac · Excel · LibreOffice</div>
             <h1>PAE Bird ™</h1>
             <p class="hero-byline">Create customized algebra worksheets.</p>
-            <p>A high-speed polynomial algebra engine for macOS. Expand, factor, solve, differentiate, and generate worksheets — instantly, offline, in bulk.</p>
-            <a class="hero-cta" href="#downloads">🎁 Get a Free Year — Redeem a Code</a>
+            <p>A high-speed polynomial algebra engine for Mac and Windows. Expand, factor, solve, differentiate, and generate worksheets — instantly, offline, in bulk.</p>
+            <a class="hero-cta" href="#downloads">⬇ Download Free</a>
         </section>
         <!-- FEATURES STRIP -->
         <section class="features-strip" id="features">
@@ -430,16 +440,21 @@
         <section class="downloads-section" id="downloads">
             <p class="section-label">Get PAE Bird</p>
             <h2 class="section-title">Downloads</h2>
-            <p class="section-sub">Now available on the Mac App Store, with offline Excel and LibreOffice Calc add-ins.</p>
+            <p class="section-sub">Now available on the Mac App Store and for Windows, with offline Excel and LibreOffice Calc add-ins.</p>
             <div class="downloads-grid">
                 <div class="download-card">
                     <span class="download-icon">🖥️</span>
                     <h3>Mac App</h3>
                     <p class="download-status ready">Available now</p>
                     <a class="download-btn" href="https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12" target="_blank" rel="noopener">⬇ Mac App Store®</a>
-                    <p class="download-note">Requires macOS. Free to download, with an annual subscription and a free trial.</p>
-                    <button class="download-btn" id="promoCodeBtn" onclick="claimPromoCode()" style="margin-top:0.6rem;border:none;cursor:pointer;">🎁 Get a free year</button>
-                    <p class="download-note" id="promoCodeNote">Redeem a code for PAE Bird, free for a year. Limited codes available, first come first served.</p>
+                    <p class="download-note">Requires macOS. Completely free — no subscription, no trial.</p>
+                </div>
+                <div class="download-card">
+                    <span class="download-icon">🪟</span>
+                    <h3>Windows App</h3>
+                    <p class="download-status ready">Available now</p>
+                    <a class="download-btn" href="https://github.com/Salmon-Benedict/PAEBird-Windows/releases/download/v1.2.0/PAE.Bird_1.2.0_x64-setup.exe" download>⬇ Download for Windows</a>
+                    <p class="download-note">Requires Windows 10/11 (64-bit). Completely free — no subscription, no trial. <a href="https://github.com/Salmon-Benedict/PAEBird-Windows/releases/download/v1.2.0/PAE.Bird_1.2.0_x64_en-US.msi">MSI installer</a> also available.</p>
                 </div>
                 <div class="download-card">
                     <span class="download-icon">📊</span>
@@ -880,9 +895,9 @@
         </section>
         <!-- CTA -->
         <section class="cta-section">
-            <h2>Get PAE Bird for Mac, coming to Windows</h2>
-            <p>Fully offline. Lightweight. Fast. Available now on the Mac App Store®.</p>
-            <a class="btn-appstore" href="https://apps.apple.com/us/app/pae-bird/id6776859287?mt=12" target="_blank" rel="noopener">⬇ Download on the Mac App Store</a>
+            <h2>Get PAE Bird for Mac and Windows</h2>
+            <p>Fully offline. Lightweight. Fast. Available now for Mac and Windows.</p>
+            <a class="btn-appstore" href="#downloads">⬇ Get PAE Bird</a>
         </section>
         <!-- ANALYTICS NOTICE -->
         <div id="analytics-notice" class="analytics-notice">
@@ -1136,48 +1151,6 @@
         localStorage.setItem(KEY, '1');
       });
     })();
-  </script>
-        <script>
-    // TODO: paste the Apps Script Web App URL here after deploying (see apps-script/promo-codes.gs)
-    const PROMO_CODE_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyMSqWnyg3SNd29IFhGAnz-rJDaT5zwxix5W-Z7KgKU1M8xw1g0wNZCd01vXyb5VeY2/exec';
-
-    async function claimPromoCode() {
-      const btn = document.getElementById('promoCodeBtn');
-      const note = document.getElementById('promoCodeNote');
-      btn.disabled = true;
-      btn.textContent = 'Getting your code…';
-      try {
-        const res = await fetch(PROMO_CODE_ENDPOINT);
-        const data = await res.json();
-        if (!data.code) {
-          note.textContent = 'All promo codes have been claimed.';
-          btn.remove();
-          return;
-        }
-        const blob = new Blob([data.code], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'pae-bird-promo-code.txt';
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-        URL.revokeObjectURL(url);
-
-        if (data.remaining > 0) {
-          note.textContent = 'Code downloaded.';
-          btn.disabled = false;
-          btn.textContent = '🎁 Get a free year';
-        } else {
-          note.textContent = 'Code downloaded. That was the last one.';
-          btn.remove();
-        }
-      } catch (err) {
-        btn.disabled = false;
-        btn.textContent = '🎁 Get a free year';
-        note.textContent = 'Something went wrong — please try again.';
-      }
-    }
   </script>
   <script>
     function openHashDetails() {
